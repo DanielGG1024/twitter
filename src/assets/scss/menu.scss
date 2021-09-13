@@ -1,0 +1,64 @@
+$mainColor:red;
+
+.main-container {
+  min-width: 100vh;
+  min-height: 100vh;
+  display: flex;
+  font-family: "Noto Sans TC";
+}
+
+.menu {
+  width: 30%;
+  height: 100vh;
+  padding-left: 5rem;
+  /* display: flex;
+      flex-direction: column;
+      align-items: center; */
+}
+
+/* alphacamp-logo */
+.logo-wrapper {
+  width: 30px;
+  height: 30px;
+  margin-top: 14px;
+}
+.logo {
+  width: 100%;
+  height: 100%;
+}
+
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 95px);
+  margin-top: 17px;
+}
+.menu-nav-link {
+  display: flex;
+  margin-top: 30px;
+}
+.menu-link {
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 20px;
+  color: #1c1c1c;
+}
+
+.menu-nav-btn {
+   background-color: #ff6600; 
+  margin-top: 24px;
+  border: 0;
+  font-size: 18px;
+  width: 60%;
+  padding: 10px 0;
+  font-weight: 500;
+  color: #ffffff;
+  border-radius: 30px;
+  line-height: 18px;
+}
+
+.menu-nav-btn:hover {
+  cursor: pointer;
+}

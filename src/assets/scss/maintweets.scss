@@ -1,0 +1,89 @@
+.onetweet-user-icon-wrapper {
+    margin-top: 5px;
+    width: 50px;
+    height: 50px;
+  }
+  .user-icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+  .user-icon {
+    width: 100%;
+    height: 100%;
+  }
+  .title {
+    font-size: 18px;
+    line-height: 55px;
+    font-weight: 700;
+    padding-left: 15px;
+  }
+  .tweets {
+    height: calc(100vh - 185px);
+    overflow-y: scroll;
+    border-right: 1px solid #e6ecf0;
+  }
+  .onetweet {
+    width: 100%;
+    height: 136px;
+    padding: 10px;
+    display: flex;
+    border-left: 1px solid #e6ecf0;
+  
+    border-bottom: 1px solid #e6ecf0;
+  }
+  .onetweet-txt-wrapper {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    margin-left: 10px;
+    flex: 1;
+  }
+  .onetweet-txt-header {
+    margin-bottom: 6px;
+  }
+  .user-title {
+    font-weight: 700;
+    line-height: 21px;
+  }
+  .user-info {
+    margin-left: 5px;
+    color: #657786;
+  }
+  .user-link {
+    text-decoration: none;
+    color: #657786;
+  }
+  .user-link-time {
+    font-style: 15px;
+    font-weight: 500;
+  }
+  .onetweet-footer {
+    display: flex;
+  }
+  .chat {
+    display: flex;
+    /* align-items: center; */
+  }
+  .heart {
+    display: flex;
+    margin-left: 50px;
+  }
+  .onetweet-footer-icon {
+    width: 13px;
+    height: 13px;
+  }
+  .chat-icon {
+    width: 100%;
+    height: 100%;
+  }
+  .heart-icon {
+    width: 100%;
+    height: 100%;
+  }
+  .footer-amount {
+    margin-left: 11px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #657786;
+  }

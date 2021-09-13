@@ -1,0 +1,38 @@
+.main-tweet {
+    padding: 9px 15px;
+    display: flex;
+    height: calc(100% - 55px);
+    border-right: 1px solid #e6ecf0;
+    border-left: 1px solid #e6ecf0;
+  }
+  .main-tweet-button {
+    background-color: #ff6600;
+    border: 0;
+    font-size: 18px;
+    /* width: 60%; */
+    padding: 10px 0;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 30px;
+    line-height: 18px;
+  }
+  .user-icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+  .user-icon {
+    width: 100%;
+    height: 100%;
+  }
+  .main-tweet-txt {
+    margin-left: 10px;
+    flex: 1;
+    resize: none;
+    outline: none;
+    border: none;
+  }
+  .main-tweet-button {
+    width: 64px;
+    height: 40px;
+    align-self: flex-end;
+  }
