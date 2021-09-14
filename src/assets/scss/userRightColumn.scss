@@ -1,0 +1,66 @@
+.popular {
+  margin-top: 15px;
+  height: 756px;
+  background-color: $popularBg;
+  border-radius: 14px;
+  
+  &-header {
+    height: 45px;
+    display: flex;
+    // align-items: center;
+    &-title {
+      width: 71px;
+      height: 26px;
+      margin: 10px 0 9px 15px;
+    }
+  }
+  &-person {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    font-size: 15px;
+    line-height: 15px;
+    border-top: 1px $divider solid;
+    &-detail {
+      width: 320px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+    }
+    .avatar {
+      width: 50px;
+      height: 50px;
+      background-color: #c4c4c4;
+      border-radius: 50%;
+    }
+
+  }
+  &-account {
+    position: absolute;
+    left: 75px;
+    top: 18px;
+    width: 79px;
+    height: 33px;
+  }
+
+  &-follow-btn {
+    width: 60px;
+    height: 35px;
+    border-radius: 100px;
+    border: 1px solid $orange;
+    font-weight: 700;
+    color: $orange;
+  }
+  .isFollowed {
+    width: 90px;
+    height: 35px;
+    border-radius: 100px;
+    background-color: $orange;
+    color: $white;
+    font-weight: 700;
+  }
+
+
+}
