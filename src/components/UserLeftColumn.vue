@@ -21,7 +21,7 @@
           <a href="#" class="nav-link"> 個人資料 </a>
         </li>
         <li class="nav-item">
-          <img class="icon" src="../assets/pic/icon-cog.png" alt="icon-cog" />
+          <img class="icon" src="../assets/pic/icon_cog.png" alt="icon-cog" />
           <a href="#" class="nav-link"> 設定 </a>
         </li>
         <li class="nav-item nav-post">

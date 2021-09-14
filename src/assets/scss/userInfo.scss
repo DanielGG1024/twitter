@@ -1,0 +1,78 @@
+#user-info {
+  width: 598px;
+  height: 375px;
+  position: relative;
+  .cover-photo {
+    width: 100%;
+    height: 200px;
+  }
+  .user-avatar {
+    position: absolute;
+    left: 15px;
+    top: 124px;
+    width: 140px;
+    height: 140px;
+    border: 4px solid $white;
+    border-radius: 50%;
+
+  }
+  .btn-follow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 30px;
+      top: 211px;
+      width: 120px;
+      height: 35px;
+      border-radius: 100px;
+      border: 1px solid $orange;
+      color: $orange;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 15px;
+  }
+  .user-description {
+    width: 570px;
+    height: 106px;
+    margin: 69px auto 0;
+    .user-name {
+      font-weight: 900;
+      font-size: 19px;
+      line-height: 27.51px;
+      color: $nameTitle;
+    }
+    .user-account {
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 21.72px;
+      color: $tag;
+    }
+    .user-introduce {
+      // max-height
+      // overflow
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20.27px;
+      color: $black;
+      padding: 10px 0;
+    }
+    .user-follow {
+      display: flex;
+
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20.27px;
+      color: $tag;
+      span {
+        font-weight: 400;
+        color: $black;
+      }
+      .follow-me {
+        margin-left: 20px;
+      }
+    }
+  
+  
+  } 
+}
