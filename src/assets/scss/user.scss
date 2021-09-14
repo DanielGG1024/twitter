@@ -1,0 +1,30 @@
+
+
+
+.user {
+  // width: 100%;
+  height: 100%;
+  border: 1px red solid;
+  margin: 0 82px 0 113px;
+  
+  display: grid;
+  grid-template-columns: 235px 600px 350px;
+  grid-gap: 0 30px;
+  grid-template-areas: 
+    "menu center-column popular";
+
+    .menu {
+      grid-area: menu;
+      border: 10px pink solid;
+    }
+
+    .center-column {
+      grid-area: center-column;
+      border: 10px red solid;
+    }
+
+    .popular {
+      grid-area: popular;
+      border: 10px goldenrod solid;
+    }
+}
