@@ -3,9 +3,9 @@
 
 .user {
   // width: 100%;
-  height: 100%;
-  border: 1px red solid;
+  height: 1200px;
   margin: 0 82px 0 113px;
+
   
   display: grid;
   grid-template-columns: 235px 600px 350px;
@@ -13,9 +13,10 @@
   grid-template-areas: 
     "menu center-column popular";
 
+
     .menu {
       grid-area: menu;
-      border: 10px pink solid;
+      // border: 10px pink solid;
     }
 
     .center-column {
@@ -24,7 +25,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      border: 10px red solid;
+      border: 1px $divider solid;
+
+      overflow-y: scroll;
+      overflow-x: hidden;
     }
 
     .popular {

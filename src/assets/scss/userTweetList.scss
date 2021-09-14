@@ -1,0 +1,77 @@
+#tweet-list {  
+  width: 600px;
+  height: 689px; 
+
+  .tweet {
+    display: flex;
+    width: 600px;
+    margin-top: 10px;
+    border-bottom: 1px $divider solid;
+
+    &-avatar{
+      width: 75px;
+      height: 136px;
+      img {
+        width: 50px;
+        height: 50px;
+        margin: 3px 10px 0 15px;
+      }
+    }
+    &-main {
+      width: 525px;
+      font-weight: 500;
+      font-size: 15px;
+    }
+
+    &-user-info {
+      display: flex;
+      margin-bottom: 6px;
+      line-height: 21.72px;
+      .account {
+        margin-left: 5px;
+        color: $tag;
+      }
+      .name {
+        font-weight: 700;
+      }
+
+    }
+
+    &-content {
+      width: 510px;
+      height: 66px;
+      line-height: 22px;
+    }
+
+
+    &-status {
+      display: flex;
+      flex-grow: 1;
+      height: 21px;
+      font-weight: 500;
+      font-size: 13px;
+      line-height: 13px;
+
+      .state {
+        display: flex;
+        margin: 10px 0;
+      }
+
+      img {
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+      }
+
+      .count {
+        margin-right: 50px;
+        font-size: 13px;
+        line-height: 13px;
+      }
+      
+    }
+
+  }
+
+
+}
