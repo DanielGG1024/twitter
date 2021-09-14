@@ -5,7 +5,7 @@
       <UserLeftColumn />
 
       <!-- center column -->
-      <div class="center-column">
+      <div id="center-column" class="center-column">
         <!-- header -->
         <UserHeader />
         <!-- user-info -->
