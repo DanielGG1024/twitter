@@ -14,7 +14,8 @@
             <a class="popular-link" href="">@pizzahut</a>
           </div>
           <div class="popular-follow">
-            <button class="popular-follow-btn">跟隨</button>
+            <button class="popular-follow-btn btn-active">正在跟隨</button>
+            <!-- <button class="popular-follow-btn ">跟隨</button> -->
           </div>
         </div>
       </div>
@@ -49,6 +50,12 @@
     </div>
   </div>
 </template>
+<script>
+
+export default ({
+  name:'Popular',
+})
+</script>
 
 <style lang="scss" scoped>
 @import "./../assets/scss/popular.scss";

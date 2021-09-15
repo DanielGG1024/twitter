@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '../views/Home.vue'
+// import { component } from 'vue/types/umd'
+
 
 
 Vue.use(VueRouter)
@@ -12,13 +13,49 @@ const routes = [
     component: () => import('../views/Main.vue')
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue')
+  },
+  {
+    path: '/regist',
+    name: 'Regist',
+    component: () => import('../views/Regist.vue')
+  },
+  {
+    path: '/reply',
+    name: 'Reply',
+    component: () => import('../views/Reply.vue')
+  },
+  {
+    path: '/setting',
+    name: 'Setting',
+    component: () => import('../views/Setting.vue')
+  },
+  {
+    path: '/adminlogin',
+    name: 'AdminLogin',
+    component: () => import('../views/AdminLogin.vue')
+  },
+  {
+    path: '/adminMain',
+    name: 'AdminMain',
+    component: () => import('../views/AdminMain.vue')
+  },
+  {
+    path: '/adminUser',
+    name: 'AdminUser',
+    component: () => import('../views/AdminUser.vue')
+  },
+  {
     path: '/user/self',
     name: 'user',
     component: () => import('../views/User.vue')
-  },
+  }
 ]
 
 const router = new VueRouter({
+  linkExactActiveClass: 'active',
   routes
 })
 

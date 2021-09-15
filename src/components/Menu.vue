@@ -8,30 +8,67 @@
     <nav class="menu-nav">
       <ul class="menu-nav-wrapper">
         <li class="menu-nav-link">
-          <box-icon type="solid" name="home-circle"></box-icon>
-          <a href="" class="menu-link"> 首頁 </a>
+          <router-link to="/" class="menu-link">
+            <i class="bx bxs-home-circle"></i>
+            <span class="menu-link-title"> 首頁 </span>
+          </router-link>
         </li>
         <li class="menu-nav-link">
-          <box-icon type="solid" name="user"></box-icon>
-          <a href="menu-link" class="menu-link"> 個人資料 </a>
+          <router-link to="/user" class="menu-link">
+            <i class="bx bx-user"></i>
+            <span class="menu-link-title"> 個人資料 </span>
+          </router-link>
         </li>
         <li class="menu-nav-link">
-          <box-icon type="solid" name="cog"></box-icon>
-          <a href="menu-link" class="menu-link"> 設定 </a>
+          <router-link to="/setting" class="menu-link">
+            <i class="bx bx-cog"></i>
+            <span class="menu-link-title"> 個人資料 </span>
+          </router-link>
         </li>
         <li class="menu-nav-post">
-          <button class="menu-nav-btn">推文</button>
+          <button @click.prevent.stop="clickPostModal" class="menu-nav-btn">
+            推文
+          </button>
         </li>
       </ul>
       <ul class="menu-nav-wrapper">
         <li class="menu-nav-link">
-          <box-icon name="log-out"></box-icon>
-          <a href="" class="menu-link"> 登出 </a>
+          <router-link to="/logout" class="menu-link">
+            <i class="bx bx-log-out"></i>
+            <span class="menu-link-title"> 登出 </span>
+          </router-link>
         </li>
       </ul>
     </nav>
+    <MainTweetPostModal
+      :MainTweetPostModalSwitch="MainTweetPostModal"
+      @after-click-close="afterClickClose"
+      @after-click-background="afterClickClose"
+    />
   </header>
 </template>
+<script>
+import MainTweetPostModal from "./../components/MainTweetPostModal";
+export default {
+  namd: "Menu",
+  components: {
+    MainTweetPostModal,
+  },
+  data() {
+    return {
+      MainTweetPostModal: false,
+    };
+  },
+  methods: {
+    clickPostModal() {
+      this.MainTweetPostModal = true;
+    },
+    afterClickClose() {
+      this.MainTweetPostModal = false;
+    },
+  },
+};
+</script>
 <style scoped lang="scss">
 @import "./../assets/scss/menu.scss";
 </style>

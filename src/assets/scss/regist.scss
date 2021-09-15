@@ -1,0 +1,65 @@
+.header {
+    width: 100%;
+}
+.logo-wrapper {
+    width: 50px;
+    height: 50px;
+    margin: 65px auto 0;
+}
+.logo {
+    width: 100%;
+    height: 100%;
+}
+.header-title {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 23px;
+    font-weight: 700;
+}
+.regist-form {
+    width: 540px;
+    margin: 40px auto 0 auto;
+}
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 52px;
+    padding-top: 5px;
+    border-bottom: 2px solid #657786;
+    background-color: #f5f8fa;
+    margin-bottom: 30px;
+    border-radius: 4px 4px 2px 2px;
+    padding-left: 10px;
+}
+.input-wrapper > label {
+    font-size: 15px;
+    line-height: 15px;
+    color: #657786;
+}
+input[type="text"] {
+    background-color: #f5f8fa;
+    border: none;
+    flex: 1;
+}
+input:focus {
+    border-width: 5px;
+}
+.form-submit-btn {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
+    background-color: #ff6600;
+    color: #ffffff;
+}
+.cancel {
+    font-weight: 700;
+    font-size: 18px;
+}
+.cancel-wrapper {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
