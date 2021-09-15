@@ -1,0 +1,57 @@
+#self-reply-list {
+  width: 600px;
+  height: 699px;
+  overflow-y: hidden;
+  .reply {
+    width: 600px;
+    height: 130px;
+    display: flex;
+    border-bottom: 1px $divider solid;
+
+    .avatar {
+      width: 75px;
+      .avatar-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: $emptyBg;
+        margin: 13px 10px 0 15px;
+      }
+    }
+
+    &-main {
+      // border: 1px red solid;
+      width: 510px;
+      height: 110px;
+      margin: auto 15px auto 0;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 21.72px;
+      color: $nameTitle;
+      // 這裡要思考怎麼處理超出範圍的內容
+      overflow-y: hidden;
+    }
+
+    &-user-info {
+      display: flex;
+      .name {
+        font-weight: 700;
+      }
+      .account {
+        margin-left: 5px;
+        color: $tag;
+      }
+    }
+
+    &-this-reply {
+      color: $tag;
+      span {
+        color: $orange;
+      }
+    }
+    &-content {
+      line-height: 22px;
+    }
+
+  }
+}

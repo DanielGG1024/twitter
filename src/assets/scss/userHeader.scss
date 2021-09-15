@@ -1,0 +1,31 @@
+#center-column-header {
+  width: 100%;
+  height: 55px;
+  display: flex;
+  align-items: center;
+
+
+  .icon {
+    width: 17px;
+    height: 14px;
+    margin-left: 19px;
+  }
+
+  .header-info {
+    margin-left: 43px;
+    .user-name{
+      font-size: 19px;
+      font-weight: 900;
+      line-height: 28px;
+      color: $nameTitle;
+      margin-top: 7px;
+    }
+
+    .user-tweets {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 19px;
+      color: $tag;
+    }
+  }
+}

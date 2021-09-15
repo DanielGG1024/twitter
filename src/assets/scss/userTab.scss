@@ -1,0 +1,28 @@
+#user-tabs {
+  display: flex;
+  margin-top: 20px;
+  height: 51px;
+  width: 100%;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 21.71px;
+  color: $tag;
+  border-bottom: 1px $divider solid ;
+
+  .tab {
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 16px;
+    width: 130px;
+    height: 52px;
+    
+  }
+  .clicked {
+    border-bottom: 2px $orange solid;
+    color: $orange;
+  }
+  
+
+
+
+}
