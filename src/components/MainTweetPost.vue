@@ -13,6 +13,12 @@
     <button class="main-tweet-button">推文</button>
   </div>
 </template>
+<script lang="ts">
+
+export default({
+  name:'MainTweetPost',
+})
+</script>
 
 <style lang="scss" scoped>
 @import "./../assets/scss/maintweetpost.scss";

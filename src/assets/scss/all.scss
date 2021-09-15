@@ -1,5 +1,5 @@
 // variable
-$mainColor: red;
+$mainColor: #FF6600;
 
 
 //reset
@@ -8,6 +8,7 @@ $mainColor: red;
     padding: 0px;
     box-sizing: border-box;
     list-style: none;
+    font-family: "Noto Sans TC";
 }
 
 .scrollbar::-webkit-scrollbar {

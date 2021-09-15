@@ -1,8 +1,12 @@
 <template>
-  <div class="modal-background">
+  <div
+    v-show="MainTweetPostModalSwitch"
+    @click="clickModalBackground"
+    class="modal-background"
+  >
     <div class="modal">
       <div class="modal-header">
-        <div class="close-icon">
+        <div @click="ciickClose" class="close-icon">
           <img src="../assets/pic/close.png" class="close" alt="" />
         </div>
       </div>
@@ -26,7 +30,31 @@
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
-@import './../assets/scss/maintweetpostmodal.scss';
 
+<script>
+export default {
+  name: "MainTweetPostModal",
+  props: {
+    MainTweetPostModalSwitch: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  methods: {
+    ciickClose() {
+      this.$emit("after-click-close");
+    },
+    clickModalBackground(e) {
+      const target = e.target;
+      if (target.className === "modal-background") {
+        this.$emit("after-click-background");
+      } else {
+        return;
+      }
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+@import "./../assets/scss/maintweetpostmodal.scss";
 </style>

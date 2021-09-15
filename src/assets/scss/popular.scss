@@ -15,16 +15,13 @@
 .one-popular {
   display: flex;
   padding: 10px 15px;
-  /* text-align: center; */
 }
 .popular-txt {
-  /* padding: 0 15px; */
   margin-left: 10px;
   display: flex;
   flex-direction: column;
   flex: 1;
   align-self: center;
-  /* border-top: 1px solid #e6ecf0; */
 }
 .popular-link {
   font-size: 15px;
@@ -43,14 +40,23 @@
 .popular-follow {
   align-items: flex-end;
   align-self: center;
+  font-weight: 700;
+  line-height: 15px;
 }
 .popular-follow-btn {
-  padding: 10px 15px;
-  font-size: 15px;
-  font-weight: 700;
+  border-radius: 100px;
   border: 1px solid #ff6600;
   color: #ff6600;
-  border-radius: 30px;
+  width: 60px;
+  height: 35px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.btn-active {
+  width: 90px;
+  background-color: #ff6600;
+  color: white;
 }
 .title {
   font-size: 18px;

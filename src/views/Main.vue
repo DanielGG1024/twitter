@@ -9,26 +9,48 @@
           </div>
           <MainTweetPost />
         </div>
-        <MainTweets />
+        <MainTweets @after-click-chat-btn="openReplyModal" />
       </main>
       <Popular />
     </div>
-    <MainTweetPostModal />
+    <ReplyModal
+      :ReplyModalSwitch="ReplyModal"
+      @after-click-close="afterClickClose"
+      @after-click-background="afterClickClose"
+    />
   </div>
 </template>
 <script>
-import Menu from "./../components/Menu.vue";
-import Popular from "./../components/Popular.vue";
-import MainTweetPost from "./../components/MainTweetPost.vue";
-import MainTweets from "./../components/MainTweets.vue";
-import MainTweetPostModal from './../components/MainTweetPostModal.vue'
+import Menu from "./../components/Menu";
+import Popular from "./../components/Popular";
+import MainTweetPost from "./../components/MainTweetPost";
+import MainTweets from "./../components/MainTweets";
+
+import ReplyModal from "./../components/ReplyModal";
 export default {
+  namd: "main",
   components: {
     Menu,
     Popular,
     MainTweetPost,
     MainTweets,
-    MainTweetPostModal
+    ReplyModal,
+  },
+  data() {
+    return {
+      ReplyModal: false,
+    };
+  },
+  methods: {
+
+    afterClickClose() {
+      console.log("after-click-close");
+      this.ReplyModal = false;
+    },
+    openReplyModal() {
+      this.ReplyModal = true;
+      console.log("this.ReplyModal = true");
+    },
   },
 };
 </script>
