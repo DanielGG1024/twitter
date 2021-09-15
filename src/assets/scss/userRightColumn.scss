@@ -19,6 +19,7 @@
     display: flex;
     justify-content: center;
     position: relative;
+    font-weight: 700;
     font-size: 15px;
     line-height: 15px;
     border-top: 1px $divider solid;
@@ -43,6 +44,12 @@
     top: 18px;
     width: 79px;
     height: 33px;
+    .name {
+      color: $nameTitle;
+    }
+    .tag-name {
+      color: $tag;
+    }
   }
 
   &-follow-btn {

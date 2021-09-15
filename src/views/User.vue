@@ -13,7 +13,9 @@
         <!-- tab -->
         <UserTab />
         <!-- list-tweet -->
-        <UserTweetList />
+        <UserTweetList class="d-none" />
+        <!-- reply list -->
+        <UserSelfReply/>
       </div>
       <!-- right Column -->
       <UserRightColumn />
@@ -28,6 +30,7 @@ import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
 import UserTweetList from "../components/UserTweetList.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
+import UserSelfReply from "../components/UserSelfReply.vue"
 
 export default {
   components: {
@@ -37,6 +40,7 @@ export default {
     UserTab,
     UserTweetList,
     UserRightColumn,
+    UserSelfReply,
   },
 };
 </script>
@@ -47,6 +51,7 @@ export default {
   width: 1440px;
   height: 1200px;
   border: 1px purple solid;
+  margin: auto;
 }
 @import "@/assets/scss/user.scss";
 </style>

@@ -1,6 +1,7 @@
 #tweet-list {  
   width: 600px;
-  height: 689px; 
+  height: 689px;
+  overflow-y: hidden;
 
   .tweet {
     display: flex;
