@@ -25,7 +25,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      border: 1px $divider solid;
+      border-right: 1px $divider solid;
+      border-left: 1px $divider solid;
 
       // overflow-y: hidden;
       // overflow-x: hidden;

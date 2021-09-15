@@ -10,8 +10,9 @@
           <div class="account">@heyjohn<span>‧3小時</span></div>
         </div>
         <div class="tweet-content">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium,
-          temporibus.
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Cumque dolor
+          repellat ea earum facilis! Qui distinctio culpa impedit doloremque
+          iste.
         </div>
         <div class="tweet-status">
           <div class="replies state">
@@ -35,8 +36,9 @@
           <div class="account">@heyjohn<span>‧3小時</span></div>
         </div>
         <div class="tweet-content">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium,
-          temporibus.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
+          recusandae, aliquam aut iusto numquam autem soluta facere ducimus
+          dicta repellendus.
         </div>
         <div class="tweet-status">
           <div class="replies state">
@@ -60,8 +62,9 @@
           <div class="account">@heyjohn<span>‧3小時</span></div>
         </div>
         <div class="tweet-content">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium,
-          temporibus.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
+          recusandae, aliquam aut iusto numquam autem soluta facere ducimus
+          dicta repellendus.
         </div>
         <div class="tweet-status">
           <div class="replies state">
@@ -85,8 +88,9 @@
           <div class="account">@heyjohn<span>‧3小時</span></div>
         </div>
         <div class="tweet-content">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium,
-          temporibus.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
+          recusandae, aliquam aut iusto numquam autem soluta facere ducimus
+          dicta repellendus.
         </div>
         <div class="tweet-status">
           <div class="replies state">
@@ -110,8 +114,9 @@
           <div class="account">@heyjohn<span>‧3小時</span></div>
         </div>
         <div class="tweet-content">
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Praesentium,
-          temporibus.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo
+          recusandae, aliquam aut iusto numquam autem soluta facere ducimus
+          dicta repellendus.
         </div>
         <div class="tweet-status">
           <div class="replies state">

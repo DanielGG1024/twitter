@@ -1,0 +1,93 @@
+#self-like-list {
+  width: 600px;
+  height: 699px;
+  overflow-y: hidden;
+  .like {
+    width: 600px;
+    height: 144px;
+    display: flex;
+    border-bottom: 1px $divider solid;
+    
+    .avatar {
+      width: 75px;
+
+      .avatar-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: $emptyBg;
+        margin: 13px 10px 0 15px;
+      }
+    }
+    
+    &-main {
+      width: 510px;
+      height: 134px;
+      margin: 10px 15px 0 0;
+      font-weight: 500;
+      font-size: 15px;
+      line-height: 21.72px;
+      color: $nameTitle;
+      // 這裡要思考怎麼處理超出範圍的內容
+      overflow-y: hidden;
+    }
+
+    &-user-info {
+      display: flex;
+      margin-bottom: 6px;
+      font-size: 15px;
+      line-height: 21.72px;
+
+      .name {
+        font-weight: 700;
+        
+      }
+
+      .account {
+        margin-left: 5px;
+        color: $tag;
+      }
+    }
+
+    &-content {
+      line-height: 22px;
+      margin-bottom: 10px;
+    }
+
+    &-status {
+      display: flex;
+      justify-content: space-between;
+      width: 134px;
+      height: 30px;
+      .state {
+        display: flex;
+        align-items: center;
+        font-size: 13px;
+        line-height: 13px;
+      }
+      .replies {
+        &-img {
+          width: 12.34px;
+          height: 12.34px;
+        }
+        &-count {
+          margin-left: 10px;
+        }
+      }
+
+      .likes {
+        &-img {
+          width: 20.1px;
+          height: 18.91px;
+        }
+        &-count {
+          margin-left: 6.95px;
+        }
+      }
+      
+    }
+
+
+
+  }
+}

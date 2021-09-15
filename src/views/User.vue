@@ -15,7 +15,9 @@
         <!-- list-tweet -->
         <UserTweetList class="d-none" />
         <!-- reply list -->
-        <UserSelfReply/>
+        <UserSelfReply class="d-none" />
+        <!-- like list -->
+        <UserSelfLike />
       </div>
       <!-- right Column -->
       <UserRightColumn />
@@ -30,7 +32,8 @@ import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
 import UserTweetList from "../components/UserTweetList.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
-import UserSelfReply from "../components/UserSelfReply.vue"
+import UserSelfReply from "../components/UserSelfReply.vue";
+import UserSelfLike from "../components/UserSelfLike.vue";
 
 export default {
   components: {
@@ -41,6 +44,7 @@ export default {
     UserTweetList,
     UserRightColumn,
     UserSelfReply,
+    UserSelfLike,
   },
 };
 </script>
