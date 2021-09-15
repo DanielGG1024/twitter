@@ -8,16 +8,30 @@
       <div id="center-column" class="center-column">
         <!-- header -->
         <UserHeader />
-        <!-- user-info -->
-        <UserInfo />
-        <!-- tab -->
-        <UserTab />
-        <!-- list-tweet -->
-        <UserTweetList class="d-none" />
-        <!-- reply list -->
-        <UserSelfReply class="d-none" />
-        <!-- like list -->
-        <UserSelfLike />
+
+        <!-- follower/following -->
+        <UserFollowTab />
+        <UserFollower />
+
+
+
+
+        <div class="user-self d-none">
+          <!-- user-info -->
+          <UserInfo />
+          <!-- tab -->
+          <UserTab />
+        </div>
+
+        <div class="user-self-switch d-none">
+          <!-- list-tweet -->
+          <UserTweetList class="d-none" />
+          <!-- reply list -->
+          <UserSelfReply class="d-none" />
+          <!-- like list -->
+          <UserSelfLike />
+        </div>
+
       </div>
       <!-- right Column -->
       <UserRightColumn />
@@ -34,6 +48,8 @@ import UserTweetList from "../components/UserTweetList.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
 import UserSelfReply from "../components/UserSelfReply.vue";
 import UserSelfLike from "../components/UserSelfLike.vue";
+import UserFollowTab from "../components/UserFollowTab.vue"
+import UserFollower from "../components/UserFollower.vue"
 
 export default {
   components: {
@@ -45,6 +61,8 @@ export default {
     UserRightColumn,
     UserSelfReply,
     UserSelfLike,
+    UserFollowTab,
+    UserFollower,
   },
 };
 </script>
