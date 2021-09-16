@@ -1,7 +1,9 @@
 <template>
-  <div 
-  v-show="ReplyDetailModalSwitch"
-  @click="clickModalBackground" class="modal-background">
+  <div
+    v-show="ReplyDetailModalSwitch"
+    @click="clickModalBackground"
+    class="modal-background"
+  >
     <div class="modal">
       <div class="modal-header">
         <div @click="clickClose" class="close-icon">
@@ -9,7 +11,7 @@
         </div>
       </div>
       <div class="reply">
-        <div class="user-icon-wrapper">
+        <div class="reply-icon-wrapper">
           <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
         </div>
         <div class="txt-wrapper">
@@ -39,13 +41,16 @@
             <div class="user-icon-wrapper">
               <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
             </div>
-            <textarea
-              class="modal-main-tweet-txt"
-              name=""
-              id=""
-              value="hello"
-              placeholder="推你的回覆"
-            ></textarea>
+            <div class="modal-main-tweet-txt">
+              <textarea
+                class="modal-textarea"
+                name=""
+                id=""
+                value="hello"
+                placeholder="有甚麼新鮮事?"
+              ></textarea>
+              <span class="modal-info">字數不可超過140字</span>
+            </div>
             <button class="modal-main-tweet-button">推文</button>
           </div>
         </div>

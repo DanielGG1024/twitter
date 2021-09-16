@@ -9,13 +9,39 @@
     <div class="admin-form">
       <form action="" class="login">
         <div class="input-wrapper">
-          <label for="account">帳號 </label>
-          <input type="text" name="account" id="account" />
+          <div class="input-txt">
+            <label for="account">帳號 </label>
+            <input
+              @focus="addFocus"
+              @blur="removeFocus"
+              type="text"
+              name="account"
+              id="account"
+            />
+          </div>
+          <div class="input-wrapper-info">
+            <div class="error-info">帳號錯誤</div>
+            <div class="amount">5/50</div>
+          </div>
         </div>
+
         <div class="input-wrapper">
-          <label for="password">密碼</label>
-          <input type="text" name="name" id="password" />
+          <div class="input-txt">
+            <label for="password">密碼 </label>
+            <input
+              @focus="addFocus"
+              @blur="removeFocus"
+              type="text"
+              name="password"
+              id="password"
+            />
+          </div>
+          <div class="input-wrapper-info">
+            <div class="error-info">密碼錯誤</div>
+            <div class="amount">5/50</div>
+          </div>
         </div>
+
         <div class="button-wrapper">
           <button class="form-submit-btn" type="submit">註冊</button>
         </div>
@@ -26,6 +52,21 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    addFocus(e) {
+      const target = e.target;
+      target.parentNode.classList.add("focus");
+    },
+    removeFocus(e) {
+      const target = e.target;
+      target.parentNode.classList.remove("focus");
+    },
+  },
+};
+</script>
+
 
 <style lang="scss" scoped>
 @import "./../assets/scss/adminlogin.scss";

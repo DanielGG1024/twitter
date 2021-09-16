@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="reply">
-        <div class="user-icon-wrapper">
+        <div class="reply-icon-wrapper">
           <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
         </div>
         <div class="txt-wrapper">
@@ -39,15 +39,18 @@
         <div class="modal-content-post">
           <div class="modal-main-tweet">
             <div class="user-icon-wrapper">
-              <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
+              <img class="user-icosn" src="../assets/pic/Photo.png" alt="" />
             </div>
-            <textarea
-              class="modal-main-tweet-txt"
-              name=""
-              id=""
-              value="hello"
-              placeholder="推你的回覆"
-            ></textarea>
+            <div class="modal-main-tweet-txt">
+              <textarea
+                class="modal-textarea"
+                name=""
+                id=""
+                value="hello"
+                placeholder="有甚麼新鮮事?"
+              ></textarea>
+              <span class="modal-info">字數不可超過140字</span>
+            </div>
             <button class="modal-main-tweet-button">推文</button>
           </div>
         </div>
@@ -71,9 +74,9 @@ export default {
     clickModalBackground(e) {
       const target = e.target;
       if (target.className === "modal-background") {
-        this.$emit('after-click-background')
+        this.$emit("after-click-background");
       } else {
-        return
+        return;
       }
     },
   },

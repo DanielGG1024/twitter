@@ -1,14 +1,14 @@
 <template>
   <header class="menu">
     <div class="logo-wrapper">
-      <a href="">
+      <router-link to="/">
         <img class="logo" src="../assets/pic/Logo.png" alt="" />
-      </a>
+      </router-link>
     </div>
     <nav class="menu-nav">
       <ul class="menu-nav-wrapper">
         <li class="menu-nav-link">
-          <router-link to="/" class="menu-link">
+          <router-link to="/main" class="menu-link">
             <i class="bx bxs-home-circle"></i>
             <span class="menu-link-title"> 首頁 </span>
           </router-link>

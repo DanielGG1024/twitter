@@ -1,133 +1,159 @@
 /* // modal框框 */
 .modal-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(#e5e5e5, 0.7);
-    z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(#e5e5e5, 0.7);
+  z-index: 1;
 }
 .modal {
-    /* // width: clamp(300px, 80%, 600px); */
-    width: 600px;
-    margin: 54px auto 0;
-    background-color: #ffffff;
-    border-radius: 20px;
-    z-index: 99;
-    position: relative;
+  /* // width: clamp(300px, 80%, 600px); */
+  width: 600px;
+  margin: 54px auto 0;
+  background-color: #ffffff;
+  border-radius: 20px;
+  z-index: 99;
+  position: relative;
 }
 .modal-header {
-    display: flex;
-    align-items: center;
-    height: 54px;
-    border-bottom: 1px solid #e6ecf0;
+  display: flex;
+  align-items: center;
+  height: 54px;
+  border-bottom: 1px solid #e6ecf0;
 }
 .close-icon {
-    margin-left: 19px;
-    &:hover {
-        cursor: pointer;
-    }
+  margin-left: 19px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 .close {
-    width: 15px;
-    height: 15px;
+  width: 15px;
+  height: 15px;
 }
 /* reply */
 .reply {
-    display: flex;
-    padding: 18px 15px 10px 15px;
+  display: flex;
+  padding: 18px 15px 10px 15px;
+  position: relative;
+  overflow: hidden;
 }
 .txt-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: space-between; */
-    margin-left: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  margin-left: 10px;
 }
 .txt-info {
-    line-height: 21px;
+  line-height: 21px;
 }
 .user-name {
-    font-weight: 700;
-    font-size: 15px;
+  font-weight: 700;
+  font-size: 15px;
 }
 .user-account {
-    font-weight: 500;
-    font-size: 15px;
-    color: #657786;
+  font-weight: 500;
+  font-size: 15px;
+  color: #657786;
 }
 .txt {
-    margin-top: 5px;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 22px;
+  margin-top: 5px;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 22px;
 }
 .txt-footer {
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 13px;
-    margin-top: 19px;
-    color: #657786;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  margin-top: 19px;
+  color: #657786;
 }
 .footer-account {
-    color: #ff6600;
+  color: #ff6600;
 }
 
 /* POST區 */
 .modal-content-post {
-    /* height: 175px; */
-    width: 100%;
-    /* border: 1px solid #e6ecf0; */
-    /* border-bottom: 10px solid #e6ecf0; */
+  /* height: 175px; */
+  width: 100%;
+  /* border: 1px solid #e6ecf0; */
+  /* border-bottom: 10px solid #e6ecf0; */
 }
 .modal-txt {
-    width: 100%;
-    /* height: 300px; */
+  width: 100%;
+  /* height: 300px; */
 }
 .txt {
-    word-wrap: break-word;
-    width: 100%;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .modal-main-tweet {
-    padding: 9px 15px;
-    display: flex;
-    height: 245px;
+  padding: 9px 15px;
+  display: flex;
+  height: 245px;
 }
 .modal-main-tweet-button {
-    background-color: #ff6600;
-    border: 0;
-    font-size: 18px;
-    /* width: 60%; */
-    padding: 10px 0;
-    font-weight: 500;
-    color: #ffffff;
-    border-radius: 30px;
-    line-height: 18px;
-    width: 66px;
-    height: 38px;
-    align-self: flex-end;
-    &:hover {
-        cursor: pointer;
-    }
+  background-color: #ff6600;
+  border: 0;
+  font-size: 18px;
+  /* width: 60%; */
+  padding: 10px 0;
+  font-weight: 500;
+  color: #ffffff;
+  border-radius: 30px;
+  line-height: 18px;
+  width: 66px;
+  height: 38px;
+  align-self: flex-end;
+  &:hover {
+    cursor: pointer;
+  }
 }
 .modal-main-tweet-txt {
-    margin-top: 10px;
-    margin-left: 10px;
-    flex: 1;
-    line-height: 26px;
-    font-size: 18px;
-    resize: none;
-    outline: none;
-    border: none;
+  margin-left: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.modal-textarea {
+  height: 167px;
+  line-height: 26px;
+  font-size: 18px;
+  margin-top: 27px;
+  resize: none;
+  outline: none;
+  border: none;
+}
+.modal-info {
+  align-self: flex-end;
+  margin-right: 20px;
+  color: #fc5a5a;
+}
+.reply-icon-wrapper {
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+.reply-icon-wrapper::before {
+  content: "";
+  position: absolute;
+  top: calc(100% + 5px);
+  left: calc(100% - 50%);
+  width: 2px;
+  height: 999px;
+  background-color: #ccd6dd;
 }
 .user-icon-wrapper {
-    width: 50px;
-    height: 50px;
+  margin-top: 15px;
+  width: 50px;
+  height: 50px;
 }
 .user-icon {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
-
