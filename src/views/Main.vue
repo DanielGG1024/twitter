@@ -42,7 +42,6 @@ export default {
     };
   },
   methods: {
-
     afterClickClose() {
       console.log("after-click-close");
       this.ReplyModal = false;
@@ -64,7 +63,7 @@ export default {
 
 .content {
   height: 100vh;
-  width: 40%;
+  width: 600px;
 }
 
 .content-post {

@@ -36,6 +36,8 @@
 /* reply */
 .reply {
   display: flex;
+  position: relative;
+  overflow: hidden;
   padding: 18px 15px 10px 15px;
 }
 .txt-wrapper {
@@ -113,16 +115,42 @@
   }
 }
 .modal-main-tweet-txt {
-  margin-top: 10px;
   margin-left: 10px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.modal-textarea {
+  height: 167px;
   line-height: 26px;
   font-size: 18px;
+  margin-top: 27px;
   resize: none;
   outline: none;
   border: none;
 }
+.modal-info {
+  align-self: flex-end;
+  margin-right: 20px;
+  color: #fc5a5a;
+}
+.reply-icon-wrapper {
+  margin-top: 15px;
+  width: 50px;
+  height: 50px;
+  position: relative;
+}
+.reply-icon-wrapper::before {
+  content: "";
+  position: absolute;
+  top: calc(100% + 5px);
+  left: calc(100% - 50%);
+  width: 2px;
+  height: 999px;
+  background-color: #ccd6dd;
+}
 .user-icon-wrapper {
+  margin-top: 15px;
   width: 50px;
   height: 50px;
 }

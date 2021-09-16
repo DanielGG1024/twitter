@@ -1,9 +1,9 @@
 <template>
   <header class="menu">
     <div class="logo-wrapper">
-      <a href="">
+      <router-link to="/adminMain">
         <img class="logo" src="../assets/pic/Logo.png" alt="" />
-      </a>
+      </router-link>
     </div>
     <nav class="menu-nav">
       <ul class="menu-nav-wrapper">

@@ -47,8 +47,38 @@
   display: flex;
   height: 245px;
 }
+.modal-main-tweet-txt {
+  margin-left: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.modal-textarea {
+  height: 167px;
+  line-height: 26px;
+  font-size: 18px;
+  margin-top: 27px;
+  resize: none;
+  outline: none;
+  border: none;
+}
+.modal-info {
+  align-self: flex-end;
+  margin-right: 20px;
+  color: #fc5a5a;
+}
+.user-icon-wrapper {
+  margin-top: 15px;
+  width: 50px;
+  height: 50px;
+}
+.user-icon {
+  width: 100%;
+  height: 100%;
+}
+
 .modal-main-tweet-button {
-  background-color: $mainColor;
+  background-color: $orange;
   border: 0;
   font-size: 18px;
   /* width: 60%; */
@@ -63,22 +93,4 @@
   &:hover {
     cursor: pointer;
   }
-}
-.modal-main-tweet-txt {
-  margin-top: 10px;
-  margin-left: 10px;
-  flex: 1;
-  line-height: 26px;
-  font-size: 18px;
-  resize: none;
-  outline: none;
-  border: none;
-}
-.user-icon-wrapper {
-  width: 50px;
-  height: 50px;
-}
-.user-icon {
-  width: 100%;
-  height: 100%;
 }

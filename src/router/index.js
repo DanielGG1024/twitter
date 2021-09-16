@@ -9,7 +9,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    redirect: { name: 'main' }
+  },
+  {
+    path: '/main',
+    name: 'main',
     component: () => import('../views/Main.vue')
   },
   {
@@ -23,7 +27,7 @@ const routes = [
     component: () => import('../views/Regist.vue')
   },
   {
-    path: '/reply',
+    path: '/main/reply',
     name: 'Reply',
     component: () => import('../views/Reply.vue')
   },
@@ -55,7 +59,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  linkExactActiveClass: 'active',
+  linkActiveClass: 'active',
   routes
 })
 

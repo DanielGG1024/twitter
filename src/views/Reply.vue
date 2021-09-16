@@ -38,7 +38,7 @@ export default {
 
 .content {
   height: 100vh;
-  width: 40%;
+  width: 600px;
 }
 
 .content-wrapper {

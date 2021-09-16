@@ -30,30 +30,57 @@
 .input-wrapper {
   display: flex;
   flex-direction: column;
-  height: 52px;
-  padding-top: 5px;
+  width: 642px;
+}
+.input-txt {
+  display: flex;
+  flex-direction: column;
+  border-radius: 4px 4px 0px 0px;
+  overflow: hidden;
   border-bottom: 2px solid #657786;
   background-color: #f5f8fa;
-  margin-bottom: 30px;
-  border-radius: 4px 4px 2px 2px;
-  // border-radius: 4px;
-  padding-left: 10px;
+  height: 52px;
 }
-.input-wrapper > label {
+.input-wrapper-info {
+  height: 32px;
+  font-size: 15px;
+  font-weight: 500;
+  color: red;
+  display: flex;
+  justify-content: space-between;
+}
+.error-info {
+  visibility: hidden;
+  font-size: 15px;
+  font-weight: 500;
+}
+.amount {
+  // visibility: hidden;
+  font-size: 15px;
+  font-weight: 500;
+  color: #657786;
+}
+.focus {
+  border-bottom: 2px solid blue;
+}
+.input-txt > label {
   font-size: 15px;
   line-height: 15px;
   color: #657786;
+  margin-top: 5px;
+  margin-left: 10px;
 }
 input[type="text"] {
+  margin-left: 10px;
   background-color: #f5f8fa;
   border: none;
   flex: 1;
 }
-input:focus {
-  border-width: 5px;
-}
+
 .button-wrapper {
   text-align: right;
+  width: 642px;
+  margin-top: 18px;
 }
 .form-submit-btn {
   padding: 10px 40px;
