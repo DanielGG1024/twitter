@@ -22,13 +22,16 @@ header {
 
     &-link {
       color: $nameTitle;
+      
     }
-    
+    &-user {
+      color: $orange;
+    }
+
     &-item {
       height: 56px;
       display: flex;
       align-items: center;
-      
     }
     &-post-btn {
       width: 210px;
@@ -39,18 +42,18 @@ header {
       font-size: 18px;
       color: $white;
     }
+
+    
     .icon {
       width: 24px;
       height: 24px;
       margin: 0 20px;
-
-    }
-    .log-out {
-      position: absolute;
-      bottom: 0;
     }
 
+    
+    .clicked {
 
+    }
 
   }
   .logout {

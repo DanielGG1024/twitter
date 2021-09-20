@@ -53,9 +53,40 @@ const routes = [
   },
   {
     path: '/user/self',
-    name: 'user',
-    component: () => import('../views/User.vue')
-  }
+    name: 'userSelf',
+    redirect: '/user/self/tweetList',
+    component: () => import('../views/User.vue'),
+    children: [
+      {
+        path: 'tweetList',
+        name: 'tweetList',
+        component: () => import('../components/UserTweetList.vue')
+
+      },
+      {
+        path: 'replies',
+        name: 'replies',
+        component: () => import('../components/UserSelfReply.vue')
+      },
+      {
+        path: 'likes',
+        name: 'likes',
+        component: () => import('../components/UserSelfLike.vue')
+      }
+    ]
+  },
+  {
+    path: '/user/self/follower',
+    name: 'follower',
+    component: () => import('../views/UserFollower.vue')
+  },
+  {
+    path: '/user/self/following',
+    name: 'following',
+    component: () => import('../views/UserFollowing.vue')
+  },
+  
+
 ]
 
 const router = new VueRouter({

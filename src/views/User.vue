@@ -6,36 +6,26 @@
 
       <!-- center column -->
       <div id="center-column" class="center-column">
-        <!-- header -->
         <UserHeader />
 
-        <!-- follower/following -->
-        <UserFollowTab />
-        <UserFollower />
-
-
-
-
-        <div class="user-self d-none">
-          <!-- user-info -->
-          <UserInfo />
-          <!-- tab -->
+        <div class="user-self ">
+          <UserInfo @after-click-setInfoBtn="clickSetModal"/>
           <UserTab />
         </div>
 
-        <div class="user-self-switch d-none">
-          <!-- list-tweet -->
-          <UserTweetList class="d-none" />
-          <!-- reply list -->
-          <UserSelfReply class="d-none" />
-          <!-- like list -->
-          <UserSelfLike />
+        <div class="user-self-switch ">
+          <!-- list-tweet / reply list / like list -->
+          <router-view></router-view>
         </div>
-
       </div>
       <!-- right Column -->
       <UserRightColumn />
     </div>
+    <UserInfoSetModal 
+      :UserInfoSetModalSwitch="UserInfoSetModal"
+      @after-click-close="afterClickClose"
+      @after-click-background="afterClickClose"
+    />
   </div>
 </template>
 
@@ -44,27 +34,36 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
-import UserTweetList from "../components/UserTweetList.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
-import UserSelfReply from "../components/UserSelfReply.vue";
-import UserSelfLike from "../components/UserSelfLike.vue";
-import UserFollowTab from "../components/UserFollowTab.vue"
-import UserFollower from "../components/UserFollower.vue"
+import UserInfoSetModal from "../components/UserInfoSetModal.vue"
+
 
 export default {
+  name: "User",
   components: {
     UserLeftColumn,
     UserHeader,
     UserInfo,
     UserTab,
-    UserTweetList,
     UserRightColumn,
-    UserSelfReply,
-    UserSelfLike,
-    UserFollowTab,
-    UserFollower,
+    UserInfoSetModal
   },
+  data() {
+    return {
+      UserInfoSetModal: false,
+    }
+  },
+
+  methods: {
+    clickSetModal() {
+      this.UserInfoSetModal = true;
+    },
+    afterClickClose() {
+      this.UserInfoSetModal = false;
+    },
+  }
 };
+
 </script>
 
 <style lang="scss" scoped>
