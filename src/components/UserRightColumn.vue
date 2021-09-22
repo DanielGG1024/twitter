@@ -14,6 +14,7 @@
           <div class="tag-name">@pizzahut</div>
         </div>
         <button class="popular-follow-btn isFollowed">正在跟隨</button>
+        <!-- <button class="popular-follow-btn">跟隨</button> -->
       </div>
     </div>
     <div class="popular-person">

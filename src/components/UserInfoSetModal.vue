@@ -2,10 +2,10 @@
   <div
     class="modal"
     v-show="UserInfoSetModalSwitch"
-    @click="clickModalBackground"
+    @click="clickClose"
   >
     <div class="modal-main">
-      <form>
+      <form >
         <div class="modal-header">
           <div @click="clickClose" class="close-icon">
             <img src="../assets/pic/close.png" class="close" alt="" />
@@ -48,13 +48,10 @@ export default {
     },
   },
   methods: {
-    clickClose() {
-      this.$emit("after-click-close");
-    },
-    clickModalBackground(e) {
+    clickClose(e) {
       const target = e.target;
-      if (target.className === "modal") {
-        this.$emit("after-click-background");
+      if (target.className === "modal || close-icon") {
+        this.$emit("after-click-close");
       } else {
         return;
       }

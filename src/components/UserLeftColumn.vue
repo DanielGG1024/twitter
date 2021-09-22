@@ -19,7 +19,7 @@
           </router-link>
         </li>
         <li>
-          <router-link class="nav-item" :to="{ name: 'userSelf' }">
+          <router-link class="nav-item" :to="{ name: 'user' }">
             <img
               class="icon icon-user"
               src="../assets/pic/icon_user_orange.png"

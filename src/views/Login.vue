@@ -54,7 +54,7 @@
         </div> -->
 
         <div class="button-wrapper">
-          <button class="form-submit-btn" type="submit">註冊</button>
+          <button class="form-submit-btn" type="submit">登入</button>
         </div>
       </form>
       <div class="other-link-wrapper">

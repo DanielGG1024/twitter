@@ -51,10 +51,11 @@ const routes = [
     name: 'AdminUser',
     component: () => import('../views/AdminUser.vue')
   },
+  
   {
-    path: '/user/self',
-    name: 'userSelf',
-    redirect: '/user/self/tweetList',
+    path: '/user/:id',
+    name: 'user',
+    redirect: '/user/:id/tweetList',
     component: () => import('../views/User.vue'),
     children: [
       {
@@ -76,12 +77,12 @@ const routes = [
     ]
   },
   {
-    path: '/user/self/follower',
+    path: '/user/:id/follower',
     name: 'follower',
     component: () => import('../views/UserFollower.vue')
   },
   {
-    path: '/user/self/following',
+    path: '/user/:id/following',
     name: 'following',
     component: () => import('../views/UserFollowing.vue')
   },
