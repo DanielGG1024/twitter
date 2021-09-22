@@ -1,40 +1,51 @@
 <template>
-  <div
-    v-show="MainTweetPostModalSwitch"
-    @click="clickModalBackground"
-    class="modal-background"
-  >
-    <div class="modal">
-      <div class="modal-header">
-        <div @click="ciickClose" class="close-icon">
-          <img src="../assets/pic/close.png" class="close" alt="" />
+  <transition name="fade">
+    <div
+      v-show="MainTweetPostModalSwitch"
+      @click="clickModalBackground"
+      class="modal-background"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <div @click="ciickClose" class="close-icon">
+            <img src="../assets/pic/close.png" class="close" alt="" />
+          </div>
         </div>
-      </div>
-      <div class="modal-txt">
-        <div class="modal-content-post">
-          <div class="modal-main-tweet">
-            <div class="user-icon-wrapper">
-              <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
+        <div class="modal-txt">
+          <div class="modal-content-post">
+            <div class="modal-main-tweet">
+              <div class="user-icon-wrapper">
+                <img class="user-icon" :src="avatar" alt="" />
+              </div>
+              <div class="modal-main-tweet-txt">
+                <textarea
+                  v-model="teweetContent"
+                  class="modal-textarea"
+                  placeholder="有甚麼新鮮事?"
+                ></textarea>
+                <span class="modal-info" v-show="contentError">
+                  {{ errorContentMessage }}</span
+                >
+              </div>
+              <button
+                @click.prevent.stop="handleSubmit"
+                class="modal-main-tweet-button"
+              >
+                推文
+              </button>
             </div>
-            <div class="modal-main-tweet-txt">
-              <textarea
-                class="modal-textarea"
-                name=""
-                id=""
-                value="hello"
-                placeholder="有甚麼新鮮事?"
-              ></textarea>
-              <span class="modal-info">字數不可超過140字</span>
-            </div>
-            <button class="modal-main-tweet-button">推文</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
+import userAPI from "./../apis/user";
+import tweetAPI from "./../apis/tweet";
+import { Toast } from "./../utils/helpers";
+
 export default {
   name: "MainTweetPostModal",
   props: {
@@ -43,7 +54,32 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      teweetContent: "",
+      contentError: false,
+      errorContentMessage: "",
+      avatar: "",
+    };
+  },
+  created() {
+    this.fetchUser();
+  },
   methods: {
+    async fetchUser() {
+      const userId = localStorage.getItem("userId");
+      try {
+        const response = await userAPI.getUser({ userId });
+        console.log("MainTweetPost", response);
+        const { data } = response;
+        this.avatar = data.avatar;
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得使用者資料,請稍後",
+        });
+      }
+    },
     ciickClose() {
       this.$emit("after-click-close");
     },
@@ -53,6 +89,44 @@ export default {
         this.$emit("after-click-background");
       } else {
         return;
+      }
+    },
+    async handleSubmit() {
+      const tweet = this.teweetContent;
+      if (tweet.trim().length === 0) {
+        this.contentError = true;
+        this.errorContentMessage = "內容不可以空白";
+        return;
+      } else {
+        if (tweet.length > 140) {
+          this.contentError = true;
+          this.errorContentMessage = "字數不可超過140字";
+          return;
+        }
+        this.contentError = false;
+        this.errorContentMessage = "";
+      }
+      try {
+        const data = `{
+          "description":"${tweet}"
+        }`;
+        const data_JSON = JSON.parse(data);
+        const response = await tweetAPI.postTweet({ data_JSON });
+        if (response.data.status !== "success") {
+          throw new Error();
+        }
+        Toast.fire({
+          icon: "success",
+          title: "發送成功!",
+        });
+        this.ciickClose();
+        this.$emit("after-tweet-post");
+        this.teweetContent = "";
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法送出推文,請稍後",
+        });
       }
     },
   },

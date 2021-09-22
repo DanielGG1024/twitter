@@ -14,7 +14,7 @@
           </router-link>
         </li>
         <li class="menu-nav-link">
-          <router-link to="/user" class="menu-link">
+          <router-link to="/user/self" class="menu-link">
             <i class="bx bx-user"></i>
             <span class="menu-link-title"> 個人資料 </span>
           </router-link>
@@ -44,6 +44,7 @@
       :MainTweetPostModalSwitch="MainTweetPostModal"
       @after-click-close="afterClickClose"
       @after-click-background="afterClickClose"
+      @after-tweet-post="afterTweetPost"
     />
   </header>
 </template>
@@ -66,6 +67,9 @@ export default {
     afterClickClose() {
       this.MainTweetPostModal = false;
     },
+    afterTweetPost(){
+      this.$emit('after-tweet-post')
+    }
   },
 };
 </script>

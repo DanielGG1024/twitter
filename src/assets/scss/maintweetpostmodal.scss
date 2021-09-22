@@ -6,12 +6,13 @@
   height: 100vh;
   background-color: rgba(#e5e5e5, 0.7);
   // display: none;
+  z-index: 10;
 }
 .modal {
   /* // width: clamp(300px, 80%, 600px); */
   width: 600px;
   margin: 54px auto 0;
-  background-color: #ffffff;
+  background-color: $white;
   border-radius: 20px;
   z-index: 99;
   position: relative;
@@ -20,7 +21,7 @@
   display: flex;
   align-items: center;
   height: 54px;
-  border-bottom: 1px solid #e6ecf0;
+  border-bottom: 1px solid $tweetListBg;
 }
 .close-icon {
   margin-left: 19px;
@@ -65,9 +66,14 @@
 .modal-info {
   align-self: flex-end;
   margin-right: 20px;
-  color: #fc5a5a;
+  color: $inputerror;
+  // width: 138px;
+  font-size: 15px;
+  margin-top: 3px;
 }
 .user-icon-wrapper {
+  border-radius: 50%;
+  overflow: hidden;
   margin-top: 15px;
   width: 50px;
   height: 50px;
@@ -84,7 +90,7 @@
   /* width: 60%; */
   padding: 10px 0;
   font-weight: 500;
-  color: #ffffff;
+  color: $white;
   border-radius: 30px;
   line-height: 18px;
   width: 66px;
@@ -93,4 +99,24 @@
   &:hover {
     cursor: pointer;
   }
+}
+// vue過場動畫
+.fade-leave {
+  opacity: 1;
+}
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
+.fade-enter-to {
+  opacity: 1;
 }

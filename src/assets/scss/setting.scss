@@ -7,12 +7,12 @@
 .content {
   height: 100vh;
   width: 70%;
-  border-left: 1px solid #e6ecf0;
+  border-left: 1px solid $tweetListBg;
 }
 
 .content-header {
   height: 55px;
-  border-bottom: 1px solid #e6ecf0;
+  border-bottom: 1px solid $tweetListBg;
 }
 
 .title {
@@ -37,20 +37,24 @@
   flex-direction: column;
   border-radius: 4px 4px 0px 0px;
   overflow: hidden;
-  border-bottom: 2px solid #657786;
-  background-color: #f5f8fa;
+  border-bottom: 2px solid $tag;
+  background-color: $popularBg;
   height: 52px;
+  &:hover {
+    border-bottom: 2px solid $inputfocus;
+  }
 }
 .input-wrapper-info {
   height: 32px;
   font-size: 15px;
   font-weight: 500;
-  color: red;
+  color: $inputerror;
   display: flex;
   justify-content: space-between;
+  position: relative;
 }
 .error-info {
-  visibility: hidden;
+  // visibility: hidden;
   font-size: 15px;
   font-weight: 500;
 }
@@ -58,21 +62,29 @@
   // visibility: hidden;
   font-size: 15px;
   font-weight: 500;
-  color: #657786;
+  color: $tag;
+  position: absolute;
+  right: 0px;
+  z-index: 0;
+}
+.error {
+  border-bottom: 2px solid $inputerror;
 }
 .focus {
-  border-bottom: 2px solid blue;
+  border-bottom: 2px solid $inputfocus;
 }
 .input-txt > label {
   font-size: 15px;
   line-height: 15px;
-  color: #657786;
+  color: $tag;
   margin-top: 5px;
   margin-left: 10px;
 }
+input[type="email"],
+input[type="password"],
 input[type="text"] {
   margin-left: 10px;
-  background-color: #f5f8fa;
+  background-color: $popularBg;
   border: none;
   flex: 1;
 }
@@ -88,6 +100,6 @@ input[type="text"] {
   font-weight: 700;
   border: none;
   border-radius: 50px;
-  background-color: #ff6600;
-  color: #ffffff;
+  background-color: $orange;
+  color: $white;
 }
