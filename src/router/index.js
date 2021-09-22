@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import { component } from 'vue/types/umd'
-
+import store from './../store'
 
 
 Vue.use(VueRouter)
@@ -93,14 +93,38 @@ const routes = [
     name: 'Not-found',
     component: () => import('../views/NotFound.vue'),
   },
+<<<<<<< HEAD
   
 
+=======
+>>>>>>> main
 ]
 
 const router = new VueRouter({
   // linkExactActiveClass:'active',
   linkActiveClass: 'active',
   routes
+})
+
+router.beforeEach(async (to, from, next) => {
+  const token = localStorage.getItem('token')
+  let isAuthenticated = false
+  if (token) {                              
+    isAuthenticated = await store.dispatch('fetchCurrentUser')
+  }
+  console.log('isAuthenticated', isAuthenticated)
+  const pathsWithoutAuthentication = ['Regist', 'Login', 'AdminLogin']
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+    console.log('if  isAuthenticated false')
+    next('/login')
+    return
+  }
+  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+    console.log('isAuthenticated ture')
+    next('/main')
+    return
+  }
+  next()
 })
 
 export default router

@@ -32,8 +32,8 @@
         </li>
       </ul>
       <ul class="menu-nav-wrapper">
-        <li class="menu-nav-link">
-          <router-link to="/logout" class="menu-link">
+        <li class="menu-nav-link" @click.prevent.stop="clickLogout">
+          <router-link to="/#" class="menu-link">
             <i class="bx bx-log-out"></i>
             <span class="menu-link-title"> 登出 </span>
           </router-link>
@@ -67,9 +67,14 @@ export default {
     afterClickClose() {
       this.MainTweetPostModal = false;
     },
-    afterTweetPost(){
-      this.$emit('after-tweet-post')
-    }
+    afterTweetPost() {
+      this.$emit("after-tweet-post");
+    },
+    clickLogout() {
+      console.log("logout");
+      this.$store.commit("revokeAuthentication");
+      this.$router.push("/login");
+    },
   },
 };
 </script>
