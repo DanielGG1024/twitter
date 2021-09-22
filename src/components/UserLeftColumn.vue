@@ -8,21 +8,35 @@
 
     <nav class="nav">
       <ul class="nav-items">
-        <li class="nav-item">
-          <img
-            class="icon"
-            src="../assets/pic/icon_index.png"
-            alt="icon-index"
-          />
-          <a href="#" class="nav-link"> 首頁 </a>
+        <li>
+          <router-link :to="{ name: 'main' }" class="nav-item">
+            <img
+              class="icon icon-home"
+              src="../assets/pic/icon_index.png"
+              alt="icon-home"
+            />
+            <div class="nav-link nav-home">首頁</div>
+          </router-link>
         </li>
-        <li class="nav-item">
-          <img class="icon" src="../assets/pic/icon_user.png" alt="icon-user" />
-          <a href="#" class="nav-link"> 個人資料 </a>
+        <li>
+          <router-link class="nav-item" :to="{ name: 'user' }">
+            <img
+              class="icon icon-user"
+              src="../assets/pic/icon_user_orange.png"
+              alt="icon-user"
+            />
+            <div class="nav-link nav-user">個人資料</div>
+          </router-link>
         </li>
-        <li class="nav-item">
-          <img class="icon" src="../assets/pic/icon_cog.png" alt="icon-cog" />
-          <a href="#" class="nav-link"> 設定 </a>
+        <li>
+          <router-link :to="{ name: 'Setting' }" class="nav-item">
+            <img
+              class="icon icon-cog"
+              src="../assets/pic/icon_cog.png"
+              alt="icon-cog"
+            />
+            <div class="nav-link nav-setting">設定</div>
+          </router-link>
         </li>
         <li class="nav-item nav-post">
           <button class="nav-post-btn">推文</button>
@@ -41,6 +55,22 @@
     </ul>
   </header>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      currentPage: "",
+    };
+  },
+  methods: {
+    pageChange(currentPage) {
+      console.log(currentPage);
+      this.$emit("pageChangeClick", currentPage);
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 @import "@/assets/scss/userLeftColumn.scss";

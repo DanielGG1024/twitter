@@ -57,11 +57,47 @@ const routes = [
     name: 'AdminUser',
     component: () => import('../views/AdminUser.vue')
   },
+  
   {
     path: '*',
     name: 'Not-found',
     component: () => import('../views/NotFound.vue'),
   },
+  {
+    path: '/user/:id',
+    name: 'user',
+    redirect: '/user/:id/tweetList',
+    component: () => import('../views/User.vue'),
+    children: [
+      {
+        path: 'tweetList',
+        name: 'tweetList',
+        component: () => import('../components/UserTweetList.vue')
+
+      },
+      {
+        path: 'replies',
+        name: 'replies',
+        component: () => import('../components/UserSelfReply.vue')
+      },
+      {
+        path: 'likes',
+        name: 'likes',
+        component: () => import('../components/UserSelfLike.vue')
+      }
+    ]
+  },
+  {
+    path: '/user/:id/follower',
+    name: 'follower',
+    component: () => import('../views/UserFollower.vue')
+  },
+  {
+    path: '/user/:id/following',
+    name: 'following',
+    component: () => import('../views/UserFollowing.vue')
+  },
+  
 
 ]
 

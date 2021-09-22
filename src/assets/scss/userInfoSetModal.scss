@@ -1,0 +1,126 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(#e5e5e5, 0.7);
+  &-main {
+    width: 600px;
+    height: 657px;
+    margin: 54px auto 0;
+    background-color: $white;
+    border-radius: 14px;
+    z-index: 99;
+    position: relative;
+  }
+  &-header {
+    width: 100%;
+    height: 59px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    .close-icon {
+      width: 15px;
+      height: 15px;
+      margin-left: 15px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+    .title {
+      margin-left: 44.5px;
+      font-size: 19px;
+      font-weight: 700;
+      color: $nameTitle;
+    }
+    .save-submit {
+      position: absolute;
+      right: 15px;
+      width: 66px;
+      height: 28px;
+      border-radius: 100px;
+      color: $white;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 18px;
+      background-color: $orange;
+    }
+  }
+  &-banner {
+    height: 260px;
+    position: relative;
+    .banner {
+      width: 598px;
+      height: 200px;
+      opacity: 0.7;
+    }
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border: 4px $white solid;
+      border-radius: 50%;
+      position: absolute;
+      left: 14px;
+      bottom: 0;
+      opacity: 0.9;
+    }
+
+  }
+  &-content {
+    width: 100%;
+    margin: 0 15px;
+    
+    .name {
+      width: 570px;
+      height: 54px;
+      margin-top: 20px;
+      display: flex;
+
+      background-color: $popularBg;
+      position: relative;
+      border-bottom: 2px $tag solid;
+      font-weight: 500;
+      line-height: 27.12px;
+    }
+    .description {
+      width: 570px;
+      height: 150px;
+      margin-top: 42px;
+      display: flex;
+
+      background-color: $popularBg;
+      position: relative;
+      border-bottom: 2px $tag solid;
+      font-weight: 500;
+      line-height: 27.12px;
+    }
+    .title {
+      position: absolute;
+      top: 5px;
+      left: 15px;
+      font-size: 15px;
+      line-height: 15px;
+      color: $tag;
+
+    }
+
+    .content {
+      resize: none;
+      outline: none;
+      border: none;
+      margin-top: 24px;
+      margin-left: 15px;
+      font-size: 19px;
+      background-color: $popularBg;
+    }
+
+    .footer {
+      position: absolute;
+      right: 0;
+      bottom: -22px;
+      font-size: 15px;
+      color: $tag;
+    }
+  }
+}

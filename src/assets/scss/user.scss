@@ -16,7 +16,8 @@
 
     .menu {
       grid-area: menu;
-      // border: 10px pink solid;
+      position: fixed;
+
     }
 
     .center-column {
@@ -28,8 +29,8 @@
       border-right: 1px $divider solid;
       border-left: 1px $divider solid;
 
-      // overflow-y: hidden;
-      // overflow-x: hidden;
+      // overflow-y: scroll;
+
     }
 
     .popular {
