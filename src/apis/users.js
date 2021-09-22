@@ -2,28 +2,41 @@ import {
   apiHelper
 } from "../utils/helpers";
 // const getToken = () => localStorage.getItem('token')
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTUsImlhdCI6MTYzMjIzNTM5NH0.w188NxpsOVee_129trj30hCUPbFKKeNc_QsWYHnsNT8"
+const getToken = () => localStorage.getItem('token')
 
 export default {
   getCurrentUser() {
     return apiHelper.get(`/get-current-user`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${getToken()}`
       }
     })
   },
-  get({ userId }) {
+  get({
+    userId
+  }) {
     return apiHelper.get(`/users/${userId}`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${getToken()}`
       }
     })
   },
-  getTweets({ userId }) {
+  getTopUsers() {
+    return apiHelper.get('users/top', {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
+  },
+  getUserTweets({
+    userId
+  }) {
     return apiHelper.get(`/users/${userId}/tweets`, {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${getToken()}`
       }
     })
-  },
+  }
+
+
 }

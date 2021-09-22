@@ -18,7 +18,9 @@
 
         <div class="user-self-switch">
           <!-- list-tweet / reply list / like list -->
-          <router-view></router-view>
+          <router-view
+            :tweets = "tweets"
+          ></router-view>
         </div>
       </div>
       <!-- right Column -->
@@ -38,8 +40,11 @@ import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
-import usersAPI from "./../apis/users";
-import { Toast } from "./../utils/helpers";
+// import usersAPI from "./../apis/users";
+// import { Toast } from "./../utils/helpers";
+
+
+
 
 export default {
   name: "User",
@@ -82,37 +87,38 @@ export default {
     };
   },
   created () {
-    const { id: userId } = this.$route.params;
-    this.fetchUser(userId);
+    // const { id: userId } = this.$route.params;
+    // this.fetchTweets();
   },
 
   methods: {
-    async fetchUser({ userId }) {
-      try {
-        const response = await usersAPI.get({ userId });
-        console.log('response', response)
-        this.user = response.data
+    // async fetchUser({ userId }) {
+    //   try {
+    //     const response = await usersAPI.get({ userId });
+    //     console.log('response', response)
+    //     this.user = response.data
         
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法取得個人資料，請稍後再試",
-        });
-      }
-    },
-    async fetchTweets({ userId }) {
-      try {
-        const response = await usersAPI.getTweets({ userId });
-        console.log('response', response)
+    //   } catch (error) {
+    //     Toast.fire({
+    //       icon: "error",
+    //       title: "無法取得個人資料，請稍後再試",
+    //     });
+    //   }
+    // },
+    // async fetchTweets() {
+    //   try {
+    //     // const response = await usersAPI.getTweets({ userId });
+    //     // console.log('response', response)
 
-        this.tweets = response.data
-      } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法取得 Tweets資料，請稍後再試",
-        });
-      }
-    },
+    //     this.tweets = dummyTweets
+    //   } catch (error) {
+    //     Toast.fire({
+    //       icon: "error",
+    //       title: "無法取得 Tweets資料，請稍後再試",
+    //     });
+    //   }
+    // },
+    
     clickSetModal() {
       this.UserInfoSetModal = true;
     },

@@ -119,7 +119,8 @@ export default {
         localStorage.setItem("token", data.token);
         this.$store.commit("setCurrentUser", data.user);
         this.$router.push("/main");
-      } catch {
+      } catch (error){
+        console.log(error)
         Toast.fire({
           icon: "warning",
           title: "請輸入正確帳號與密碼",

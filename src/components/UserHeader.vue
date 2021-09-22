@@ -1,6 +1,6 @@
 <template>
   <div id="center-column-header">
-    <router-link :to="{ name: 'main' }">
+    <router-link :to="{ name: 'Main' }">
       <img class="icon" src="../assets/pic/arrow.png" alt="arrow-icon" />
     </router-link>
     <div class="header-info">

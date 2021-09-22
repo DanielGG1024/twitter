@@ -14,7 +14,7 @@
         <MainTweets 
         :allTweets="allTweets"
         @after-tweetReply-post="afterTweetPost"
-         />
+        />
         <!-- @after-click-chat-btn="openReplyModal" -->
       </main>
       <Popular /> 

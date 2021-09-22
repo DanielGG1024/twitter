@@ -9,7 +9,7 @@
     <nav class="nav">
       <ul class="nav-items">
         <li>
-          <router-link :to="{ name: 'main' }" class="nav-item">
+          <router-link :to="{ name: 'Main' }" class="nav-item">
             <img
               class="icon icon-home"
               src="../assets/pic/icon_index.png"

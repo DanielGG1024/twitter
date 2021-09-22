@@ -33,11 +33,6 @@ const routes = [
     component: () => import('../views/Reply.vue')
   },
   {
-    path: '/user/self',
-    name: 'user',
-    component: () => import('../views/User.vue')
-  },
-  {
     path: '/setting',
     name: 'Setting',
     component: () => import('../views/Setting.vue')
@@ -58,11 +53,7 @@ const routes = [
     component: () => import('../views/AdminUser.vue')
   },
   
-  {
-    path: '*',
-    name: 'Not-found',
-    component: () => import('../views/NotFound.vue'),
-  },
+  
   {
     path: '/user/:id',
     name: 'user',
@@ -96,6 +87,11 @@ const routes = [
     path: '/user/:id/following',
     name: 'following',
     component: () => import('../views/UserFollowing.vue')
+  },
+  {
+    path: '*',
+    name: 'Not-found',
+    component: () => import('../views/NotFound.vue'),
   },
   
 
