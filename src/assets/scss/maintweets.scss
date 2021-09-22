@@ -1,13 +1,17 @@
 a {
     text-decoration: none;
-    color: black;
+    color: $nameTitle;
 }
 .onetweet-user-icon-wrapper {
+    border-radius: 50%;
+    overflow: hidden;
     margin-top: 5px;
     width: 50px;
     height: 50px;
 }
 .user-icon-wrapper {
+    border-radius: 50%;
+    overflow: hidden;
     width: 50px;
     height: 50px;
 }
@@ -30,9 +34,9 @@ a {
     height: 145px;
     padding: 10px;
     display: flex;
-    border-left: 1px solid #e6ecf0;
-    border-right: 1px solid #e6ecf0;
-    border-bottom: 1px solid #e6ecf0;
+    border-left: 1px solid $tweetListBg;
+    border-right: 1px solid $tweetListBg;
+    border-bottom: 1px solid $tweetListBg;
 }
 .onetweet-txt-wrapper {
     font-weight: 500;
@@ -53,11 +57,11 @@ a {
 }
 .user-info {
     margin-left: 5px;
-    color: #657786;
+    color: $tag;
 }
 .user-link {
     text-decoration: none;
-    color: #657786;
+    color: $tag;
 }
 .user-link-time {
     font-style: 15px;
@@ -94,5 +98,5 @@ a {
     font-size: 13px;
     font-weight: 500;
     line-height: 18px;
-    color: #657786;
+    color: $tag;
 }

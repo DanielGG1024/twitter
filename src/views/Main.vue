@@ -1,23 +1,24 @@
 <template>
   <div class="main">
     <div class="main-container">
-      <Menu />
+      <Menu 
+      @after-tweet-post="afterTweetPost"
+      />
       <main class="content">
         <div class="content-post">
           <div class="content-header">
             <span class="title">首頁</span>
           </div>
-          <MainTweetPost />
+          <MainTweetPost @after-tweet-post="afterTweetPost" />
         </div>
-        <MainTweets @after-click-chat-btn="openReplyModal" />
+        <MainTweets 
+        :allTweets="allTweets"
+        @after-tweetReply-post="afterTweetPost"
+         />
+        <!-- @after-click-chat-btn="openReplyModal" -->
       </main>
-      <Popular />
+      <Popular /> 
     </div>
-    <ReplyModal
-      :ReplyModalSwitch="ReplyModal"
-      @after-click-close="afterClickClose"
-      @after-click-background="afterClickClose"
-    />
   </div>
 </template>
 <script>
@@ -26,7 +27,8 @@ import Popular from "./../components/Popular";
 import MainTweetPost from "./../components/MainTweetPost";
 import MainTweets from "./../components/MainTweets";
 
-import ReplyModal from "./../components/ReplyModal";
+import { Toast } from "./../utils/helpers";
+import getTweetsAPI from "./../apis/tweet";
 export default {
   namd: "main",
   components: {
@@ -34,26 +36,38 @@ export default {
     Popular,
     MainTweetPost,
     MainTweets,
-    ReplyModal,
+    // ReplyModal,
   },
   data() {
     return {
-      ReplyModal: false,
+      allTweets: [],
+      tweet: {},
     };
   },
+  created() {
+    this.fetchTweets();
+  },
   methods: {
-    afterClickClose() {
-      console.log("after-click-close");
-      this.ReplyModal = false;
+    async fetchTweets() {
+      try {
+        const response = await getTweetsAPI.getTweets();
+        const { data } = response;
+        console.log(data);
+        this.allTweets = data;
+      } catch {
+        Toast.fire({
+          icon: "warning",
+          title: "tweets錯誤唷",
+        });
+      }
     },
-    openReplyModal() {
-      this.ReplyModal = true;
-      console.log("this.ReplyModal = true");
+    afterTweetPost() {
+      this.fetchTweets()
     },
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .main-container {
   min-width: 100vh;
   min-height: 100vh;
@@ -69,12 +83,12 @@ export default {
 .content-post {
   height: 175px;
   width: 100%;
-  border-bottom: 10px solid #e6ecf0;
+  border-bottom: 10px solid $tweetListBg;
 }
 
 .content-header {
   height: 55px;
-  border: 1px solid #e6ecf0;
+  border: 1px solid $tweetListBg;
 }
 
 .title {

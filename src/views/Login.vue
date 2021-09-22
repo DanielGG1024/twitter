@@ -7,54 +7,53 @@
       <h2 class="header-title">登入 Alphitter</h2>
     </div>
     <div class="login-form">
-      <form action="" class="login">
+      <form @submit.prevent.stop="handleSubmit" action="" class="login">
         <div class="input-wrapper">
-          <div class="input-txt">
+          <div
+            class="input-txt"
+            :class="{ error: accountError, focus: showAccountFocus }"
+          >
             <label for="account">帳號 </label>
             <input
-              @focus="addFocus"
-              @blur="removeFocus"
+              @focus="addFocusAccount"
+              @blur="removeFocusAccount"
+              v-model="account"
+              maxlength="20"
               type="text"
               name="account"
               id="account"
             />
           </div>
           <div class="input-wrapper-info">
-            <div class="error-info">帳號錯誤</div>
+            <div class="error-info" v-show="accountError">帳號不能為空</div>
             <div class="amount">5/50</div>
           </div>
         </div>
-
         <div class="input-wrapper">
-          <div class="input-txt">
+          <div
+            class="input-txt"
+            :class="{
+              error: PasswordError,
+              focus: showPasswordFocus,
+            }"
+          >
             <label for="password">密碼 </label>
             <input
-              @focus="addFocus"
-              @blur="removeFocus"
-              type="text"
+              @focus="addFocusPassword"
+              @blur="removeFocusPassword"
+              v-model="password"
+              type="password"
               name="password"
               id="password"
             />
           </div>
           <div class="input-wrapper-info">
-            <div class="error-info">密碼錯誤</div>
+            <div class="error-info" v-show="PasswordError">密碼不能為空</div>
             <div class="amount">5/50</div>
           </div>
         </div>
-        <!-- 
-        <div class="input-wrapper">
-          <label for="password">密碼</label>
-          <input
-            @focus="addFocus"
-            @blur="removeFocus"
-            type="text"
-            name="name"
-            id="password"
-          />
-        </div> -->
-
         <div class="button-wrapper">
-          <button class="form-submit-btn" type="submit">註冊</button>
+          <button class="form-submit-btn" type="submit">登入</button>
         </div>
       </form>
       <div class="other-link-wrapper">
@@ -66,15 +65,66 @@
   </div>
 </template>
 <script>
+import { Toast } from "../utils/helpers";
+import authorizationAPI from "./../apis/authorization";
 export default {
+  data() {
+    return {
+      account: "",
+      password: "",
+      accountError: false,
+      PasswordError: false,
+      showAccountFocus: false,
+      showPasswordFocus: false,
+    };
+  },
   methods: {
-    addFocus(e) {
-      const target = e.target;
-      target.parentNode.classList.add("focus");
+    addFocusAccount() {
+      this.showAccountFocus = true;
     },
-    removeFocus(e) {
-      const target = e.target;
-      target.parentNode.classList.remove("focus");
+    removeFocusAccount() {
+      this.showAccountFocus = false;
+    },
+    addFocusPassword() {
+      this.showPasswordFocus = true;
+    },
+    removeFocusPassword() {
+      this.showPasswordFocus = false;
+    },
+    async handleSubmit() {
+      try {
+        const account = this.account.trim();
+        const password = this.password.trim();
+        if (account === "") {
+          this.accountError = true;
+        } else {
+          this.accountError = false;
+        }
+        if (password === "") {
+          this.PasswordError = true;
+        } else {
+          this.PasswordError = false;
+        }
+        if (this.accountError || this.PasswordError) return;
+        const response = await authorizationAPI.logIn({
+          email: this.account,
+          password: this.password,
+        });
+        console.log(response);
+        const { data } = response;
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        localStorage.setItem('userId',data.user.id)
+        localStorage.setItem("token", data.token);
+        this.$store.commit("setCurrentUser", data.user);
+        this.$router.push("/main");
+      } catch {
+        Toast.fire({
+          icon: "warning",
+          title: "請輸入正確帳號與密碼",
+        });
+      }
     },
   },
 };

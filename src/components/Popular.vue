@@ -4,46 +4,30 @@
       <div class="popular-title-wrapper">
         <div class="title">Popular</div>
       </div>
-      <div class="one-popular-wrapper">
+      <div v-for="user in users" :key="user.id" class="one-popular-wrapper">
         <div class="one-popular">
           <div class="user-icon-wrapper">
-            <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
+            <img class="user-icon" :src="user.avatar" alt="" />
           </div>
           <div class="popular-txt">
-            <span class="popular-title">Pizza Hut</span>
-            <a class="popular-link" href="">@pizzahut</a>
+            <span class="popular-title">{{ user.name }}</span>
+            <a class="popular-link" href="">@{{ user.account }}</a>
           </div>
           <div class="popular-follow">
-            <button class="popular-follow-btn btn-active">正在跟隨</button>
-            <!-- <button class="popular-follow-btn ">跟隨</button> -->
-          </div>
-        </div>
-      </div>
-      <div class="one-popular-wrapper">
-        <div class="one-popular">
-          <div class="user-icon-wrapper">
-            <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
-          </div>
-          <div class="popular-txt">
-            <span class="popular-title">Pizza Hut</span>
-            <a class="popular-link" href="">@pizzahut</a>
-          </div>
-          <div class="popular-follow">
-            <button class="popular-follow-btn">跟隨</button>
-          </div>
-        </div>
-      </div>
-      <div class="one-popular-wrapper">
-        <div class="one-popular">
-          <div class="user-icon-wrapper">
-            <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
-          </div>
-          <div class="popular-txt">
-            <span class="popular-title">Pizza Hut</span>
-            <a class="popular-link" href="">@pizzahut</a>
-          </div>
-          <div class="popular-follow">
-            <button class="popular-follow-btn">跟隨</button>
+            <button
+              v-if="user.isFollowed"
+              @click.prevent.stop="deleteFollow(user.id)"
+              class="popular-follow-btn btn-active"
+            >
+              正在跟隨
+            </button>
+            <button
+              v-else
+              class="popular-follow-btn"
+              @click.prevent.stop="addFollow(user.id)"
+            >
+              跟隨
+            </button>
           </div>
         </div>
       </div>
@@ -51,13 +35,75 @@
   </div>
 </template>
 <script>
-
-export default ({
-  name:'Popular',
-})
+import { Toast } from "./../utils/helpers";
+import tweetAPI from "./../apis/tweet";
+export default {
+  name: "Popular",
+  data() {
+    return {
+      isFollow: true,
+      users: "",
+    };
+  },
+  created() {
+    this.fetchTopUsers();
+  },
+  methods: {
+    async deleteFollow(userId) {
+      this.isFollow = false;
+      try {
+        const response = await tweetAPI.removeFollow({ userId });
+        console.log("response delete follow", response);
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法取消追蹤使用者,請稍後",
+        });
+      }
+    },
+    async addFollow(userId) {
+      const data = `{
+        "id":"${userId}"
+      }`;
+      const data_JSON = JSON.parse(data);
+      try {
+        const response = await tweetAPI.addFollow({ data_JSON });
+        console.log("popular response", response);
+        // this.users = this.users.forEach((item) => {
+        //   console.log("foreach");
+        //   if (item.id === userId) {
+        //     ...item,
+        //     item.isFollowed: true
+        //   }else{
+        //     ...item
+        //   }
+        
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法追蹤使用者,請稍後",
+        });
+      }
+      this.isFollow = true;
+    },
+    async fetchTopUsers() {
+      try {
+        const response = await tweetAPI.getTopUser();
+        console.log("popular response", response);
+        const { data } = response;
+        console.log("popular data", data);
+        this.users = data;
+      } catch {
+        Toast.fire({
+          icon: "warning",
+          title: "無法取得前十",
+        });
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 @import "./../assets/scss/popular.scss";
-
 </style>

@@ -9,12 +9,8 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    redirect: { name: 'main' }
-  },
-  {
-    path: '/main',
-    name: 'main',
-    component: () => import('../views/Main.vue')
+    name: 'root',
+    redirect: { name: 'Login' }
   },
   {
     path: '/login',
@@ -27,9 +23,19 @@ const routes = [
     component: () => import('../views/Regist.vue')
   },
   {
-    path: '/main/reply',
+    path: '/main',
+    name: 'Main',
+    component: () => import('../views/Main.vue')
+  },
+  {
+    path: '/main/reply/:id',
     name: 'Reply',
     component: () => import('../views/Reply.vue')
+  },
+  {
+    path: '/user/self',
+    name: 'user',
+    component: () => import('../views/User.vue')
   },
   {
     path: '/setting',
@@ -52,13 +58,15 @@ const routes = [
     component: () => import('../views/AdminUser.vue')
   },
   {
-    path: '/user/self',
-    name: 'user',
-    component: () => import('../views/User.vue')
-  }
+    path: '*',
+    name: 'Not-found',
+    component: () => import('../views/NotFound.vue'),
+  },
+
 ]
 
 const router = new VueRouter({
+  // linkExactActiveClass:'active',
   linkActiveClass: 'active',
   routes
 })
