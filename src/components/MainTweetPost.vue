@@ -1,7 +1,7 @@
 <template>
   <div class="main-tweet">
     <div class="user-icon-wrapper">
-      <img class="user-icon" :src="avatar" alt="" />
+      <img class="user-icon" :src="currentUser.avatar" alt="" />
     </div>
     <textarea
       class="main-tweet-txt"
@@ -14,12 +14,13 @@
     <button @click.prevent.stop="handleSubmit" class="main-tweet-button">
       推文
     </button>
+    <p></p>
   </div>
 </template>
 <script lang="ts">
 import { Toast } from "./../utils/helpers";
 import tweetAPI from "./../apis/tweet";
-import userAPI from "./../apis/user";
+// import userAPI from "./../apis/user";
 import { mapState } from "vuex";
 export default {
   name: "MainTweetPost",
@@ -32,24 +33,8 @@ export default {
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
-  created() {
-    this.fetchUser();
-  },
+  created() {},
   methods: {
-    async fetchUser() {
-      const userId = localStorage.getItem("userId");
-      try {
-        const response = await userAPI.getUser({ userId });
-        console.log("MainTweetPost", response);
-        const { data } = response;
-        this.avatar = data.avatar;
-      } catch {
-        Toast.fire({
-          icon: "error",
-          title: "無法取得使用者資料,請稍後",
-        });
-      }
-    },
     async handleSubmit() {
       const tweet = this.mainTweetPost;
       if (tweet.trim().length < 1) {

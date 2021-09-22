@@ -15,7 +15,7 @@
           <div class="modal-content-post">
             <div class="modal-main-tweet">
               <div class="user-icon-wrapper">
-                <img class="user-icon" :src="avatar" alt="" />
+                <img class="user-icon" :src="currentUser.avatar" alt="" />
               </div>
               <div class="modal-main-tweet-txt">
                 <textarea
@@ -42,10 +42,10 @@
 </template>
 
 <script>
-import userAPI from "./../apis/user";
+// import userAPI from "./../apis/user";
 import tweetAPI from "./../apis/tweet";
 import { Toast } from "./../utils/helpers";
-
+import { mapState } from "vuex";
 export default {
   name: "MainTweetPostModal",
   props: {
@@ -62,24 +62,10 @@ export default {
       avatar: "",
     };
   },
-  created() {
-    this.fetchUser();
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
   },
   methods: {
-    async fetchUser() {
-      const userId = localStorage.getItem("userId");
-      try {
-        const response = await userAPI.getUser({ userId });
-        console.log("MainTweetPost", response);
-        const { data } = response;
-        this.avatar = data.avatar;
-      } catch {
-        Toast.fire({
-          icon: "error",
-          title: "無法取得使用者資料,請稍後",
-        });
-      }
-    },
     ciickClose() {
       this.$emit("after-click-close");
     },
