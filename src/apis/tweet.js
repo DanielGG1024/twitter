@@ -49,7 +49,7 @@ export default {
     })
   },
   removeFollow({ userId }) {
-    return apiHelper.delete(`/followships/${userId}`, {
+    return apiHelper.delete(`followships/${userId}`, {
       headers: { Authorization: `Bearer ${getToken()}` }
     })
   },

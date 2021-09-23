@@ -33,7 +33,6 @@ export default {
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
-  created() {},
   methods: {
     async handleSubmit() {
       const tweet = this.mainTweetPost;

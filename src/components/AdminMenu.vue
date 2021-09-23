@@ -21,8 +21,8 @@
         </li>
       </ul>
       <ul class="menu-nav-wrapper">
-        <li class="menu-nav-link">
-          <router-link to="/logout" class="menu-link">
+        <li @click.prevent.stop="clickLogout" class="menu-nav-link">
+          <router-link to="/#" class="menu-link">
             <i class="bx bx-log-out"></i>
             <span class="menu-link-title"> 登出 </span>
           </router-link>
@@ -31,6 +31,17 @@
     </nav>
   </header>
 </template>
+<script>
+export default {
+  methods: {
+    clickLogout() {
+      // console.log("logout");
+      this.$store.commit("revokeAuthentication");
+      this.$router.push("/login");
+    },
+  },
+};
+</script>
 
 <style scoped lang="scss">
 @import "./../assets/scss/adminmenu.scss";

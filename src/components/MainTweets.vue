@@ -2,21 +2,21 @@
   <div class="tweets scrollbar">
     <div v-for="tweet in allTweets" :key="tweet.TweetId" class="onetweet">
       <div class="onetweet-user-icon-wrapper">
-        <!-- <router-link :to="{ name: 'Reply', params: { id: tweet.tweetId } }"> -->
-        <img class="user-icon" :src="tweet.User.avatar" alt="" />
-        <!-- </router-link> -->
+        <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
+          <img class="user-icon" :src="tweet.User.avatar" alt="" />
+        </router-link>
       </div>
       <div class="onetweet-txt-wrapper">
         <div class="onetweet-txt-header">
-          <!-- <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }"> -->
-          <span class="user-title">{{ tweet.User.name }}</span>
-          <span class="user-info">
-            <a href="#" class="user-link"> {{ tweet.User.account }}</a>
-            <span class="user-link-time"
-              >．{{ tweet.createdAt | fromNow }}</span
-            >
-          </span>
-          <!-- </router-link> -->
+          <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
+            <span class="user-title">{{ tweet.User.name }}</span>
+            <span class="user-info">
+              <a href="#" class="user-link"> {{ tweet.User.account }}</a>
+              <span class="user-link-time"
+                >．{{ tweet.createdAt | fromNow }}</span
+              >
+            </span>
+          </router-link>
         </div>
         <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
           <div class="onetweet-txt">
@@ -86,7 +86,6 @@ export default {
       this.tweet = this.allTweets.find((item) => item.TweetId === tweetId);
     },
     afterClickClose() {
-      console.log("after-click-close");
       this.ReplyModal = false;
     },
     afterTweetReplyPost() {
