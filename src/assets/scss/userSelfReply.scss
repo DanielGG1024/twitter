@@ -1,7 +1,8 @@
 #self-reply-list {
   width: 600px;
   height: 699px;
-  overflow-y: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
   .reply {
     width: 600px;
     height: 130px;

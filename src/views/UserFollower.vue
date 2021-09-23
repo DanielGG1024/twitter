@@ -7,17 +7,18 @@
       <!-- center column -->
       <div id="center-column" class="center-column">
         <!-- header -->
-        <UserHeader />
+        <UserHeader :user="user" />
 
         <!-- follower/following -->
         <UserFollowTab />
-        <UserFollower />
-
-
-
+        <UserFollower
+          :initialFollowers="followers"
+          @after-follow-click="addFollow"
+          @after-remove-follow="removeFollow"
+        />
       </div>
       <!-- right Column -->
-      <UserRightColumn />
+      <Popular />
     </div>
   </div>
 </template>
@@ -25,18 +26,118 @@
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
-import UserRightColumn from "../components/UserRightColumn.vue";
-import UserFollowTab from "../components/UserFollowTab.vue"
-import UserFollower from "../components/UserFollower.vue"
+import Popular from "../components/UserRightColumn.vue";
+import UserFollowTab from "../components/UserFollowTab.vue";
+import UserFollower from "../components/UserFollower.vue";
+import usersAPI from "../apis/users";
+import tweetAPI from "../apis/tweet";
+import { Toast } from "./../utils/helpers";
 
 export default {
+  data() {
+    return {
+      userId: Number(this.$route.params.id),
+      user: {},
+      followers: [],
+    };
+  },
   components: {
     UserLeftColumn,
     UserHeader,
-    UserRightColumn,
+    Popular,
     UserFollowTab,
     UserFollower,
+  },
+  created() {
+    this.fetchFollower(this.userId);
+    this.fetchUserInfo(this.userId);
+  },
+  watch: {
+    followers: {
+      handler: function () {
+        this.fetchFollower(this.userId);
+      },
+      deep: true,
+    },
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log(to, from);
+    // 路由改變時重新抓取資料
+    const { id } = to.params;
+    this.fetchFollower(id);
+    next();
+  },
 
+  methods: {
+    async fetchFollower(userId) {
+      try {
+        const { data } = await usersAPI.getUserFollowers({ userId });
+        // console.log('123', data)
+        this.followers = data;
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取得個人資料，請稍後再試",
+        });
+      }
+    },
+    async fetchUserInfo(userId) {
+      try {
+        const { data } = await usersAPI.get({ userId });
+        // console.log('123', data)
+        this.user = data;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得個人資料，請稍後再試",
+        });
+      }
+    },
+    async addFollow(userId) {
+      const data = `{
+        "id":"${userId}"
+      }`;
+      const data_JSON = JSON.parse(data);
+      try {
+        const response = await tweetAPI.addFollow({ data_JSON });
+        console.log("popular response", response);
+
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法追蹤使用者,請稍後",
+        });
+      }
+    },
+
+    async removeFollow(userId) {
+      console.log(userId);
+      try {
+        const response = await tweetAPI.removeFollow({ userId });
+        console.log("reponse", response);
+        const { data } = response;
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        this.followers = this.followers.map((follower) => {
+          if (follower.id !== userId) {
+            return follower;
+          }
+          return {
+            ...follower,
+            isfollowered: false,
+          };
+        });
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取消喜歡,請稍後在試",
+        });
+      }
+    },
   },
 };
 </script>
@@ -46,7 +147,7 @@ export default {
 .window {
   width: 1440px;
   height: 1200px;
-  border: 1px purple solid;
+  // border: 1px purple solid;
   margin: auto;
 }
 @import "@/assets/scss/user.scss";

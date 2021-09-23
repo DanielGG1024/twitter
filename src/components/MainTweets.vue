@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     clickChatBtn(tweetId) {
-      console.log("asdf");
+      // console.log("asdf");
       this.ReplyModal = true;
       this.tweet = this.allTweets.find((item) => item.TweetId === tweetId);
     },

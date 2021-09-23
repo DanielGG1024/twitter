@@ -5,7 +5,7 @@
     </router-link>
     <div class="header-info">
       <div class="user-name">{{ user.name }}</div>
-      <div class="user-tweets">{{ user.tweetsCount }}推文</div>
+      <div class="user-tweets">{{ user.tweetsCount }} 推文</div>
     </div>
   </div>
 </template>
@@ -18,6 +18,7 @@ export default {
       reqiured: true,
     },
   },
+  
 };
 </script>
 

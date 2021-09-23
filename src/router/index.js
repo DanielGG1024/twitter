@@ -51,7 +51,7 @@ const routes = [
     path: '/adminUser',
     name: 'AdminUser',
     component: () => import('../views/AdminUser.vue')
-  },
+  },  
   
   
   {
@@ -93,11 +93,6 @@ const routes = [
     name: 'Not-found',
     component: () => import('../views/NotFound.vue'),
   },
-<<<<<<< HEAD
-  
-
-=======
->>>>>>> main
 ]
 
 const router = new VueRouter({

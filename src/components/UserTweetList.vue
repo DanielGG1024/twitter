@@ -8,10 +8,11 @@
         <div class="tweet-user-info">
           <div class="name">{{ tweet.user.name }}</div>
           <div class="account">
-            @{{ tweet.user.account }}<span>‧{{ tweet.updatedAt | fromNow }}小時</span>
+            @{{ tweet.user.account
+            }}<span>‧{{ tweet.updatedAt | fromNow }}</span>
           </div>
         </div>
-        <div class="tweet-content">
+        <div class="tweet-content scrollbar">
           {{ tweet.description }}
         </div>
         <div class="tweet-status">
@@ -31,16 +32,11 @@
 
 <script>
 import { fromNowFilter } from "./../utils/mixins";
-import usersAPI from "./../apis/users"
+import usersAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
-  // props: {
-  //   tweets: {
-  //     type: Array,
-  //     required: true,
-  //   }
-  // }
   mixins: [fromNowFilter],
   data() {
     return {
@@ -51,27 +47,30 @@ export default {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
   created() {
-    this.fetchUserTweets(4)
+    const { id: userId } = this.$route.params;
+    this.fetchUserTweets(userId);
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log(to, from);
+    // 路由改變時重新抓取資料
+    const { id } = to.params;
+    this.fetchUserTweets(id);
+    next();
   },
 
   methods: {
     async fetchUserTweets(userId) {
-      const response = await usersAPI.getUserTweets({ userId })
-      console.log(response)
-      console.log(this.currentUser)
-
-
-
-      // const { id, description, updatedAt, replyCount, likeCount } = dummyTweets;
-      // this.tweets = {
-      //   id,
-      //   description,
-      //   updatedAt,
-      //   replyCount,
-      //   likeCount,
-      // };
+      try {
+        const { data } = await usersAPI.getUserTweets({ userId });
+        // console.log('this', data)
+        this.tweets = data;
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "無法取得推文，請稍後再試",
+        });
+      }
     },
-
   },
 };
 </script>

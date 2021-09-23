@@ -1,7 +1,7 @@
 #self-like-list {
   width: 600px;
   height: 699px;
-  overflow-y: hidden;
+  overflow-y: scroll;
   .like {
     width: 600px;
     height: 144px;
@@ -10,6 +10,7 @@
     
     .avatar {
       width: 75px;
+      border-radius: 50%;
 
       .avatar-img {
         width: 50px;

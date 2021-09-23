@@ -39,6 +39,7 @@ export default {
     clickSetInfoModal() {
       this.$emit("after-click-setInfoBtn");
     },
+
   },
 };
 </script>

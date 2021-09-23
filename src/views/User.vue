@@ -2,33 +2,30 @@
   <div class="window demo">
     <div class="user">
       <!-- left Column -->
-      <UserLeftColumn />
+      <UserLeftColumn :user="user" />
 
       <!-- center column -->
       <div id="center-column" class="center-column">
-        <UserHeader :user = "user" />
+        <UserHeader :user="user" />
 
         <div class="user-self">
-          <UserInfo 
-            @after-click-setInfoBtn="clickSetModal"
-            :user = "user" 
-          />
+          <UserInfo @after-click-setInfoBtn="clickSetModal" :user="user" />
           <UserTab />
         </div>
 
         <div class="user-self-switch">
           <!-- list-tweet / reply list / like list -->
-          <router-view
-            :tweets = "tweets"
-          ></router-view>
+          <router-view class="scrollbar"></router-view>
         </div>
       </div>
       <!-- right Column -->
-      <UserRightColumn />
+      <Popular />
     </div>
     <UserInfoSetModal
       :UserInfoSetModalSwitch="UserInfoSetModal"
       @after-click-close="afterClickClose"
+      :initial-user="user"
+      @after-submit="handleAfterSubmit"
     />
   </div>
 </template>
@@ -38,13 +35,11 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
-import UserRightColumn from "../components/UserRightColumn.vue";
+import Popular from "../components/UserRightColumn.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
-// import usersAPI from "./../apis/users";
-// import { Toast } from "./../utils/helpers";
-
-
-
+import { mapState } from "vuex";
+import usersAPI from "./../apis/users";
+import { Toast } from "./../utils/helpers";
 
 export default {
   name: "User",
@@ -53,77 +48,79 @@ export default {
     UserHeader,
     UserInfo,
     UserTab,
-    UserRightColumn,
+    Popular,
     UserInfoSetModal,
   },
   data() {
     return {
       UserInfoSetModal: false,
-      user: {
-        id: 15,
-        name: "user1",
-        avatar:
-          "https://loremflickr.com/320/240/restaurant,food/?random=19.361911130881502",
-        introduction:   "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo, sed.",
-        account: "user1",
-        cover:
-          "https://images.unsplash.com/photo-1631291944493-9fc60898569c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=667&q=80",
-        role: "user",
-        tweetsCount: 44,
-        followersCount: 1,
-        followingsCount: 5,
-        Tweets: [
-          {
-            id: 105,
-            UserId: 15,
-            description:
-              "Consequatur consectetur praesentium minus. Totam molestias repellat. Sunt culpa veniam.",
-            createdAt: "2021-09-18T09:19:58.000Z",
-            updatedAt: "2021-09-18T09:19:58.000Z",
-          },
-        ],
-      },
-      tweets: [],
+      userId: Number(this.$route.params.id),
+      user: {},
+      currentUserId: -1,
     };
   },
-  created () {
-    // const { id: userId } = this.$route.params;
-    // this.fetchTweets();
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
+  },
+  created() {
+    const { id: userId } = this.$route.params;
+    // console.log("user.router",userId);
+    this.fetchUserInfo(userId);
+    // console.log("user.loginUser", this.currentUser.id);
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log(to, from);
+    // 路由改變時重新抓取資料
+    const { id } = to.params;
+    console.log("beforeRU", id)
+    this.fetchUserInfo(id);
+    this.changeCurrentUserId(this.currentUser.id);
+    next();
   },
 
   methods: {
-    // async fetchUser({ userId }) {
-    //   try {
-    //     const response = await usersAPI.get({ userId });
-    //     console.log('response', response)
-    //     this.user = response.data
-        
-    //   } catch (error) {
-    //     Toast.fire({
-    //       icon: "error",
-    //       title: "無法取得個人資料，請稍後再試",
-    //     });
-    //   }
-    // },
-    // async fetchTweets() {
-    //   try {
-    //     // const response = await usersAPI.getTweets({ userId });
-    //     // console.log('response', response)
+    async fetchUserInfo(userId) {
+      try {
+        const { data } = await usersAPI.get({ userId });
+        // console.log('123', data)
+        this.user = data;
+      } catch (error) {
+        console.log("error", error)
+        Toast.fire({
+          icon: "error",
+          title: "無法取得個人資料，請稍後再試",
+        });
+      }
+    },
+    changeCurrentUserId(userId) {
+      this.currentUserId = userId
+    },
 
-    //     this.tweets = dummyTweets
-    //   } catch (error) {
-    //     Toast.fire({
-    //       icon: "error",
-    //       title: "無法取得 Tweets資料，請稍後再試",
-    //     });
-    //   }
-    // },
-    
     clickSetModal() {
       this.UserInfoSetModal = true;
     },
     afterClickClose() {
       this.UserInfoSetModal = false;
+    },
+    async handleAfterSubmit(formData) {
+    try{
+      const {data} = await usersAPI.update({
+        userId: this.user.id,
+        formData
+      })
+
+      if (data.status !== 'success') {
+        throw new Error (data.message)
+      }
+
+      this.$router.push({ name: `user/${this.currentUser.id}` })
+
+    }catch(error) {
+      Toast.fire({
+        icon: 'error',
+        title: "無法更新個人資料，請稍後再試"
+      })
+    }
     },
   },
 };
@@ -134,7 +131,7 @@ export default {
 .window {
   width: 1440px;
   height: 1200px;
-  border: 1px purple solid;
+  // border: 1px purple solid;
   margin: auto;
 }
 @import "@/assets/scss/user.scss";

@@ -1,9 +1,12 @@
 .popular {
   position: relative;
   margin-top: 15px;
-  height: 756px;
   background-color: $popularBg;
   border-radius: 14px;
+  height: 400px ;
+  max-height: 756px;
+  display: flex;
+  flex-direction: column;
   
   &-header {
     height: 45px;
@@ -36,6 +39,10 @@
       height: 50px;
       background-color: #c4c4c4;
       border-radius: 50%;
+      img{
+        border-radius: 50%;
+        background-color: $emptyBg;
+      }
     }
 
   }

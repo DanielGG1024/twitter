@@ -50,11 +50,32 @@
   &-banner {
     height: 260px;
     position: relative;
+    .banner-container {
+      background-color: $emptyBg;
+    }
+
     .banner {
       width: 598px;
       height: 200px;
       opacity: 0.7;
+      
     }
+    .banner-btn-group {
+      // border: 3px red solid;
+      width: 80px;
+      position: absolute;
+      top: 88px;
+      right: 260px;
+      display: flex;
+      justify-content: space-between;
+
+    }
+    .change-btn {
+      width: 24px;
+      height: 24px;
+    }
+    
+
     .avatar {
       width: 120px;
       height: 120px;
@@ -64,6 +85,11 @@
       left: 14px;
       bottom: 0;
       opacity: 0.9;
+    }
+    .avatar-change{
+      position: absolute;
+      top: 188px;
+      left: 62px;
     }
 
   }
@@ -114,6 +140,11 @@
       font-size: 19px;
       background-color: $popularBg;
     }
+
+    .introduction {
+      display: flex;
+    }
+
 
     .footer {
       position: absolute;

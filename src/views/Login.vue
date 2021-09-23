@@ -110,17 +110,17 @@ export default {
           email: this.account,
           password: this.password,
         });
-        console.log(response);
+        // console.log(response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);
         }
-        localStorage.setItem('userId',data.user.id)
+        localStorage.setItem("userId", data.user.id);
         localStorage.setItem("token", data.token);
         this.$store.commit("setCurrentUser", data.user);
         this.$router.push("/main");
-      } catch (error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
         Toast.fire({
           icon: "warning",
           title: "請輸入正確帳號與密碼",

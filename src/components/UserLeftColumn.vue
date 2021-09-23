@@ -19,13 +19,25 @@
           </router-link>
         </li>
         <li>
-          <router-link class="nav-item" :to="{ name: 'user' }">
+          <router-link class="nav-item" :to="{ name: 'user' , }">
             <img
+              v-if="userId !== this.currentUser.id"
               class="icon icon-user"
+              src="../assets/pic/icon_user.png"
+              alt="icon-user"
+            />
+            
+            <img
+              v-else
+              class="icon icon-user current"
               src="../assets/pic/icon_user_orange.png"
               alt="icon-user"
             />
-            <div class="nav-link nav-user">個人資料</div>
+            <div 
+              class="nav-link nav-user"
+              :class="{current: userId === currentUser.id}"
+            >個人資料</div>
+
           </router-link>
         </li>
         <li>
@@ -57,18 +69,40 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+
 export default {
   data() {
     return {
-      currentPage: "",
-    };
+      userId : Number(this.$route.params.id),
+      // currentUserId: -1,
+    }
   },
-  methods: {
-    pageChange(currentPage) {
-      console.log(currentPage);
-      this.$emit("pageChangeClick", currentPage);
+  created() {
+    // this.getCurrentUser()
+    // console.log('left', this.currentUser.id)
+    // console.log('left-route', this.userId)
+    
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
+  },
+  beforeRouteUpdate(to, from, next) {
+    // console.log('leftBefor', to, from);
+    console.log('left', this.currentUser.id)
+    console.log('left-route', this.userId)
+    // 路由改變時重新抓取資料
+    this.changeCurrentUserId();
+    next();
+  },
+  method: {
+    changeCurrentUserId() {
+      this.userId = Number(this.$route.params.id)
     },
   },
+  
+
 };
 </script>
 

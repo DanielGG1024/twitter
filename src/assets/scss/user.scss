@@ -14,13 +14,13 @@
     "menu center-column popular";
 
 
-    .menu {
+  .menu {
       grid-area: menu;
-      position: fixed;
+      // position: fixed;
 
-    }
+  }
 
-    .center-column {
+  .center-column {
       grid-area: center-column;
       width: 100%;
       display: flex;
@@ -31,9 +31,12 @@
 
       // overflow-y: scroll;
 
-    }
+  }
 
-    .popular {
+  .popular {
       grid-area: popular;
-    }
+  }
+
+
+
 }
