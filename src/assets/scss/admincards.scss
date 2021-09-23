@@ -1,25 +1,4 @@
-.content {
-  height: 100vh;
-  width: 1062px;
-  border-left: 1px solid $tweetListBg;
-}
 
-.content-header {
-  height: 55px;
-  border-bottom: 1px solid $tweetListBg;
-}
-
-.title {
-  font-size: 18px;
-  line-height: 55px;
-  font-weight: 700;
-  padding-left: 15px;
-}
-
-.cards-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-}
 .card {
   position: relative;
   height: 314px;
@@ -30,7 +9,6 @@
   margin-top: 15px;
 }
 .header-background {
-  background-image: url("./../assets/pic/cover_photo.png");
   background-size: cover;
   height: 140px;
 }

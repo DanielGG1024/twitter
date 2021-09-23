@@ -28,7 +28,9 @@ $inputerror: #fc5a5a;
     border-radius: 3px;
     background-color: rgba(0, 0, 0, 0.1);
 }
-
+input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px #f5f8fa inset;
+}
 html,
 body {
     width: 100%;

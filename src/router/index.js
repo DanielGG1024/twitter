@@ -33,11 +33,6 @@ const routes = [
     component: () => import('../views/Reply.vue')
   },
   {
-    path: '/user/self',
-    name: 'user',
-    component: () => import('../views/User.vue')
-  },
-  {
     path: '/setting',
     name: 'Setting',
     component: () => import('../views/Setting.vue')
@@ -105,24 +100,23 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const token = localStorage.getItem('token')
-  let isAuthenticated = false
-  if (token) {                              
+  const tokenInLocalStorage = localStorage.getItem('token')
+  const tokenInStore = store.state.token
+  let isAuthenticated = store.state.isAuthenticated
+  if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
     isAuthenticated = await store.dispatch('fetchCurrentUser')
   }
-  console.log('isAuthenticated', isAuthenticated)
+  // console.log('isAuthenticated', isAuthenticated)
   const pathsWithoutAuthentication = ['Regist', 'Login', 'AdminLogin']
-  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
-    console.log('if  isAuthenticated false')
-    next('/login')
-    return
-  }
-  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
-    console.log('isAuthenticated ture')
-    next('/main')
-    return
-  }
-  next()
+    if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+      next('/login')
+      return
+    }
+    if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+      next('/main')
+      return
+    }
+    next()
 })
 
 export default router

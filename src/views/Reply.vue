@@ -13,6 +13,7 @@
             v-for="tweetReply in tweetReplies"
             :key="tweetReply.UserId"
             :tweetReplies="tweetReply"
+            :tweetUserAccount="tweet.user.account"
           />
         </div>
       </main>
@@ -41,12 +42,13 @@ export default {
         user: {
           name: "",
           account: "",
+          avatar: "",
         },
         description: "",
         createdAt: "",
         replyCounts: 0,
         likeCounts: 0,
-        isLike: false,
+        isLiked: false,
         id: -1,
       },
       tweetReplies: "",
@@ -65,30 +67,31 @@ export default {
     afterTweetReplyPost() {
       this.fetchReplyDetail();
       this.fetchTweetReplies();
-      console.log("Reply  fetchTweetReplies");
+      // console.log("Reply  fetchTweetReplies");
     },
     async fetchReplyDetail() {
       const { id: tweetId } = this.$route.params;
       try {
         const response = await tweetAPI.getTweet({ tweetId });
         const { data } = response;
-        console.log("data", data);
+        // console.log("dataReply", data);
         const {
           description,
           createdAt,
           replyCounts,
           likeCounts,
-          isLike,
+          isLiked,
           id,
           user,
         } = data;
         this.tweet.user.name = user.name;
         this.tweet.user.account = user.account;
+        this.tweet.user.avatar = user.avatar;
         this.tweet.description = description;
         this.tweet.createdAt = createdAt;
         this.tweet.replyCounts = replyCounts;
         this.tweet.likeCounts = likeCounts;
-        this.tweet.isLike = isLike;
+        this.tweet.isLiked = isLiked;
         this.tweet.id = id;
       } catch {
         Toast.fire({
@@ -102,11 +105,7 @@ export default {
       try {
         const response = await tweetAPI.getTweetReplies({ tweetId });
         const { data } = response;
-
-        console.log("fetchTweetReplies-response", response);
-        console.log("fetchTweetReplies-data", data);
         this.tweetReplies = data;
-        console.log("this.tweetReplies:", this.tweetReplies);
       } catch {
         Toast.fire({
           icon: "error",

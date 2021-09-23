@@ -13,7 +13,7 @@
         </div>
         <div class="reply">
           <div class="reply-icon-wrapper">
-            <img class="user-icon" src="../assets/pic/Photo.png" alt="" />
+            <img class="user-icon" :src="tweet.user.avatar" alt="" />
           </div>
           <div class="txt-wrapper">
             <div class="txt-info">
@@ -88,27 +88,10 @@ export default {
       avatar: "",
     };
   },
-  // created() {
-  //   this.fetchUser();
-  // },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
   methods: {
-    // async fetchUser() {
-    //   const userId = localStorage.getItem("userId");
-    //   try {
-    //     const response = await userAPI.getUser({ userId });
-    //     console.log("MainTweetPost", response);
-    //     const { data } = response;
-    //     this.avatar = data.avatar;
-    //   } catch {
-    //     Toast.fire({
-    //       icon: "error",
-    //       title: "無法取得使用者資料,請稍後",
-    //     });
-    //   }
-    // },
     clickClose() {
       this.$emit("after-click-close");
     },

@@ -50,10 +50,12 @@ export default {
   },
   methods: {
     async deleteFollow(userId) {
-      this.isFollow = false;
       try {
         const response = await tweetAPI.removeFollow({ userId });
-        console.log("response delete follow", response);
+        if (response.status !== 200) {
+          throw new Error();
+        }
+        this.fetchTopUsers();
       } catch {
         Toast.fire({
           icon: "error",
@@ -68,30 +70,22 @@ export default {
       const data_JSON = JSON.parse(data);
       try {
         const response = await tweetAPI.addFollow({ data_JSON });
-        console.log("popular response", response);
-        // this.users = this.users.forEach((item) => {
-        //   console.log("foreach");
-        //   if (item.id === userId) {
-        //     ...item,
-        //     item.isFollowed: true
-        //   }else{
-        //     ...item
-        //   }
-        
+        if (response.status !== 200) {
+          throw new Error();
+        }
+        this.fetchTopUsers();
       } catch {
         Toast.fire({
           icon: "error",
           title: "無法追蹤使用者,請稍後",
         });
       }
-      this.isFollow = true;
     },
     async fetchTopUsers() {
       try {
         const response = await tweetAPI.getTopUser();
-        console.log("popular response", response);
         const { data } = response;
-        console.log("popular data", data);
+        // console.log("popular data", data);
         this.users = data;
       } catch {
         Toast.fire({

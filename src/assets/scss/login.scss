@@ -71,11 +71,15 @@
   color: $tag;
 }
 input[type="password"],
-input[type="text"] {
+input[type="text"],
+input[type="email"] {
   margin-left: 10px;
   background-color: $popularBg;
   border: none;
   flex: 1;
+  &:focus {
+    background-color: $popularBg;
+  }
 }
 
 .form-submit-btn {

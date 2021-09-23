@@ -107,7 +107,7 @@
             </div>
 
             <div class="button-wrapper">
-              <button class="form-submit-btn" type="submit">註冊</button>
+              <button class="form-submit-btn" type="submit">修改</button>
             </div>
           </form>
         </div>
@@ -117,6 +117,9 @@
 </template>
 <script>
 import Menu from "./../components/Menu";
+import { mapState } from "vuex";
+import userAPI from "./../apis/user";
+import { Toast } from "./../utils/helpers";
 export default {
   components: {
     Menu,
@@ -128,7 +131,7 @@ export default {
       email: "",
       password: "",
       confirPassword: "",
-      nameWords: "0",
+      nameWords: 0,
       accountError: false,
       nameError: false,
       emailError: false,
@@ -139,7 +142,36 @@ export default {
       },
     };
   },
+  created() {
+    this.fetchUser();
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
+  },
   methods: {
+    async fetchUser() {
+      try {
+        // console.log("setting");
+        const userId = this.currentUser.id;
+        // console.log("userId", userId);
+        const response = await userAPI.getUser({ userId });
+        // console.log("setting response data", response);
+        if (response.status !== 200) {
+          throw new Error();
+        }
+        const { account, name, email } = response.data;
+        this.account = account;
+        this.name = name;
+        this.email = email;
+        this.keyupNameWords();
+      } catch (error) {
+        console.log(error);
+        // Toast.fire({
+        //   icon: "error",
+        //   title: "無法取的使用者資料,setting",
+        // });
+      }
+    },
     addFocus(e) {
       const target = e.target;
       target.parentNode.classList.add("focus");
@@ -152,8 +184,8 @@ export default {
       const words = this.name.length;
       this.nameWords = words;
     },
-    handleSubmit() {
-      console.log("submit star");
+    async handleSubmit() {
+      // console.log("submit star");
       /* eslint-disable */
       const account = this.account.trim();
       const name = this.name.trim();
@@ -208,8 +240,32 @@ export default {
         this.passwordError ||
         this.confirPasswordError
       ) {
-        console.log("幹");
         return;
+      }
+      try {
+        const userId = this.currentUser.id;
+        const data = `{
+          "account":"${this.account}",
+          "name":"${this.name}",
+          "email":"${this.email}",
+          "password":"${this.password}",
+          "checkPassword":"${this.confirPassword}"
+        }`;
+        const JSON_data = JSON.parse(data);
+        const response = await userAPI.putUser({ userId, JSON_data });
+        console.log(response);
+        if (response.status !== 200) {
+          throw new Error();
+        }
+        Toast.fire({
+          icon: "success",
+          title: "成功修改資料",
+        });
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法修改資料,請稍後",
+        });
       }
     },
   },

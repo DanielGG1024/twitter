@@ -1,9 +1,7 @@
 <template>
   <div class="main">
     <div class="main-container">
-      <Menu 
-      @after-tweet-post="afterTweetPost"
-      />
+      <Menu @after-tweet-post="afterTweetPost" />
       <main class="content">
         <div class="content-post">
           <div class="content-header">
@@ -11,13 +9,13 @@
           </div>
           <MainTweetPost @after-tweet-post="afterTweetPost" />
         </div>
-        <MainTweets 
-        :allTweets="allTweets"
-        @after-tweetReply-post="afterTweetPost"
-         />
+        <MainTweets
+          :allTweets="allTweets"
+          @after-tweetReply-post="afterTweetPost"
+        />
         <!-- @after-click-chat-btn="openReplyModal" -->
       </main>
-      <Popular /> 
+      <Popular />
     </div>
   </div>
 </template>
@@ -52,7 +50,6 @@ export default {
       try {
         const response = await getTweetsAPI.getTweets();
         const { data } = response;
-        console.log(data);
         this.allTweets = data;
       } catch {
         Toast.fire({
@@ -62,7 +59,7 @@ export default {
       }
     },
     afterTweetPost() {
-      this.fetchTweets()
+      this.fetchTweets();
     },
   },
 };
