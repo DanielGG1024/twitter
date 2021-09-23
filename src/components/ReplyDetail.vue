@@ -13,7 +13,7 @@
     <div class="reply-tweet">
       <div class="reply-tweet-user">
         <div class="user-icon-wrapper">
-          <img class="user-icon" src="./../assets/pic/Photo.png" alt="" />
+          <img class="user-icon" :src="tweet.user.avatar" alt="" />
         </div>
         <div class="user-info">
           <div class="user-name">{{ tweet.user.name }}</div>
@@ -25,8 +25,11 @@
       </p>
       <div class="user-creat-time">
         <!-- <span>上午: 10:15</span> -->
-        <span>{{ tweet.createdAt | fromYear }}</span>
-        <span>{{ tweet.createdAt | fromNow }}</span>
+        <span>
+          {{ tweet.createdAt | fromNowWithWord }}
+          ．
+          {{ tweet.createdAt | fromYear }}
+        </span>
       </div>
       <div class="reply-amount">
         <span class=""> {{ tweet.replyCounts }} </span
@@ -39,7 +42,7 @@
           <img class="icon" src="./../assets/pic/chat.png" alt="" />
         </div>
         <div
-          v-if="tweet.isLike"
+          v-if="tweet.isLiked"
           @click="removeLike(tweet.id)"
           class="icon-wrpper"
         >
@@ -79,20 +82,23 @@ export default {
   data() {
     return {
       ReplyDetailModal: false,
-      tweet: this.initialTweet,
       isProcessing: false,
+      tweet: {
+        user: {
+          name: "",
+          account: "",
+          avatar: "",
+        },
+        createdAt: "",
+        replyCounts: 0,
+        likeCounts: 0,
+        isLiked: false,
+        id: -1,
+      },
     };
   },
   created() {
     this.fetchTweet();
-  },
-  watch: {
-    initialTweet(newValue) {
-      this.tweet = {
-        ...this.tweet,
-        ...newValue,
-      };
-    },
   },
   methods: {
     clickChat() {
@@ -104,21 +110,21 @@ export default {
     fetchTweet() {
       this.tweet = this.initialTweet;
     },
-    afterTweetReplyPost(){
-      this.ReplyDetailModal = false
-      this.$emit('after-tweetReply-post')
-      console.log('reeplyDetail')
+    afterTweetReplyPost() {
+      this.ReplyDetailModal = false;
+      this.$emit("after-tweetReply-post");
+      // console.log("reeplyDetail");
     },
     async addLike(tweetId) {
-      console.log("like");
+      // console.log("like");
       try {
         const response = await tweetAPI.addLike({ tweetId });
-        console.log("reponse", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);
         }
-        this.tweet.isLike = true;
+        this.tweet.likeCounts = this.tweet.likeCounts + 1;
+        this.tweet.isLiked = true;
       } catch {
         Toast.fire({
           icon: "error",
@@ -127,15 +133,15 @@ export default {
       }
     },
     async removeLike(tweetId) {
-      console.log("remove");
       try {
         const response = await tweetAPI.removeLike({ tweetId });
-        console.log("response", response);
+        // console.log("response", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);
         }
-        this.tweet.isLike = false;
+        this.tweet.likeCounts = this.tweet.likeCounts - 1;
+        this.tweet.isLiked = false;
       } catch {
         Toast.fire({
           icon: "error",

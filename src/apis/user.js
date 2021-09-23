@@ -15,5 +15,12 @@ export default {
         Authorization: `Bearer ${getToken()}`
       }
     })
+  },
+  putUser({ userId, JOSN_data }) {
+    return apiHelper.put(`users/${userId}`, JOSN_data, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`
+      }
+    })
   }
 }

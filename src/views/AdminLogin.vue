@@ -55,6 +55,8 @@
   </div>
 </template>
 <script>
+import adminAPI from "./../apis/admin";
+import { Toast } from "./../utils/helpers";
 export default {
   data() {
     return {
@@ -73,7 +75,7 @@ export default {
       const target = e.target;
       target.parentNode.classList.remove("focus");
     },
-    handleSubmit() {
+    async handleSubmit() {
       const account = this.account.trim();
       const password = this.password.trim();
 
@@ -88,7 +90,24 @@ export default {
       } else {
         this.passwordError = false;
       }
-
+      try {
+        const response = await adminAPI.adminlogIn({
+          email: this.account,
+          password: this.password,
+        });
+        const { data } = response;
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        localStorage.setItem("token", data.token);
+        this.$store.commit("setCurrentUser", data.user);
+        this.$router.push("/adminMain");
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法登入後台,請稍後",
+        });
+      }
     },
   },
 };

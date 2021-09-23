@@ -108,6 +108,8 @@
   </div>
 </template>
 <script>
+import authorizationAPI from "./../apis/authorization";
+import { Toast } from "./../utils/helpers";
 export default {
   data() {
     return {
@@ -140,8 +142,8 @@ export default {
       const words = this.name.length;
       this.nameWords = words;
     },
-    handleSubmit() {
-      /* eslint-disable */ 
+    async handleSubmit() {
+      /* eslint-disable */
       const account = this.account.trim();
       const name = this.name.trim();
       const email = this.email.trim();
@@ -187,7 +189,6 @@ export default {
       } else {
         this.confirPasswordError = false;
       }
-
       if (
         this.accountError ||
         this.nameError ||
@@ -195,8 +196,51 @@ export default {
         this.passwordError ||
         this.confirPasswordError
       ) {
-        console.log("幹");
         return;
+      }
+      try {
+        // const form = e.target;
+        // const formData = new FormData(form);
+        // for (let [name, value] of formData.entries()) {
+        //   console.log(name + ": " + value);
+        // }
+        const data = `{
+          "account":"${this.account}",
+          "name":"${this.name}",
+          "email":"${this.email}",
+          "password":"${this.password}",
+          "checkPassword":"${this.confirPassword}"
+        }`;
+        const data_JSON = JSON.parse(data);
+        console.log("data_JSON regist", data_JSON);
+        const response = await authorizationAPI.regist({ data_JSON });
+        if (response.status !== 200) {
+          throw new Error();
+        }
+        Toast.fire({
+          icon: "success",
+          title: "註冊成功!",
+        });
+        const responseLogin = await authorizationAPI.logIn({
+          email: this.email,
+          password: this.password,
+        });
+        try {
+          // console.log("responseLogin", responseLogin);
+          localStorage.setItem("token", responseLogin.data.token);
+          this.$store.commit("setCurrentUser", responseLogin.data.user);
+          this.$router.push("/main");
+        } catch {
+          Toast.fire({
+            icon: "error",
+            title: "無法轉入主頁,請稍後",
+          });
+        }
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法註冊帳號,請稍後",
+        });
       }
     },
   },
