@@ -14,6 +14,12 @@
           </router-link>
         </li>
         <li class="menu-nav-link">
+          <router-link to="/public" class="menu-link">
+            <i class="bx bxs-home-circle"></i>
+            <span class="menu-link-title"> 公開聊天室 </span>
+          </router-link>
+        </li>
+        <li class="menu-nav-link">
           <router-link to="/user/self" class="menu-link">
             <i class="bx bx-user"></i>
             <span class="menu-link-title"> 個人資料 </span>
