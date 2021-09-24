@@ -20,7 +20,7 @@
               <span class="user-name"></span>
               <span class="user-account"
                 >＠{{ tweet.User.account }}
-                <span>．{{ tweet.createdAt }}</span>
+                <span>．{{ tweet.createdAt | fromYear }}</span>
               </span>
             </div>
             <div class="txt">
@@ -30,7 +30,7 @@
             </div>
             <div class="txt-footer">
               <span class="txt-footer-reply">回覆給</span
-              ><span class="footer-account">＠{{ tweet.account }}</span>
+              ><span class="footer-account">＠{{ tweet.User.account }}</span>
             </div>
           </div>
         </div>
@@ -68,8 +68,10 @@
 import tweetAPI from "./../apis/tweet";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
+import { fromNowFilter } from "./../utils/mixins";
 export default {
   name: "ReplyModal",
+  mixins: [fromNowFilter],
   props: {
     ReplyModalSwitch: {
       type: Boolean,
@@ -123,11 +125,12 @@ export default {
         }`;
         const data_JSON = JSON.parse(data);
         const response = await tweetAPI.postTweetReply({ tweetId, data_JSON });
+        console.log("Page ReplyModal response:", response);
         if (response.data.status !== "success") {
           throw new Error();
         }
-          this.$emit("after-tweetReply-post");
-          this.teweetContent = ""
+        this.$emit("after-tweetReply-post");
+        this.teweetContent = "";
         Toast.fire({
           icon: "success",
           title: "發送成功!",
