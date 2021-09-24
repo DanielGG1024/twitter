@@ -58,6 +58,11 @@ const routes = [
     component: () => import('../views/AdminUser.vue')
   },
   {
+    path: '/publicMessage',
+    name: 'publicMessage',
+    component: () => import('../views/publicMessage.vue')
+  },
+  {
     path: '/user/:id/follower',
     name: 'follower',
     component: () => import('../views/UserFollower.vue')
@@ -91,7 +96,6 @@ const routes = [
       }
     ]
   },
-
   {
     path: '*',
     name: 'Not-found',

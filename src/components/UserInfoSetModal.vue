@@ -120,10 +120,10 @@ export default {
     };
   },
   created() {
-    (this.modalUser = {
+    this.modalUser = {
       ...this.modalUser,
       ...this.initialModalUser,
-    }),
+    },
       console.log(this.modalUser);
   },
   watch: {
@@ -163,10 +163,11 @@ export default {
         this.modalUser.cover = imageURL;
       }
     },
-    handleSubmit(e) {
-      console.log("submit");
-      const form = e.target; // <form></form>
-      const formData = new FormData(form);
+    handleSubmit() {
+      
+      // console.log("formDataaaa", e);
+      // const form = e.target; // <form></form>
+      const formData = this.modalUser;
       // console.log(formData)
       this.$emit("after-submit", formData);
     },
