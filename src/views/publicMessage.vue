@@ -3,7 +3,7 @@
     <div class="publicMessage">
       <!-- Menu -->
       <div class="menu-container">
-        <UserLeftColumn />
+        <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
       </div>
       <!-- userList  -->
       <div class="user-list"></div>

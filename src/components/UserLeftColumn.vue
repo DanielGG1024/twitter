@@ -22,7 +22,7 @@
         <li>
           <router-link class="nav-item" :to="{ name: 'user' , params: { id: currentUserId }}">
             <img
-              v-if="userId !== this.currentUserId"
+              v-if="userId !== this.currentUserId && this.$route.name !== 'user' "
               class="icon icon-user"
               src="../assets/pic/icon_user.png"
               alt="icon-user"
@@ -36,7 +36,7 @@
             />
             <div 
               class="nav-link nav-user"
-              :class="{current: userId === currentUserId}"
+              :class="{current: userId === currentUserId && $route.name === 'user'}"
             >個人資料</div>
 
           </router-link>
@@ -46,14 +46,14 @@
             <img
               v-if="userId !== this.currentUserId"
               class="icon icon-user"
-              src="../assets/pic/icon_user.png"
+              src="../assets/pic/bell.png"
               alt="icon-user"
             />
             
             <img
               v-else
               class="icon icon-user current"
-              src="../assets/pic/icon_user_orange.png"
+              src="../assets/pic/bell_orange.png"
               alt="icon-user"
             />
             <div 
@@ -68,14 +68,14 @@
             <img
               v-if="userId !== this.currentUserId"
               class="icon icon-user"
-              src="../assets/pic/icon_user.png"
+              src="../assets/pic/message.png"
               alt="icon-user"
             />
             
             <img
               v-else
               class="icon icon-user current"
-              src="../assets/pic/icon_user_orange.png"
+              src="../assets/pic/message_orange.png"
               alt="icon-user"
             />
             <div 
@@ -102,7 +102,7 @@
             />
             <div 
               class="nav-link nav-user"
-              :class="{current: userId === currentUserId}"
+              :class="{current: userId === currentUserId }"
             >私人訊息</div>
 
           </router-link>
@@ -149,6 +149,9 @@ export default {
       type: Number,
       required: true,
     },
+  },
+  created(){
+    console.log(this.$route.name)
   },
   
 

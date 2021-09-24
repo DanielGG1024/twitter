@@ -126,6 +126,7 @@ export default {
         userId: this.currentUserId,
         formData
       })
+      console.log(formData)
       console.log('handleSubmit',data)
       if (data.status !== 'success') {
         throw new Error (data.message)
