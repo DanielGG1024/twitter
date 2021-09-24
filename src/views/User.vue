@@ -25,7 +25,7 @@
       v-show="showInfoSetModal"
       :showInfoSetModal="showInfoSetModal"
       @after-click-close="clickSetModal"
-      :initial-user="user"
+      :initialModalUser="modalUser"
       @after-submit="handleAfterSubmit"
     />
   </div>
@@ -58,6 +58,13 @@ export default {
       userId: Number(this.$route.params.id),
       user: {},
       currentUserId: -1,
+      modalUser: {
+        id: -1,
+        name: "",
+        avatar: "",
+        cover: "",
+        introduction: "",
+      }
     };
   },
   computed: {
@@ -66,13 +73,13 @@ export default {
   created() {
     this.currentUserId = this.currentUser.id
     this.fetchUserInfo(this.userId);
-    // console.log("user.loginUser", this.currentUser.id);
+    console.log("userId", this.currentUserId);
   },
   beforeRouteUpdate(to, from, next) {
     console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
-    console.log("beforeRU", id)
+    // console.log("beforeRU", id)
     this.fetchUserInfo(id);
     this.userId = Number(id)
     next();
@@ -84,6 +91,22 @@ export default {
         const { data } = await usersAPI.get({ userId });
         // console.log('123', data)
         this.user = data;
+        const {
+          id,
+          name,
+          avatar,
+          introduction,
+          cover,
+        } = data
+        this.modalUser = {
+          id,
+          name,
+          avatar,
+          introduction,
+          cover,
+        }
+        console.log(this.modalUser)
+
       } catch (error) {
         console.log("error", error)
         Toast.fire({
@@ -100,17 +123,19 @@ export default {
     async handleAfterSubmit(formData) {
     try{
       const {data} = await usersAPI.update({
-        userId: this.user.id,
+        userId: this.currentUserId,
         formData
       })
-
+      console.log('handleSubmit',data)
       if (data.status !== 'success') {
         throw new Error (data.message)
       }
-
-      this.$router.push({ name: `user/${this.currentUser.id}` })
+      // this.fetchUserInfo(this.userId);
+      this.showInfoSetModal = false
+      // this.$router.push({ name: 'user', params: `${this.currentUserId}` })
 
     }catch(error) {
+      console.log("modal-error", error)
       Toast.fire({
         icon: 'error',
         title: "無法更新個人資料，請稍後再試"

@@ -1,7 +1,7 @@
 <template>
-  <div class="modal" >
+  <div class="modal">
     <div class="modal-main">
-      <form>
+      <form @submit.stop.prevent="handleSubmit">
         <div class="modal-header">
           <div @click="clickClose" class="close-icon">
             <img src="../assets/pic/close.png" class="close" alt="" />
@@ -9,62 +9,68 @@
           <div class="title">編輯個人資料</div>
           <button class="save-submit">儲存</button>
         </div>
-        <div class="modal-banner">
-          <div class="banner-container">
-            <img
-              class="banner"
-              src="../assets/pic/cover_photo.png"
-              alt="cover-photo"
-            />
-          </div>
-          <div class="banner-btn-group">
-            <img
-              class="change-btn"
-              src="../assets/pic/icon_uploadPhoto.png"
-              alt="change-btn"
-            />
-            <img
-              class="change-btn delete-btn"
-              src="../assets/pic/icon_delete.png"
-              alt="change-btn"
-            />
-          </div>
-          <img class="avatar" src="../assets/pic/Photo.png" alt="user-avatar" />
-          <img
-            class="change-btn avatar-change"
-            src="../assets/pic/icon_uploadPhoto.png"
-            alt="change-btn"
-          />
-        </div>
 
-        <!-- <div class="form-group">
-          <label for="image">Image</label>
-          <img
-            v-if="restaurant.image"
-            :src="restaurant.image"
-            class="d-block img-thumbnail mb-3"
-            width="200"
-            height="200"
-          />
-          <input
-            id="image"
-            type="file"
-            name="image"
-            accept="image/*"
-            class="form-control-file"
-            @change="handleFileChange"
-          />
-        </div> -->
+        <div class="modal-banner">
+
+          <div class="form-group">
+            <div class="banner-container">
+              <img class="banner" :src="modalUser.cover" alt="cover-photo" />
+            </div>
+            
+            <div class="banner-btn-group">
+              <label for="user-cover">
+                <input
+                type="file"
+                accept="image/*"
+                @change="handleCoverChange"
+                class="form-control-file d-none"
+                id="user-cover"
+              />
+              <img
+                class="change-btn"
+                src="../assets/pic/icon_uploadPhoto.png"
+                alt="change-btn"
+              />
+              </label>
+
+              <div class="btn" @click="reset">
+              <img
+                class="change-btn delete-btn"
+                src="../assets/pic/icon_delete.png"
+                alt="change-btn"
+              />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="user-avatar">
+              <input
+                type="file"
+                accept="image/*"
+                @change="handleAvatarChange"
+                class="form-control-file d-none"
+                id="user-avatar"
+              />
+              <img
+                class="avatar"
+                v-if="modalUser.avatar"
+                :src="modalUser.avatar"
+                alt="user-avatar"
+              />
+              <img
+                class="change-btn avatar-change"
+                src="../assets/pic/icon_uploadPhoto.png"
+                alt="change-btn"
+              />
+            </label>
+          </div>
+        </div>
 
         <div class="modal-content">
           <div class="name">
             <div class="title">名稱</div>
-            <input
-              class="content"
-              type="text"
-              value="John Doe"
-              v-model="user.name"
-            />
+            <input class="content" type="text" v-model="modalUser.name" />
             <div class="footer">8/50</div>
           </div>
           <div class="description">
@@ -72,7 +78,7 @@
             <input
               class="content"
               type="textarea"
-              v-model="user.introduction"
+              v-model="modalUser.introduction"
             />
             <div class="footer">0/160</div>
           </div>
@@ -90,20 +96,82 @@ export default {
       type: Boolean,
       required: true,
     },
-    initialUser: {
+    initialModalUser: {
       type: Object,
-      required: true,
+      default: () => ({
+        id: -1,
+        name: "",
+        avatar: "",
+        introduction: "",
+        cover: "",
+      }),
     },
   },
+
   data() {
     return {
-      user: {},
+      modalUser: {
+        id: -1,
+        name: "",
+        avatar: "",
+        introduction: "",
+        cover: "",
+      },
     };
   },
-
+  created() {
+    (this.modalUser = {
+      ...this.modalUser,
+      ...this.initialModalUser,
+    }),
+      console.log(this.modalUser);
+  },
+  watch: {
+    initialModalUser(newValue, oldValue) {
+      console.log("new", newValue, "old", oldValue);
+      this.modalUser = {
+        ...this.modalUser,
+        ...newValue,
+      };
+    },
+  },
   methods: {
     clickClose() {
       this.$emit("after-click-close");
+    },
+    handleAvatarChange(e) {
+      const files = e.target.files;
+      // console.log("files", files);
+      if (files.length === 0) {
+        // 使用者沒有選擇上傳的檔案
+        this.modalUser.avatar = "";
+      } else {
+        // 否則產生預覽圖
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.modalUser.avatar = imageURL;
+      }
+    },
+    handleCoverChange(e) {
+      const files = e.target.files;
+      // console.log("files", files);
+      if (files.length === 0) {
+        // 使用者沒有選擇上傳的檔案
+        this.modalUser.cover = "";
+      } else {
+        // 否則產生預覽圖
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.modalUser.cover = imageURL;
+      }
+    },
+    handleSubmit(e) {
+      console.log("submit");
+      const form = e.target; // <form></form>
+      const formData = new FormData(form);
+      // console.log(formData)
+      this.$emit("after-submit", formData);
+    },
+    reset(){
+      this.modalUser.cover = ""
     },
   },
 };
