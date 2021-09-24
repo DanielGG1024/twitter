@@ -1,3 +1,4 @@
+
 module.exports = {
   css: {
     loaderOptions: {
@@ -7,13 +8,9 @@ module.exports = {
         `
       }
     }
-  },
-  "/twitter-front-end-vue/": process.env.NODE_ENV === 'production'
-    ? '/twitter-front-end-vue/'
-    : '/'
-}
-// module.exports = {
-//   publicPath: process.env.NODE_ENV === 'production'
-//     ? '/eric-project/'
-//     : '/'
-// }
+  }, publicPath:
+    process.env.NODE_ENV === 'production'
+      ? '/twitter-front-end-vue/'
+      : '/'
+};
+
