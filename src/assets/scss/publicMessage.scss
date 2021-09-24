@@ -2,7 +2,32 @@
   width: 1440px;
   height: 1200px;
   margin: auto;
-  
+  .publicMessage{
+    width: 100%;
+    height: 100%;
+    display: flex;
+
+    .menu-container {
+      width: 378px;
+      height: 1200px;
+      border: 1px red solid;
+      display: flex;
+      justify-content: center;
+    }
+
+    .user-list {
+      width: 390px;
+      height: 1200px;
+      border: 1px blue solid;
+    }
+
+    .message-box {
+      width: 692px;
+      height: 1200px;
+      border: 1px green solid;
+    }
+
+  }
 
 
 
