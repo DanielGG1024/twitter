@@ -17,10 +17,11 @@ git init
 git add -A
 git commit -m 'deploy'
 
-# 部署到 https://<USERNAME>.github.io
-# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git master
+# 部署到 https://DanielGG1024.github.io
+# git push -f git@github.com:DanielGG1024/DanielGG1024.github.io.git main
 
-# 部署到 https://<USERNAME>.github.io/<REPO>
-# git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
+# 部署到 https://DanielGG1024.github.io/<REPO>
+# git push -f git@github.com:<USERNAME>/twitter-front-end-vue.git master:gh-pages
+
 
 cd -
