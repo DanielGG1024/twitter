@@ -51,8 +51,16 @@ const routes = [
     path: '/adminUser',
     name: 'AdminUser',
     component: () => import('../views/AdminUser.vue')
-  },  
-  
+  },
+  {
+    path: '/user/:id/follower',
+    name: 'follower',
+    component: () => import('../views/UserFollower.vue')
+  }, {
+    path: '/user/:id/following',
+    name: 'following',
+    component: () => import('../views/UserFollowing.vue')
+  }, 
   
   {
     path: '/user/:id',
@@ -78,16 +86,7 @@ const routes = [
       }
     ]
   },
-  {
-    path: '/user/:id/follower',
-    name: 'follower',
-    component: () => import('../views/UserFollower.vue')
-  },
-  {
-    path: '/user/:id/following',
-    name: 'following',
-    component: () => import('../views/UserFollowing.vue')
-  },
+  
   {
     path: '*',
     name: 'Not-found',

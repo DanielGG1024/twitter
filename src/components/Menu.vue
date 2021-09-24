@@ -22,7 +22,7 @@
         <li class="menu-nav-link">
           <router-link to="/setting" class="menu-link">
             <i class="bx bx-cog"></i>
-            <span class="menu-link-title"> 個人資料 </span>
+            <span class="menu-link-title"> 設定 </span>
           </router-link>
         </li>
         <li class="menu-nav-post">

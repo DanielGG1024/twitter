@@ -2,7 +2,7 @@
   <div class="window demo">
     <div class="user">
       <!-- left Column -->
-      <UserLeftColumn :user="user" />
+      <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
 
       <!-- center column -->
       <div id="center-column" class="center-column">
@@ -22,8 +22,9 @@
       <Popular />
     </div>
     <UserInfoSetModal
-      :UserInfoSetModalSwitch="UserInfoSetModal"
-      @after-click-close="afterClickClose"
+      v-show="showInfoSetModal"
+      :showInfoSetModal="showInfoSetModal"
+      @after-click-close="clickSetModal"
       :initial-user="user"
       @after-submit="handleAfterSubmit"
     />
@@ -53,7 +54,7 @@ export default {
   },
   data() {
     return {
-      UserInfoSetModal: false,
+      showInfoSetModal: false,
       userId: Number(this.$route.params.id),
       user: {},
       currentUserId: -1,
@@ -63,9 +64,8 @@ export default {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
   created() {
-    const { id: userId } = this.$route.params;
-    // console.log("user.router",userId);
-    this.fetchUserInfo(userId);
+    this.currentUserId = this.currentUser.id
+    this.fetchUserInfo(this.userId);
     // console.log("user.loginUser", this.currentUser.id);
   },
   beforeRouteUpdate(to, from, next) {
@@ -74,7 +74,7 @@ export default {
     const { id } = to.params;
     console.log("beforeRU", id)
     this.fetchUserInfo(id);
-    this.changeCurrentUserId(this.currentUser.id);
+    this.userId = Number(id)
     next();
   },
 
@@ -92,16 +92,11 @@ export default {
         });
       }
     },
-    changeCurrentUserId(userId) {
-      this.currentUserId = userId
-    },
 
     clickSetModal() {
-      this.UserInfoSetModal = true;
+      this.showInfoSetModal = ! this.showInfoSetModal;
     },
-    afterClickClose() {
-      this.UserInfoSetModal = false;
-    },
+
     async handleAfterSubmit(formData) {
     try{
       const {data} = await usersAPI.update({

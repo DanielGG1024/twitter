@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-show="UserInfoSetModalSwitch" @click="clickClose">
+  <div class="modal" >
     <div class="modal-main">
       <form>
         <div class="modal-header">
@@ -86,7 +86,7 @@
 export default {
   name: "UserInfoSetModal",
   props: {
-    UserInfoSetModalSwitch: {
+    showInfoSetModal: {
       type: Boolean,
       required: true,
     },
@@ -102,13 +102,8 @@ export default {
   },
 
   methods: {
-    clickClose(e) {
-      const target = e.target;
-      if (target.className === "modal") {
-        this.$emit("after-click-close");
-      } else {
-        return;
-      }
+    clickClose() {
+      this.$emit("after-click-close");
     },
   },
 };

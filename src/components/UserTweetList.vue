@@ -18,6 +18,8 @@
         <div class="tweet-status">
           <div class="replies state">
             <img src="../assets/pic/chat.png" alt="chat-icon" />
+            
+
             <div class="replies-count count">{{ tweet.replyCount }}</div>
           </div>
           <div class="likes state">
@@ -27,10 +29,19 @@
         </div>
       </div>
     </div>
+    <!-- <ReplyModal
+      :ReplyModalSwitch="ReplyModal"
+      :tweet="tweet"
+      @after-click-background="afterClickClose"
+      @after-click-close="afterClickClose"
+      @after-tweetReply-post="afterTweetReplyPost"
+    /> -->
   </div>
+  
 </template>
 
 <script>
+// import ReplyModal from "./../components/ReplyModal";
 import { fromNowFilter } from "./../utils/mixins";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
@@ -38,6 +49,9 @@ import { mapState } from "vuex";
 
 export default {
   mixins: [fromNowFilter],
+  components: {
+    // ReplyModal,
+  },
   data() {
     return {
       tweets: [],
@@ -51,7 +65,7 @@ export default {
     this.fetchUserTweets(userId);
   },
   beforeRouteUpdate(to, from, next) {
-    console.log(to, from);
+    // console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchUserTweets(id);
@@ -71,6 +85,13 @@ export default {
         });
       }
     },
+    // afterClickClose() {
+    //   this.ReplyModal = false;
+    // },
+    // afterTweetReplyPost() {
+    //   this.ReplyModal = false;
+    //   this.$emit("after-tweetReply-post");
+    // },
   },
 };
 </script>

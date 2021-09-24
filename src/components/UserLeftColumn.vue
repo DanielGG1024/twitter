@@ -19,9 +19,9 @@
           </router-link>
         </li>
         <li>
-          <router-link class="nav-item" :to="{ name: 'user' , }">
+          <router-link class="nav-item" :to="{ name: 'user' , params: { id: currentUserId }}">
             <img
-              v-if="userId !== this.currentUser.id"
+              v-if="userId !== this.currentUserId"
               class="icon icon-user"
               src="../assets/pic/icon_user.png"
               alt="icon-user"
@@ -35,7 +35,7 @@
             />
             <div 
               class="nav-link nav-user"
-              :class="{current: userId === currentUser.id}"
+              :class="{current: userId === currentUserId}"
             >個人資料</div>
 
           </router-link>
@@ -69,36 +69,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 
 
 export default {
-  data() {
-    return {
-      userId : Number(this.$route.params.id),
-      // currentUserId: -1,
-    }
-  },
-  created() {
-    // this.getCurrentUser()
-    // console.log('left', this.currentUser.id)
-    // console.log('left-route', this.userId)
-    
-  },
-  computed: {
-    ...mapState(["currentUser", "isAuthenticated"]),
-  },
-  beforeRouteUpdate(to, from, next) {
-    // console.log('leftBefor', to, from);
-    console.log('left', this.currentUser.id)
-    console.log('left-route', this.userId)
-    // 路由改變時重新抓取資料
-    this.changeCurrentUserId();
-    next();
-  },
-  method: {
-    changeCurrentUserId() {
-      this.userId = Number(this.$route.params.id)
+  props:{
+    userId:{
+      type: Number,
+      required: true,
+    },
+    currentUserId: {
+      type: Number,
+      required: true,
     },
   },
   
