@@ -10,7 +10,9 @@
         <OnlineList :onlineUser="onlineUser"/>
       </div>
       <!-- messageBox -->
-      <div class="message-box"></div>
+      <div class="message-box">
+        
+      </div>
     </div>
   </div>
 </template>

@@ -20,6 +20,7 @@
               <label for="user-cover">
                 <input
                   type="file"
+                  name="cover"
                   accept="image/*"
                   @change="handleCoverChange"
                   class="form-control-file d-none"
@@ -46,6 +47,7 @@
             <label for="user-avatar">
               <input
                 type="file"
+                name="avatar"
                 accept="image/*"
                 @change="handleAvatarChange"
                 class="form-control-file d-none"
@@ -69,12 +71,13 @@
         <div class="modal-content">
           <div class="name">
             <div class="title">名稱</div>
-            <input class="content" type="text" v-model="modalUser.name" />
+            <input class="content" type="text" v-model="modalUser.name" name="name" />
             <div class="footer">8/50</div>
           </div>
           <div class="description">
             <div class="title">自我介紹</div>
             <input
+              name="introduction"
               class="content"
               type="textarea"
               v-model="modalUser.introduction"
