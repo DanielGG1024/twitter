@@ -14,7 +14,7 @@
           </router-link>
         </li>
         <li class="menu-nav-link">
-          <router-link to="/public" class="menu-link">
+          <router-link to="/publicmessage" class="menu-link">
             <i class="bx bxs-home-circle"></i>
             <span class="menu-link-title"> 公開聊天室 </span>
           </router-link>

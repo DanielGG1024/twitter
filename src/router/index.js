@@ -28,11 +28,6 @@ const routes = [
     component: () => import('../views/Main.vue')
   },
   {
-    path: '/public',
-    name: 'Public',
-    component: () => import('../views/PublicMessage.vue')
-  },
-  {
     path: '/main/reply/:id',
     name: 'Reply',
     component: () => import('../views/Reply.vue')
