@@ -11,34 +11,33 @@
         </div>
 
         <div class="modal-banner">
-
           <div class="form-group">
             <div class="banner-container">
               <img class="banner" :src="modalUser.cover" alt="cover-photo" />
             </div>
-            
+
             <div class="banner-btn-group">
               <label for="user-cover">
                 <input
-                type="file"
-                accept="image/*"
-                @change="handleCoverChange"
-                class="form-control-file d-none"
-                id="user-cover"
-              />
-              <img
-                class="change-btn"
-                src="../assets/pic/icon_uploadPhoto.png"
-                alt="change-btn"
-              />
+                  type="file"
+                  accept="image/*"
+                  @change="handleCoverChange"
+                  class="form-control-file d-none"
+                  id="user-cover"
+                />
+                <img
+                  class="change-btn"
+                  src="../assets/pic/icon_uploadPhoto.png"
+                  alt="change-btn"
+                />
               </label>
 
               <div class="btn" @click="reset">
-              <img
-                class="change-btn delete-btn"
-                src="../assets/pic/icon_delete.png"
-                alt="change-btn"
-              />
+                <img
+                  class="change-btn delete-btn"
+                  src="../assets/pic/icon_delete.png"
+                  alt="change-btn"
+                />
               </div>
             </div>
           </div>
@@ -89,6 +88,8 @@
 </template>
 
 <script>
+import { Toast } from "./../utils/helpers";
+
 export default {
   name: "UserInfoSetModal",
   props: {
@@ -123,12 +124,12 @@ export default {
     this.modalUser = {
       ...this.modalUser,
       ...this.initialModalUser,
-    },
-      console.log(this.modalUser);
+    };
+    // console.log(this.modalUser);
   },
   watch: {
-    initialModalUser(newValue, oldValue) {
-      console.log("new", newValue, "old", oldValue);
+    initialModalUser(newValue) {
+      // console.log("new", newValue, "old", oldValue);
       this.modalUser = {
         ...this.modalUser,
         ...newValue,
@@ -163,16 +164,51 @@ export default {
         this.modalUser.cover = imageURL;
       }
     },
-    handleSubmit() {
+    handleSubmit(e) {
+      const name = this.modalUser.name;
+      const introduction = this.modalUser.introduction;
+      if (name.trim().length === 0) {
+        Toast.fire({
+          icon: "error",
+          title: "請輸入姓名",
+        });
+        return;
+      } else if (name.length > 50) {
+        Toast.fire({
+          icon: "error",
+          title: "姓名字數不可超過50字",
+        });
+        return;
+      } else if (introduction.length > 140) {
+        Toast.fire({
+          icon: "error",
+          title: "描述不可超過140字",
+        });
+        return;
+      }
+
       
-      // console.log("formDataaaa", e);
-      // const form = e.target; // <form></form>
-      const formData = this.modalUser;
-      // console.log(formData)
+
+      // 這是跟個AC教案編輯餐廳清單的方法，這個方法文字、圖片都會失敗
+      const form = e.target; // 
+      const formData = new FormData(form);
+    
+      
+
+      //直接回傳data裡的這筆資料。只有文字能回傳成功，圖片會失敗。應該是助教早上抓到的版本
+      // const formData = this.modalUser;
+      
+
       this.$emit("after-submit", formData);
+
+      // console測試區，可跳過不用看
+      // console.log("submit event", e);
+      // console.log("form",form)
+      // console.log("formData-modal",formData)
+      // const formData = JSON.stringify(Array.from(this.modalUser))
     },
-    reset(){
-      this.modalUser.cover = ""
+    reset() {
+      this.modalUser.cover = "";
     },
   },
 };

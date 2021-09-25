@@ -9,7 +9,12 @@
         <UserHeader :user="user" />
 
         <div class="user-self">
-          <UserInfo @after-click-setInfoBtn="clickSetModal" :user="user" />
+          <UserInfo 
+            @after-click-setInfoBtn="clickSetModal" 
+            :user="user"
+            :userId="userId" 
+            :currentUserId="currentUserId"
+          />
           <UserTab />
         </div>
 
@@ -126,13 +131,14 @@ export default {
         userId: this.currentUserId,
         formData
       })
-      console.log(formData)
+      console.log("formData-User",formData)
       console.log('handleSubmit',data)
       if (data.status !== 'success') {
         throw new Error (data.message)
       }
-      // this.fetchUserInfo(this.userId);
+      
       this.showInfoSetModal = false
+      this.fetchUserInfo(this.userId);
       // this.$router.push({ name: 'user', params: `${this.currentUserId}` })
 
     }catch(error) {
