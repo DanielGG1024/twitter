@@ -36,77 +36,74 @@
             />
             <div 
               class="nav-link nav-user"
-              :class="{current: userId === currentUserId && $route.name === 'user'}"
+              :class="{current: userId === currentUserId && this.$route.name !== 'publicMessage'}"
             >個人資料</div>
 
           </router-link>
         </li>
         <li>
           <router-link class="nav-item" :to="{ name: 'user' , params: { id: currentUserId }}">
+            
             <img
-              v-if="userId !== this.currentUserId"
-              class="icon icon-user"
+              
+              class="icon icon-bell"
               src="../assets/pic/bell.png"
               alt="icon-user"
             />
             
-            <img
+            <!-- <img
               v-else
-              class="icon icon-user current"
+              class="icon icon-bell current"
               src="../assets/pic/bell_orange.png"
               alt="icon-user"
-            />
+            /> -->
             <div 
               class="nav-link nav-user"
-              :class="{current: userId === currentUserId}"
+              
             >通知</div>
 
           </router-link>
         </li>
         <li>
-          <router-link class="nav-item" :to="{ name: 'user' , params: { id: currentUserId }}">
+          <router-link class="nav-item" :to="{ name: 'publicMessage' }">
             <img
-              v-if="userId !== this.currentUserId"
-              class="icon icon-user"
+              class="icon icon-message"
+              src="../assets/pic/message_spot.png"
+              alt="icon-user"
+            />
+            
+            <!-- <img
+              v-else
+              class="icon icon-message current"
+              src="../assets/pic/message_spot_orange.png"
+              alt="icon-user"
+            /> -->
+            <div 
+              class="nav-link nav-user"
+            >公開聊天室</div>
+
+          </router-link>
+        </li>
+        <!-- <li>
+          <router-link class="nav-item" to="/">
+            <img
+              class="icon icon-message"
               src="../assets/pic/message.png"
               alt="icon-user"
             />
             
             <img
               v-else
-              class="icon icon-user current"
+              class="icon icon-message current"
               src="../assets/pic/message_orange.png"
               alt="icon-user"
             />
             <div 
               class="nav-link nav-user"
-              :class="{current: userId === currentUserId}"
-            >公開聊天室</div>
-
-          </router-link>
-        </li>
-        <li>
-          <router-link class="nav-item" :to="{ name: 'user' , params: { id: currentUserId }}">
-            <img
-              v-if="userId !== this.currentUserId"
-              class="icon icon-user"
-              src="../assets/pic/icon_user.png"
-              alt="icon-user"
-            />
-            
-            <img
-              v-else
-              class="icon icon-user current"
-              src="../assets/pic/icon_user_orange.png"
-              alt="icon-user"
-            />
-            <div 
-              class="nav-link nav-user"
-              :class="{current: userId === currentUserId }"
             >私人訊息</div>
 
           </router-link>
-        </li>
+        </li> -->
         <li>
           <router-link :to="{ name: 'Setting' }" class="nav-item">
             <img
@@ -151,7 +148,7 @@ export default {
     },
   },
   created(){
-    console.log(this.$route.name)
+    console.log("route-name", this.$route)
   },
   
 

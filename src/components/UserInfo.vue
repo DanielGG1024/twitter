@@ -28,16 +28,33 @@
 </template>
 
 <script>
+import { Toast } from "./../utils/helpers";
 export default {
   props: {
     user: {
       type: Object,
       reqiured: true,
-    }
+    },
+    userId:{
+      type: Number,
+      required: true,
+    },
+    currentUserId: {
+      type: Number,
+      required: true,
+    },
   },
   methods: {
     clickSetInfoModal() {
-      this.$emit("after-click-setInfoBtn");
+      if(this.userId !== this.currentUserId) {
+        Toast.fire({
+          icon: "error",
+          title: "只能編輯自己的個人資料，請返回個人資料頁編輯",
+        });
+        return
+      }else{
+        this.$emit("after-click-setInfoBtn");
+      }
     },
 
   },

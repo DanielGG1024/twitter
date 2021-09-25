@@ -21,6 +21,10 @@
         </li>
         <li class="menu-nav-link">
           <router-link to="/user/self" class="menu-link">
+          <router-link
+            :to="{ name: 'user', params: { id: currentUserId } }"
+            class="menu-link"
+          >
             <i class="bx bx-user"></i>
             <span class="menu-link-title"> 個人資料 </span>
           </router-link>
@@ -56,6 +60,7 @@
 </template>
 <script>
 import MainTweetPostModal from "./../components/MainTweetPostModal";
+import { mapState } from "vuex";
 export default {
   namd: "Menu",
   components: {
@@ -64,7 +69,14 @@ export default {
   data() {
     return {
       MainTweetPostModal: false,
+      currentUserId: -1,
     };
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
+  },
+  created() {
+    this.currentUserId = this.currentUser.id;
   },
   methods: {
     clickPostModal() {

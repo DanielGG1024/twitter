@@ -2,7 +2,7 @@
   <div class="window demo">
     <div class="user">
       <!-- left Column -->
-      <UserLeftColumn />
+      <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
 
       <!-- center column -->
       <div id="center-column" class="center-column">
@@ -32,11 +32,13 @@ import UserFollower from "../components/UserFollower.vue";
 import usersAPI from "../apis/users";
 import tweetAPI from "../apis/tweet";
 import { Toast } from "./../utils/helpers";
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       userId: Number(this.$route.params.id),
+      currentUserId: -1,
       user: {},
       followers: [],
     };
@@ -52,6 +54,9 @@ export default {
     this.fetchFollower(this.userId);
     this.fetchUserInfo(this.userId);
   },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
+  },
   watch: {
     followers: {
       handler: function () {
@@ -65,6 +70,7 @@ export default {
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchFollower(id);
+    this.userId = Number(id)
     next();
   },
 
