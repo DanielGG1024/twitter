@@ -84,11 +84,64 @@
     </div>
 
     <div class="input-area">
-      <input type="text" placeholder="輸入訊息..." />
-      <button class="btn">submit</button>
+      <input v-model="text" type="text" placeholder="輸入訊息..." />
+      <button @click.prevent.stop="send" class="btn">submit</button>
     </div>
   </div>
 </template>
+
+<script>
+// import store from
+// var app = require("express")();
+// var http = require("http").Server(app);
+var io = require("socket.io");
+// io.on("connection", function (socket) {});
+
+// http.listen("https://c8ef-219-85-165-164.ngrok.io/", function () {
+//   console.log("listening on *:https://c8ef-219-85-165-164.ngrok.io/");
+// });
+export default {
+  data() {
+    return {
+      text: "",
+    };
+  },
+  created() {
+    // console.log("created");
+    // console.log("this.$store.state.token:", this.$store.state.token);
+  },
+  mounted() {
+    // this.checkConnect();
+    // console.log(token);
+    // console.log("mounted");
+    // this.$socket.emit("chatmessage", "hello");
+    this.$socket.emit("connect", {
+      token: this.$store.state.token,
+    });
+  },
+  methods: {
+    send() {
+      const socket = io();
+      console.log(this.text);
+      socket.emit("chatmessage", {
+        msg: this.text,
+      });
+      this.text = "";
+    },
+    checkConnect() {
+      const token = localStorage.getItem("token");
+      this.$socket.on("connect", {
+        token: token,
+      });
+    },
+  },
+  sockets: {
+    connect() {
+      console.log("connect");
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 @import "./../assets/scss/messageBox.scss";
