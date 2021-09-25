@@ -18,6 +18,7 @@
 </template>
 
 <script>
+
 export default {
   props: {
     onlineUser: {
@@ -26,6 +27,7 @@ export default {
     },
   },
 };
+
 </script>
 
 

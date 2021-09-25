@@ -4,6 +4,8 @@
   </div>
 </template>
 
+
+
 <style>
 * {
   margin: 0px;
@@ -12,5 +14,4 @@
   list-style: none;
   font-family: "Noto Sans TC";
 }
-
 </style>
