@@ -65,8 +65,8 @@ const routes = [
     path: '/user/:id/following',
     name: 'following',
     component: () => import('../views/UserFollowing.vue')
-  }, 
-  
+  },
+
   {
     path: '/user/:id',
     name: 'user',
@@ -91,8 +91,6 @@ const routes = [
       }
     ]
   },
-
-  
   {
     path: '*',
     name: 'Not-found',
@@ -115,15 +113,15 @@ router.beforeEach(async (to, from, next) => {
   }
   // console.log('isAuthenticated', isAuthenticated)
   const pathsWithoutAuthentication = ['Regist', 'Login', 'AdminLogin']
-    if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
-      next('/login')
-      return
-    }
-    if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
-      next('/main')
-      return
-    }
-    next()
+  if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
+    next('/login')
+    return
+  }
+  if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
+    next('/main')
+    return
+  }
+  next()
 })
 
 export default router

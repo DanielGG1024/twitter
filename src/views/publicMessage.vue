@@ -7,10 +7,12 @@
       </div>
       <!-- userList  -->
       <div class="user-list">
-        <OnlineList :onlineUser="onlineUser"/>
+        <OnlineList :onlineUser="onlineUser" />
       </div>
       <!-- messageBox -->
-      <div class="message-box"></div>
+      <div class="message-box">
+        <MessageBox />
+      </div>
     </div>
   </div>
 </template>
@@ -20,12 +22,14 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import OnlineList from "../components/OnlineList";
 import usersAPI from "./../apis/users";
 import { mapState } from "vuex";
+import MessageBox from "./../components/MessageBox.vue";
 import { Toast } from "./../utils/helpers";
 
 export default {
   name: "publucMessage",
   components: {
     UserLeftColumn,
+    MessageBox,
     OnlineList,
   },
   data() {
@@ -42,11 +46,11 @@ export default {
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
-    
   },
   created() {
     this.currentUserId = this.currentUser.id;
-    this.fetchUserInfo(this.currentUserId)
+    console.log("userId", this.currentUserId);
+    this.fetchUserInfo(this.currentUserId);
   },
   methods: {
     async fetchUserInfo(userId) {
