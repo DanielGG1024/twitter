@@ -26,6 +26,7 @@ import { mapState } from "vuex";
 import MessageBox from "./../components/MessageBox.vue";
 import { Toast } from "./../utils/helpers";
 
+
 export default {
   name: "publucMessage",
   components: {
