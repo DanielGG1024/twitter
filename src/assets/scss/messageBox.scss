@@ -1,0 +1,103 @@
+.header {
+    height: 55px;
+    border-bottom: 1px solid $tweetListBg;
+}
+.title {
+    font-size: 18px;
+    line-height: 55px;
+    font-weight: 700;
+    padding-left: 15px;
+}
+.notify {
+    text-align: center;
+    margin: 15px auto;
+    background-color: #e5e5e5;
+    color: $tag;
+    padding: 7px 14px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 15px;
+    border-radius: 50px;
+}
+.messageBox-wrapper {
+    padding: 0 15px;
+    width: 100%;
+    height: calc(100vh - 55px - 55px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow-y: scroll;
+}
+.avatar {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 14px;
+}
+.pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+.icon {
+    width: 100%;
+    height: 100%;
+}
+.txt-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+.message {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 10px 15px;
+}
+.time {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 13px;
+    color: $tag;
+    margin-top: 2px;
+}
+.user-remote {
+    display: flex;
+    justify-content: flex-start;
+    .message {
+        border-radius: 25px 25px 25px 0;
+        background-color: $divider;
+    }
+}
+
+.user-local {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    .message {
+        border-radius: 25px 25px 0 25px;
+        background-color: $orange;
+        color: $white;
+    }
+    .time {
+        text-align: right;
+    }
+}
+
+.input-area {
+    height: 54px;
+    width: 100%;
+    display: flex;
+    padding: 10px 15px;
+    border-top: 1px solid $divider;
+    input[type="text"] {
+        padding: 5px 15px;
+        border-radius: 30px;
+        background-color: $divider;
+        border: none;
+        flex: 1;
+    }
+}

@@ -1,4 +1,4 @@
-.online{
+.online {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -13,11 +13,9 @@
     color: $nameTitle;
     .title {
       margin-left: 15px;
-      
     }
   }
 
-  
   &-user {
     height: 75px;
     border-bottom: 1px $divider solid;
@@ -47,11 +45,7 @@
         font-weight: 500;
         color: $tag;
       }
-
     }
-
-
-
   }
-
 }
+
