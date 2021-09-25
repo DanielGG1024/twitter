@@ -20,7 +20,7 @@
           </router-link>
         </li>
         <li class="menu-nav-link">
-          <router-link to="/user/self" class="menu-link">
+
           <router-link
             :to="{ name: 'user', params: { id: currentUserId } }"
             class="menu-link"

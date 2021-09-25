@@ -81,7 +81,6 @@
           <div class="time">下午 4:25</div>
         </div>
       </div>
-      -->
     </div>
 
     <div class="input-area">
