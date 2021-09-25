@@ -8,10 +8,10 @@ import VueSocketIO from 'vue-socket.io'
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
+// console.log('main.js token', getToken())
 Vue.use(new VueSocketIO({
   debug: true,
-
-  connection: 'https://ee58-219-85-165-164.ngrok.io',
+  connection: 'https://0ac7-219-85-165-164.ngrok.io/',
   vuex: {
     store,
     actionPrefix: 'SOCKET_',
