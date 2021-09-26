@@ -112,31 +112,24 @@
 
 
 <script>
-export default {
-  name: 'socket',
-  data() {
-    return{
-      text: "",
-    }
-  },
+// export default {
+//   name: 'socket',
+//   data() {
+//     return{
+//       text: "",
+//     }
+//   },
 
-  methods:{
-    sendMessage(){
-      this.$socket.emit('chatmessage', {
-        msg: this.text,
-      });
-      this.text="";
-    },
-  },
+//   methods:{
+//     sendMessage(){
+//       this.$socket.emit('chatmessage', {
+//         msg: this.text,
+//       });
+//       this.text="";
+//     },
+//   },
 
-}
-
-</script>
-
-
-
-
-
+// }
 
 // import Vue from "vue";
 // import store from "./../store";
@@ -238,22 +231,23 @@ export default {
     newMessage: function (data) {
       console.log("newMessage data:", data);
     },
-    disconnect: function () {
-      const userId = this.currentUser.id;
-      this.$socket.emit("bye", {
-        UserId: userId,
-      });
-      this.$socket.emit("chatmessage", {
-        msg: text,
-        UserId: userId,
-      });
-    },
+    // disconnect: function () {
+    //   const userId = this.currentUser.id;
+    //   this.$socket.emit("bye", {
+    //     UserId: userId,
+    //   });
+    //   this.$socket.emit("chatmessage", {
+    //     msg: text,
+    //     UserId: userId,
+    //   });
+    // },
   },
   // beforeRouteUpdate(to, from, next) {
 
   // },
 };
 </script>
+
 
 <style lang="scss" scoped>
 @import "./../assets/scss/messageBox.scss";

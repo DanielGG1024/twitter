@@ -7,11 +7,27 @@
       </div>
       <!-- userList  -->
       <div class="user-list">
-        <OnlineList :onlineUser="onlineUser" />
+        <div class="online online-list">
+          <header>
+            <div class="title">
+              上線使用者 <span class="onlineCount">(1)</span>
+            </div>
+          </header>
+          <div class="online-users">
+            <div class="online-user">
+              <div class="avatar">
+                <img :src="onlineUser.avatar" alt="" />
+              </div>
+              <div class="user-info">
+                <div class="name">{{ onlineUser.name }}</div>
+                <div class="account">@{{ onlineUser.account }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- messageBox -->
       <div class="message-box">
-        
         <MessageBox />
       </div>
     </div>
@@ -20,19 +36,18 @@
 
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
-import OnlineList from "../components/OnlineList";
+// import OnlineList from "../components/OnlineList";
 import usersAPI from "./../apis/users";
 import { mapState } from "vuex";
 import MessageBox from "./../components/MessageBox.vue";
 import { Toast } from "./../utils/helpers";
-
 
 export default {
   name: "publucMessage",
   components: {
     UserLeftColumn,
     MessageBox,
-    OnlineList,
+    // OnlineList,
   },
   data() {
     return {
