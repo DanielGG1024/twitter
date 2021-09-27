@@ -20,8 +20,9 @@ export default {
       }
     })
   },
-  putUser({ userId, JOSN_data }) {
-    return apiHelper.put(`users/${userId}`, JOSN_data, {
+  putUser({ userId, JSON_data }) {
+    console.log("api-JSON_data:", JSON_data)
+    return apiHelper.put(`users/${userId}/setting`, JSON_data, {
       headers: {
         Authorization: `Bearer ${getToken()}`
       }
