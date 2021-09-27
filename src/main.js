@@ -11,7 +11,8 @@ Vue.config.productionTip = false
 // console.log('main.js token', getToken())
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'https://0ac7-219-85-165-164.ngrok.io/',
+  connection: 'https://tranquil-crag-64775.herokuapp.com/',
+  // connection: 'https://7eec-219-85-165-164.ngrok.io',
   vuex: {
     store,
     actionPrefix: 'SOCKET_',

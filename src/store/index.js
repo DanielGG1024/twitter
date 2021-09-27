@@ -10,11 +10,12 @@ export default new Vuex.Store({
       id: -1,
       name: '',
       email: '',
+      account: '',
       avatar: '',
       role: ''
     },
     isAuthenticated: false,
-    token:''
+    token: ''
   },
   mutations: {
     setCurrentUser(state, currentUser) {
@@ -37,12 +38,14 @@ export default new Vuex.Store({
       try {
         const response = await userAPI.getCurrentUser()
         // console.log('response currentUser', response)
-        const { id, name, email, avatar, isAuthenticated } = response.data
+        const { id, name, email, avatar, isAuthenticated, account, role } = response.data
         commit('setCurrentUser', {
           id,
           name,
           email,
           avatar,
+          role,
+          account,
           isAuthenticated
         })
         return true
