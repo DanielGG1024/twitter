@@ -149,28 +149,10 @@ export default {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
   methods: {
-    async fetchUser() {
-      try {
-        // console.log("setting");
-        const userId = this.currentUser.id;
-        // console.log("userId", userId);
-        const response = await userAPI.getUser({ userId });
-        // console.log("setting response data", response);
-        if (response.status !== 200) {
-          throw new Error();
-        }
-        const { account, name, email } = response.data;
-        this.account = account;
-        this.name = name;
-        this.email = email;
-        this.keyupNameWords();
-      } catch (error) {
-        console.log(error);
-        // Toast.fire({
-        //   icon: "error",
-        //   title: "無法取的使用者資料,setting",
-        // });
-      }
+    fetchUser() {
+      this.account = this.currentUser.account;
+      this.name = this.currentUser.name;
+      this.email = this.currentUser.email;
     },
     addFocus(e) {
       const target = e.target;
@@ -252,6 +234,7 @@ export default {
           "checkPassword":"${this.confirPassword}"
         }`;
         const JSON_data = JSON.parse(data);
+        console.log("JSON_data", JSON_data);
         const response = await userAPI.putUser({ userId, JSON_data });
         console.log(response);
         if (response.status !== 200) {

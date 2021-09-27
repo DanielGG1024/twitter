@@ -214,6 +214,7 @@ export default {
         const data_JSON = JSON.parse(data);
         console.log("data_JSON regist", data_JSON);
         const response = await authorizationAPI.regist({ data_JSON });
+        console.log(response);
         if (response.status !== 200) {
           throw new Error();
         }
@@ -221,6 +222,7 @@ export default {
           icon: "success",
           title: "註冊成功!",
         });
+
         const responseLogin = await authorizationAPI.logIn({
           email: this.email,
           password: this.password,
@@ -236,11 +238,24 @@ export default {
             title: "無法轉入主頁,請稍後",
           });
         }
-      } catch {
-        Toast.fire({
-          icon: "error",
-          title: "無法註冊帳號,請稍後",
-        });
+      } catch (error) {
+        console.log("error.message:", error.message);
+        if (error.message === "Request failed with status code 409") {
+          Toast.fire({
+            icon: "warning",
+            title: "account 或 Email已重覆註冊",
+          });
+        } else if (error.message === "Request failed with status code 401") {
+          Toast.fire({
+            icon: "warning",
+            title: "密碼與密碼確認不符!",
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "無法註冊帳號,請稍後",
+          });
+        }
       }
     },
   },
