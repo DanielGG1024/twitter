@@ -7,12 +7,38 @@
       </div>
       <!-- userList  -->
       <div class="user-list">
-        <OnlineList :onlineUser="onlineUser" />
+        <div class="online online-list">
+          <header>
+            <div class="title">
+              上線使用者
+              <span class="onlineCount">({{ onlineList.length }})</span>
+            </div>
+          </header>
+          <div class="online-users">
+            <div
+              class="online-user"
+              v-for="onlineUser in onlineList"
+              :key="onlineUser.id"
+            >
+              <div class="avatar">
+                <img :src="onlineUser.avatar" alt="" />
+              </div>
+              <div class="user-info">
+                <div class="name">
+                  {{ onlineUser.name }}
+                </div>
+                <div class="account">
+                  @
+                  {{ onlineUser.account }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- messageBox -->
       <div class="message-box">
-        
-        <MessageBox />
+        <MessageBox :onlineList="onlineList" />
       </div>
     </div>
   </div>
@@ -20,61 +46,57 @@
 
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
-import OnlineList from "../components/OnlineList";
-import usersAPI from "./../apis/users";
-import { mapState } from "vuex";
-import MessageBox from "./../components/MessageBox.vue";
-import { Toast } from "./../utils/helpers";
 
+import MessageBox from "./../components/MessageBox.vue";
+import { mapState } from "vuex";
 
 export default {
-  name: "publucMessage",
+  name: "publicMessage",
   components: {
     UserLeftColumn,
     MessageBox,
-    OnlineList,
   },
   data() {
     return {
       userId: Number(this.$route.params.id),
       currentUserId: -1,
-      onlineUser: {
-        id: -1,
-        name: "",
-        avatar: "",
-        account: "",
-      },
+      onlineList: [],
     };
-  },
-  computed: {
-    ...mapState(["currentUser", "isAuthenticated"]),
   },
   created() {
     this.currentUserId = this.currentUser.id;
-    console.log("userId", this.currentUserId);
-    this.fetchUserInfo(this.currentUserId);
   },
-  methods: {
-    async fetchUserInfo(userId) {
-      try {
-        const { data } = await usersAPI.get({ userId });
-        // console.log('123', data)
-        const { id, name, avatar, account } = data;
-        this.onlineUser = {
-          id,
-          name,
-          avatar,
-          account,
-        };
-        console.log(this.onlineUser);
-      } catch (error) {
-        console.log("error", error);
-        Toast.fire({
-          icon: "error",
-          title: "無法取得個人資料，請稍後再試",
-        });
-      }
+  mounted() {
+    const userId = this.currentUser.id;
+    this.$socket.emit("leave");
+    this.$socket.emit("joinPublic", userId);
+  },
+  sockets: {
+    connect: function () {
+      console.log("socket connected");
     },
+    onlineList: function (data) {
+      console.log("public-onlineList", data);
+      this.onlineList = data;
+    },
+    announce: function (data) {
+      console.log("announce data:", data);
+    },
+    // disconnect: function () {
+    //   console.log("disconnect");
+    //   const userId = this.currentUser.id;
+    //   this.$socket.emit("leavePublic", userId);
+    // },
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log(to, from);
+    const userId = this.currentUser.id;
+    this.$socket.emit("leavePublic", userId);
+    console.log("router test");
+    next();
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
   },
 };
 </script>

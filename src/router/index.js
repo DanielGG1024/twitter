@@ -91,11 +91,11 @@ const routes = [
       }
     ]
   },
-  {
-    path: 'testing',
-    name: 'testingChat',
-    component: () => import('../views/TestingChat.vue'),
-  },
+  // {
+  //   path: 'testing',
+  //   name: 'testingChat',
+  //   component: () => import('../views/TestingChat.vue'),
+  // },
 
   
   {

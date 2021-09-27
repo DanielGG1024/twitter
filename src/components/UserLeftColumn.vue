@@ -18,31 +18,41 @@
             <div class="nav-link nav-home">首頁</div>
           </router-link>
         </li>
-        
+
         <li>
-          <router-link class="nav-item" :to="{ name: 'user' , params: { id: currentUserId }}">
+          <router-link
+            class="nav-item"
+            :to="{ name: 'user', params: { id: currentUserId } }"
+          >
             <img
-              v-if="userId !== this.currentUserId && this.$route.name !== 'user' "
+              v-if="
+                userId !== this.currentUserId && this.$route.name !== 'user'
+              "
               class="icon icon-user"
               src="../assets/pic/icon_user.png"
               alt="icon-user"
             />
-            
+
             <img
               v-else
               class="icon icon-user current"
               src="../assets/pic/icon_user_orange.png"
               alt="icon-user"
             />
-            <div 
+            <div
               class="nav-link nav-user"
-              :class="{current: userId === currentUserId && this.$route.name !== 'publicMessage'}"
-            >個人資料</div>
-
+              :class="{
+                current:
+                  userId === currentUserId &&
+                  this.$route.name !== 'publicMessage',
+              }"
+            >
+              個人資料
+            </div>
           </router-link>
         </li>
-        <li>
-          <router-link class="nav-item" :to="{ name: 'user' , params: { id: currentUserId }}">
+        <!-- <li> -->
+        <!-- <router-link class="nav-item" :to="{ name: 'user' , params: { id: currentUserId }}">
             
             <img
               
@@ -50,20 +60,20 @@
               src="../assets/pic/bell.png"
               alt="icon-user"
             />
-            
-            <!-- <img
+             -->
+        <!-- <img
               v-else
               class="icon icon-bell current"
               src="../assets/pic/bell_orange.png"
               alt="icon-user"
             /> -->
-            <div 
+        <!-- <div 
               class="nav-link nav-user"
               
-            >通知</div>
+            >通知</div> -->
 
-          </router-link>
-        </li>
+        <!-- </router-link>
+        </li> -->
         <li>
           <router-link class="nav-item" :to="{ name: 'publicMessage' }">
             <img
@@ -71,17 +81,14 @@
               src="../assets/pic/message_spot.png"
               alt="icon-user"
             />
-            
+
             <!-- <img
               v-else
               class="icon icon-message current"
               src="../assets/pic/message_spot_orange.png"
               alt="icon-user"
             /> -->
-            <div 
-              class="nav-link nav-user"
-            >公開聊天室</div>
-
+            <div class="nav-link nav-user">公開聊天室</div>
           </router-link>
         </li>
         <!-- <li>
@@ -120,7 +127,7 @@
       </ul>
     </nav>
     <ul class="logout">
-      <li class="logout-item">
+      <li class="logout-item" @click.prevent.stop="clickLogout">
         <img
           class="icon"
           src="../assets/pic/icon_logout.png"
@@ -135,10 +142,9 @@
 <script>
 // import { mapState } from "vuex";
 
-
 export default {
-  props:{
-    userId:{
+  props: {
+    userId: {
       type: Number,
       required: true,
     },
@@ -147,11 +153,15 @@ export default {
       required: true,
     },
   },
-  created(){
-    console.log("route-name", this.$route)
+  created() {
+    // console.log("route-name", this.$route)
   },
-  
-
+  methods: {
+    clickLogout() {
+      this.$store.commit("revokeAuthentication");
+      this.$router.push("/login");
+    },
+  },
 };
 </script>
 

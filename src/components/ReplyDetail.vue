@@ -109,6 +109,7 @@ export default {
     },
     fetchTweet() {
       this.tweet = this.initialTweet;
+      console.log('detail', this.initialTweet)
     },
     afterTweetReplyPost() {
       this.ReplyDetailModal = false;

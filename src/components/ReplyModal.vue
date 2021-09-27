@@ -86,9 +86,14 @@ export default {
       teweetContent: "",
       contentError: false,
       errorContentMessage: "",
-      avatar: "",
+      // avatar: "",
     };
   },
+  created() {
+    console.log('tweet', this.tweet)
+
+  },
+
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
