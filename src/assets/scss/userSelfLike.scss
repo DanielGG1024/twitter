@@ -19,6 +19,10 @@
         background-color: $emptyBg;
         margin: 13px 10px 0 15px;
       }
+      img{
+      border-radius: 50%;
+
+      }
     }
     
     &-main {
@@ -41,6 +45,7 @@
 
       .name {
         font-weight: 700;
+        color: $nameTitle;
         
       }
 
@@ -53,6 +58,8 @@
     &-content {
       line-height: 22px;
       margin-bottom: 10px;
+      overflow-y: scroll;
+      color: $nameTitle;
     }
 
     &-status {

@@ -56,6 +56,7 @@ export default {
         }`;
         const data_JSON = JSON.parse(data);
         const response = await tweetAPI.postTweet({ data_JSON });
+        console.log('maintweetpost',)
         if (response.data.status !== "success") {
           throw new Error();
         }

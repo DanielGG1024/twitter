@@ -110,7 +110,7 @@ export default {
           introduction,
           cover,
         }
-        console.log(this.modalUser)
+        // console.log(this.modalUser)
 
       } catch (error) {
         console.log("error", error)

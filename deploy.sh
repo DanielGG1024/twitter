@@ -7,8 +7,6 @@ npm run build
 # cd 到构建输出的目录下 
 cd dist
 
-# cd 到构建输出的目录下 
-cd dist
 
 # 部署到自定义域域名
 # echo 'www.example.com' > CNAME
@@ -22,6 +20,10 @@ git commit -m 'deploy'
 
 # 部署到 https://DanielGG1024.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/twitter-front-end-vue.git master:gh-pages
+
+
+git push -f https://github.com/DanielGG1024/twitter-front-end-vue.git 
+
 
 
 cd -
