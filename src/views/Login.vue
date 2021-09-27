@@ -67,6 +67,7 @@
 <script>
 import { Toast } from "../utils/helpers";
 import authorizationAPI from "./../apis/authorization";
+import userAPI from "./../apis/user";
 export default {
   data() {
     return {
@@ -105,18 +106,19 @@ export default {
         } else {
           this.PasswordError = false;
         }
+
         if (this.accountError || this.PasswordError) return;
-        const response = await authorizationAPI.logIn({
+        const { data } = await authorizationAPI.logIn({
           email: this.account,
           password: this.password,
         });
-        // console.log(response);
-        const { data } = response;
+
         if (data.status !== "success") {
           throw new Error(data.message);
         }
         localStorage.setItem("token", data.token);
-        this.$store.commit("setCurrentUser", data.user);
+        const fetchCurrentUser = await userAPI.getCurrentUser();
+        this.$store.commit("setCurrentUser", fetchCurrentUser.data);
         this.$router.push("/main");
       } catch (error) {
         console.log(error);

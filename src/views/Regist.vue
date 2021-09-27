@@ -212,9 +212,7 @@ export default {
           "checkPassword":"${this.confirPassword}"
         }`;
         const data_JSON = JSON.parse(data);
-        console.log("data_JSON regist", data_JSON);
         const response = await authorizationAPI.regist({ data_JSON });
-        console.log(response);
         if (response.status !== 200) {
           throw new Error();
         }
@@ -222,13 +220,12 @@ export default {
           icon: "success",
           title: "註冊成功!",
         });
-
+        // 註冊成功後 拿剛剛輸入的值 跑api logIn 取得TOKEN 並導入主頁
         const responseLogin = await authorizationAPI.logIn({
           email: this.email,
           password: this.password,
         });
         try {
-          // console.log("responseLogin", responseLogin);
           localStorage.setItem("token", responseLogin.data.token);
           this.$store.commit("setCurrentUser", responseLogin.data.user);
           this.$router.push("/main");
@@ -239,6 +236,9 @@ export default {
           });
         }
       } catch (error) {
+        // console.log("error:", err);
+        // console.log("error.message:", err.message);
+        // console.log("error.msg:", err.msg);
         console.log("error.message:", error.message);
         if (error.message === "Request failed with status code 409") {
           Toast.fire({

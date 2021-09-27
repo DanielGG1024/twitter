@@ -14,20 +14,22 @@
             <a class="popular-link" href="">@{{ user.account }}</a>
           </div>
           <div class="popular-follow">
-            <button
-              v-if="user.isFollowed"
-              @click.prevent.stop="deleteFollow(user.id)"
-              class="popular-follow-btn btn-active"
-            >
-              正在跟隨
-            </button>
-            <button
-              v-else
-              class="popular-follow-btn"
-              @click.prevent.stop="addFollow(user.id)"
-            >
-              跟隨
-            </button>
+            <template v-if="user.id !== currentUser.id">
+              <button
+                v-if="user.isFollowed"
+                @click.prevent.stop="deleteFollow(user.id)"
+                class="popular-follow-btn btn-active"
+              >
+                正在跟隨
+              </button>
+              <button
+                v-else
+                class="popular-follow-btn"
+                @click.prevent.stop="addFollow(user.id)"
+              >
+                跟隨
+              </button>
+            </template>
           </div>
         </div>
       </div>
@@ -37,11 +39,12 @@
 <script>
 import { Toast } from "./../utils/helpers";
 import tweetAPI from "./../apis/tweet";
+import { mapState } from "vuex";
 export default {
   name: "Popular",
   data() {
     return {
-      isFollow: true,
+      currentUserId: -1,
       users: "",
     };
   },
@@ -71,14 +74,6 @@ export default {
       try {
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
-        // this.users = this.users.forEach((item) => {
-        //   console.log("foreach");
-        //   if (item.id === userId) {
-        //     ...item,
-        //     item.isFollowed: true
-        //   }else{
-        //     ...item
-        //   }
         if (response.status !== 200) {
           throw new Error();
         }
@@ -103,6 +98,9 @@ export default {
         });
       }
     },
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
   },
 };
 </script>

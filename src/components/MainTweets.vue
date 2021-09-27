@@ -11,7 +11,7 @@
           <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
             <span class="user-title">{{ tweet.User.name }}</span>
             <span class="user-info">
-              <a href="#" class="user-link"> {{ tweet.User.account }}</a>
+              <a href="#" class="user-link"> ＠{{ tweet.User.account }}</a>
               <span class="user-link-time"
                 >．{{ tweet.createdAt | fromNow }}</span
               >

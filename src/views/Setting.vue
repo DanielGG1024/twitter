@@ -144,6 +144,7 @@ export default {
   },
   created() {
     this.fetchUser();
+    this.keyupNameWords();
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
@@ -244,7 +245,8 @@ export default {
           icon: "success",
           title: "成功修改資料",
         });
-      } catch {
+      } catch (error) {
+        console.log("setting page error", error);
         Toast.fire({
           icon: "error",
           title: "無法修改資料,請稍後",
