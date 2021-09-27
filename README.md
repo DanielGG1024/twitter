@@ -1,9 +1,10 @@
+
 #twitter-front-end-vue
 
 ##概述:
 
-這是一個類似twitter的社群網站, 你可以在上面瀏覽不同使用者的推文,\<br> 
-並且追蹤它們, 快來試試吧!!\<br> 
+這是一個類似twitter的社群網站, 你可以在上面瀏覽不同使用者的推文,<br> 
+並且追蹤它們, 快來試試吧!!<br>
 [前往](https://danielgg1024.github.io/twitter-front-end-vue/#/login)
 
 ##功能
