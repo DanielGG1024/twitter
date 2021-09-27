@@ -4,7 +4,7 @@ import router from './router'
 import 'boxicons'
 import axios from 'axios'
 import store from './store'
-import VueSocketIO from 'vue-socket.io'
+// import VueSocketIO from 'vue-socket.io'
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
@@ -23,6 +23,7 @@ import SocketIO from 'socket.io-client'
 //   connection: 'https://0ac7-219-85-165-164.ngrok.io',
 //   vuex:{}
 // }))
+
 
 
 
@@ -58,7 +59,9 @@ Vue.use(new VueSocketIO({
     store,
     actionPrefix: 'SOCKET_',
     mutationPrefix: 'SOCKET_',
-    options: { path: '/' }
+    options: {
+      path: '/'
+    }
   }
 }))
 
@@ -70,60 +73,62 @@ new Vue({
 
 
 
-{/* < script >
-  import Vue from "vue";
-import store from "./../store";
-import VueSocketIO from "vue-socket.io";
-import SocketIO from "socket.io-client";
+{
+  /* < script >
+    import Vue from "vue";
+  import store from "./../store";
+  import VueSocketIO from "vue-socket.io";
+  import SocketIO from "socket.io-client";
 
 
-// const getToken = () => localStorage.getItem('token')
-// const token = {token: `${getToken}`}
+  // const getToken = () => localStorage.getItem('token')
+  // const token = {token: `${getToken}`}
 
 
 
-Vue.use(
-  new VueSocketIO({
-    debug: true,
-    connection: SocketIO("https://0ac7-219-85-165-164.ngrok.io", {
-      auth: {
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjI2NDEwNjYzfQ._czlz2LTzcgJXwkQCSN3EVKOeANpqxuJWeJ7vnWKDAQ",
+  Vue.use(
+    new VueSocketIO({
+      debug: true,
+      connection: SocketIO("https://0ac7-219-85-165-164.ngrok.io", {
+        auth: {
+          token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjI2NDEwNjYzfQ._czlz2LTzcgJXwkQCSN3EVKOeANpqxuJWeJ7vnWKDAQ",
+        },
+      }),
+      vuex: {
+        store,
+        actionPrefix: "SOCKET_",
+        mutationPrefix: "SOCKET_",
       },
-    }),
-    vuex: {
-      store,
-      actionPrefix: "SOCKET_",
-      mutationPrefix: "SOCKET_",
+    })
+  );
+
+  export default {
+    name: "ChatPublic",
+    data() {
+      return {
+        message: "",
+      };
     },
-  })
-);
 
-export default {
-  name: "ChatPublic",
-  data() {
-    return {
-      message: "",
-    };
-  },
-
-  sockets: {
-    connect: function () {
-      console.log("socket connected");
+    sockets: {
+      connect: function () {
+        console.log("socket connected");
+      },
     },
-  },
 
-  created() {
-    this.$socket.connect();
-  },
-
-  methods: {
-    send() {
-      this.$socket.emit("chat message", this.message);
-      this.message = "";
+    created() {
+      this.$socket.connect();
     },
-  },
-}; 
-</script> */}
+
+    methods: {
+      send() {
+        this.$socket.emit("chat message", this.message);
+        this.message = "";
+      },
+    },
+  }; 
+  </script> */
+}
 // Vue.use(new VueSocketIO({
 //   debug: true,
 //   connection: 'https://c8ef-219-85-165-164.ngrok.io/',
