@@ -1,18 +1,18 @@
 <template>
   <div class="window demo">
-    <div class="user">
+    <div class="user" v-show="!isLoading">
       <!-- left Column -->
-      <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
+      <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
 
       <!-- center column -->
       <div id="center-column" class="center-column">
         <UserHeader :user="user" />
 
         <div class="user-self">
-          <UserInfo 
-            @after-click-setInfoBtn="clickSetModal" 
+          <UserInfo
+            @after-click-setInfoBtn="clickSetModal"
             :user="user"
-            :userId="userId" 
+            :userId="userId"
             :currentUserId="currentUserId"
           />
           <UserTab />
@@ -59,6 +59,7 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       showInfoSetModal: false,
       userId: Number(this.$route.params.id),
       user: {},
@@ -69,14 +70,14 @@ export default {
         avatar: "",
         cover: "",
         introduction: "",
-      }
+      },
     };
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
   created() {
-    this.currentUserId = this.currentUser.id
+    this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
     console.log("userId", this.currentUserId);
   },
@@ -86,34 +87,30 @@ export default {
     const { id } = to.params;
     // console.log("beforeRU", id)
     this.fetchUserInfo(id);
-    this.userId = Number(id)
+    this.userId = Number(id);
     next();
   },
 
   methods: {
     async fetchUserInfo(userId) {
       try {
+        this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
         // console.log('123', data)
         this.user = data;
-        const {
-          id,
-          name,
-          avatar,
-          introduction,
-          cover,
-        } = data
+        const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
           id,
           name,
           avatar,
           introduction,
           cover,
-        }
+        };
         // console.log(this.modalUser)
-
+        this.isLoading = false;
       } catch (error) {
-        console.log("error", error)
+        console.log("error", error);
+        this.isLoading = false;
         Toast.fire({
           icon: "error",
           title: "無法取得個人資料，請稍後再試",
@@ -122,32 +119,31 @@ export default {
     },
 
     clickSetModal() {
-      this.showInfoSetModal = ! this.showInfoSetModal;
+      this.showInfoSetModal = !this.showInfoSetModal;
     },
 
     async handleAfterSubmit(formData) {
-    try{
-      const {data} = await usersAPI.update({
-        userId: this.currentUserId,
-        formData
-      })
-      console.log("formData-User",formData)
-      console.log('handleSubmit',data)
-      if (data.status !== 'success') {
-        throw new Error (data.message)
-      }
-      
-      this.showInfoSetModal = false
-      this.fetchUserInfo(this.userId);
-      // this.$router.push({ name: 'user', params: `${this.currentUserId}` })
+      try {
+        const { data } = await usersAPI.update({
+          userId: this.currentUserId,
+          formData,
+        });
+        console.log("formData-User", formData);
+        console.log("handleSubmit", data);
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
 
-    }catch(error) {
-      console.log("modal-error", error)
-      Toast.fire({
-        icon: 'error',
-        title: "無法更新個人資料，請稍後再試"
-      })
-    }
+        this.showInfoSetModal = false;
+        this.fetchUserInfo(this.userId);
+        // this.$router.push({ name: 'user', params: `${this.currentUserId}` })
+      } catch (error) {
+        console.log("modal-error", error);
+        Toast.fire({
+          icon: "error",
+          title: "無法更新個人資料，請稍後再試",
+        });
+      }
     },
   },
 };

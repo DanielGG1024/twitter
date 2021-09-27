@@ -1,6 +1,6 @@
 <template>
   <div class="window demo">
-    <div class="user">
+    <div class="user" v-show="!isLoading">
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
 
@@ -37,6 +37,7 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
+      isLoading: true,
       userId: Number(this.$route.params.id),
       currentUserId: -1,
       user: {},
@@ -77,11 +78,14 @@ export default {
   methods: {
     async fetchFollower(userId) {
       try {
+        this.isLoading = true
         const { data } = await usersAPI.getUserFollowers({ userId });
         // console.log('123', data)
         this.followers = data;
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
+        this.isLoading = false,
         Toast.fire({
           icon: "error",
           title: "無法取得個人資料，請稍後再試",

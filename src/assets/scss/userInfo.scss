@@ -2,9 +2,14 @@
   width: 598px;
   height: 375px;
   position: relative;
-  .cover-photo {
+  .cover-container {
     width: 100%;
     height: 200px;
+  }
+  .cover-photo {
+    object-fit: cover;
+    object-position: center;
+
   }
   .user-avatar {
     position: absolute;

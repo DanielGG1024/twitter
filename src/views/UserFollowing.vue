@@ -1,8 +1,8 @@
 <template>
   <div class="window demo">
-    <div class="user">
+    <div class="user" v-show="!isLoading">
       <!-- left Column -->
-      <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
+      <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
 
       <!-- center column -->
       <div id="center-column" class="center-column">
@@ -44,6 +44,7 @@ export default {
   },
   data() {
     return {
+      isLoading: true,
       userId: Number(this.$route.params.id),
       currentUserId: -1,
       user: {},
@@ -70,17 +71,20 @@ export default {
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchFollowing(id);
-    this.userId = Number(id)
+    this.userId = Number(id);
     next();
   },
   methods: {
     async fetchFollowing(userId) {
       try {
+        this.isLoading = true;
         const { data } = await usersAPI.getUserFollowings({ userId });
         // console.log('123', data)
         this.followings = data;
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
+        this.isLoading = false;
         Toast.fire({
           icon: "error",
           title: "無法取得個人資料，請稍後再試",
