@@ -113,7 +113,7 @@ export default {
 
         like.LikesCount += 1
         like.isliked = true
-        this.fetchUserLikes(this.userId);
+        // this.fetchUserLikes(this.userId);
 
       } catch (error) {
         console.log(error);
@@ -135,7 +135,7 @@ export default {
         }
         like.isliked = false
         like.LikesCount -= 1
-        this.fetchUserLikes(this.userId);
+        // this.fetchUserLikes(this.userId);
       } catch (error) {
         console.log(error);
         Toast.fire({
