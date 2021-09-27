@@ -37,6 +37,7 @@
       display: flex;
       .name {
         font-weight: 700;
+        color: $nameTitle;
       }
       .account {
         margin-left: 5px;
@@ -52,6 +53,7 @@
     }
     &-content {
       line-height: 22px;
+      color: $nameTitle;
     }
 
   }

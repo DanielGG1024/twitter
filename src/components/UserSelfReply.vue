@@ -10,12 +10,16 @@
       </router-link>
 
       <div class="reply-main">
+
+        <router-link :to="{ name: 'Reply', params: { id: reply.TweetId } }">
         <div class="reply-user-info">
           <div class="name">{{reply.User.name}}</div>
           <div class="account">@{{reply.User.account}}<span>‧{{reply.createdAt | fromNow}}</span></div>
         </div>
         <div class="reply-this-reply">回覆<span> @{{reply.Tweet.User.account}}</span></div>
         <div class="reply-content">{{reply.comment}}</div>
+        </router-link>
+
       </div>
     </div>
 

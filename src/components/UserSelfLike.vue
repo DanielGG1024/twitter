@@ -26,6 +26,7 @@
         <div class="like-status">
           <div class="replies state">
             <img
+              @click="clickChatBtn(like.TweetId)"
               class="replies-img"
               src="../assets/pic/chat.png"
               alt="chat-icon"
@@ -52,11 +53,19 @@
         </div>
       </div>
     </div>
+    <ReplyModal
+      :ReplyModalSwitch="ReplyModal"
+      :tweet="tweet"
+      @after-click-background="afterClickClose"
+      @after-click-close="afterClickClose"
+      @after-tweetReply-post="afterTweetReplyPost"
+    />
   </div>
 </template>
 
 
 <script>
+import ReplyModal from "./../components/ReplyModal";
 import { fromNowFilter } from "./../utils/mixins";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
@@ -64,9 +73,14 @@ import tweetAPI from "../apis/tweet";
 
 export default {
   mixins: [fromNowFilter],
+  components: {
+    ReplyModal,
+  },
   data() {
     return {
       likes: [],
+      tweet: {},
+      ReplyModal: false,
       userId: Number(this.$route.params.id),
     };
   },
@@ -94,6 +108,8 @@ export default {
         const { data } = await usersAPI.getUserLikes({ userId });
         console.log("fetchUserLikes", data);
         this.likes = data;
+
+        console.log('likes', this.likes)
       } catch (error) {
         Toast.fire({
           icon: "error",
@@ -144,6 +160,24 @@ export default {
         });
       }
     },
+    clickChatBtn(tweetId) {
+      this.ReplyModal = true;
+      const modalTweet = this.likes.find((item) => item.TweetId === tweetId);
+     
+      this.tweet = modalTweet
+
+      console.log("clickBtn tweet", this.tweet)
+      console.log("clickBtn modalTweet", modalTweet)
+    },
+    afterClickClose() {
+      this.ReplyModal = false;
+    },
+    afterTweetReplyPost() {
+      this.ReplyModal = false;
+      this.$emit("after-tweetReply-post");
+      this.fetchUserLikes(this.userId)
+      
+    }
   },
 };
 </script>
