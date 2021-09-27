@@ -30,7 +30,7 @@ npm run serve
 ```
 ##測試帳號
 
-前台登入
+前台登入<br>
 帳號:
 ```
 user1@example.com
@@ -39,7 +39,7 @@ user1@example.com
 ```
 12345678
 ```
-後台登入
+後台登入<br>
 帳號:
 ```
 root@example.com
