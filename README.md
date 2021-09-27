@@ -2,8 +2,9 @@
 # twitter-front-end-vue
 
 ## 概述:
-
-這是一個類似twitter的社群網站, 你可以在上面瀏覽不同使用者的推文,<br> 
+這是一個使用前後分離開發方式的一個簡易版twitter,<br>
+在前端方面主要使用的技術是vue.js<br>
+你可以在上面瀏覽不同使用者的推文,<br> 
 並且追蹤它們, 快來試試吧!!<br>
 [前往](https://danielgg1024.github.io/twitter-front-end-vue/#/login)
 
