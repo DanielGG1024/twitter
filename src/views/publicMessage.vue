@@ -10,7 +10,8 @@
         <div class="online online-list">
           <header>
             <div class="title">
-              上線使用者 <span class="onlineCount">({{onlineList.length}})</span>
+              上線使用者
+              <span class="onlineCount">({{ onlineList.length }})</span>
             </div>
           </header>
           <div class="online-users">
@@ -23,8 +24,13 @@
                 <img :src="onlineUser.avatar" alt="" />
               </div>
               <div class="user-info">
-                <div class="name">{{ onlineUser.name }}</div>
-                <div class="account">@{{ onlineUser.account }}</div>
+                <div class="name">
+                  {{ onlineUser.name }}
+                </div>
+                <div class="account">
+                  @
+                  {{ onlineUser.account }}
+                </div>
               </div>
             </div>
           </div>
@@ -32,7 +38,7 @@
       </div>
       <!-- messageBox -->
       <div class="message-box">
-        <MessageBox />
+        <MessageBox :onlineList="onlineList" />
       </div>
     </div>
   </div>
@@ -40,11 +46,12 @@
 
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
-import { mapState } from "vuex";
+
 import MessageBox from "./../components/MessageBox.vue";
+import { mapState } from "vuex";
 
 export default {
-  name: "publucMessage",
+  name: "publicMessage",
   components: {
     UserLeftColumn,
     MessageBox,
@@ -56,9 +63,6 @@ export default {
       onlineList: [],
     };
   },
-  computed: {
-    ...mapState(["currentUser", "isAuthenticated"]),
-  },
   created() {
     this.currentUserId = this.currentUser.id;
   },
@@ -67,17 +71,6 @@ export default {
     this.$socket.emit("leave");
     this.$socket.emit("joinPublic", userId);
   },
-
-  beforeRouteLeave(to, from, next) {
-    console.log(to, from);
-    const userId = this.currentUser.id;
-
-    this.$socket.emit("leavePublic", userId);
-    
-    console.log("router test");
-    next();
-  }, 
-
   sockets: {
     connect: function () {
       console.log("socket connected");
@@ -89,6 +82,21 @@ export default {
     announce: function (data) {
       console.log("announce data:", data);
     },
+    // disconnect: function () {
+    //   console.log("disconnect");
+    //   const userId = this.currentUser.id;
+    //   this.$socket.emit("leavePublic", userId);
+    // },
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log(to, from);
+    const userId = this.currentUser.id;
+    this.$socket.emit("leavePublic", userId);
+    console.log("router test");
+    next();
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
   },
 };
 </script>

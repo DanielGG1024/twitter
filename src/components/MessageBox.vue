@@ -3,89 +3,103 @@
     <div class="header">
       <div class="title">公開聊天室</div>
     </div>
-    <div class="messageBox-wrapper">
-      <div class="notify">
-        <div class="notify-mgs">Apple 上線</div>
+    <div class="messageBox-wrapper" id="messageBox-wrapper" ref="messageList">
+      <div v-for="user in onlineList" :key="user.id" class="notify">
+        <div class="notify-mgs">{{ user.name }}上線</div>
       </div>
+      <template v-if="newMessages.length !== 'undefined'">
+        <div v-for="newMessage in newMessages" :key="newMessage.ChatId">
+          <div
+            v-if="Number(newMessage.User.id) !== Number(userId)"
+            class="user-remote"
+          >
+            <div class="avatar">
+              <div class="pic">
+                <img class="icon" :src="newMessage.User.avatar" alt="" />
+              </div>
+            </div>
+            <div class="txt-wrapper">
+              <div class="message">
+                {{ newMessage.text }}
+              </div>
+              <div class="time">
+                {{ newMessage.createdAt | fromNowWithWord }}
+              </div>
+            </div>
+          </div>
 
-      <div class="user-remote">
-        <div class="avatar">
-          <div class="pic">
-            <img class="icon" src="./../assets/pic/Photo.png" alt="" />
+          <div v-else class="user-local">
+            <div class="txt-wrapper">
+              <div class="message">
+                {{ newMessage.text }}
+              </div>
+              <div class="time">
+                {{ newMessage.createdAt | fromNowWithWord }}
+              </div>
+            </div>
           </div>
         </div>
-        <div class="txt-wrapper">
-          <div class="message">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. In odit at
-            eum quis architecto reiciendis quas, excepturi cumque, delectus
-            accusantium, debitis omnis reprehenderit error et esse tempora culpa
-            totam ullam! Vitae architecto ex, perferendis nobis, ratione quidem
-            nulla dolorem aliquam velit fuga corporis facere dolore ipsum nihil
-            explicabo quis excepturi. At, ullam! Eveniet laborum, iste fuga
-            commodi quisquam nisi sit? Ipsam a consequuntur, accusantium nemo
-            rem quia laudantium aut harum magni voluptatum, ut doloremque
-            architecto voluptatibus ea ex eligendi fugit, quidem aspernatur
-            repellat maxime adipisci vel dicta? Blanditiis, facere non?
-            Consectetur minima unde et quo quibusdam perferendis recusandae
-            explicabo, eligendi eum ipsa incidunt quia voluptas illo accusamus
-            reprehenderit, natus fuga eos rem sit, rerum provident repellat?
-            Sunt modi et voluptatem! Commodi natus quos, dicta in maiores
-            suscipit distinctio earum ut at ea pariatur eveniet aliquid eaque
-            fugiat porro eos. Omnis beatae eum
-          </div>
-          <div class="time">下午 4.44</div>
-        </div>
-      </div>
-
-      <div class="user-local">
-        <div class="txt-wrapper">
-          <div class="message">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. In odit at
-            eum quis architecto reiciendis quas, excepturi cumque, delectus
-            accusantium, debitis omnis reprehenderit error et esse tempora culpa
-            totam ullam! Vitae architecto ex, perferendis nobis, ratione quidem
-            nulla dolorem aliquam velit fuga corporis facere dolore ipsum nihil
-            explicabo quis excepturi. At, ullam! Eveniet laborum, iste fuga
-            commodi quisquam nisi sit? Ipsam
-          </div>
-          <div class="time">下午 4:25</div>
-        </div>
-      </div>
+      </template>
     </div>
 
-    <div class="input-area">
-      <input v-model="text" type="text" placeholder="輸入訊息..." @keyup.enter="send" />
-      <button @click.prevent.stop="send"  class="btn">submit</button>
+    <div class="input-area" id="textArea">
+      <input
+        name=""
+        v-model="text"
+        type="text"
+        placeholder="輸入訊息..."
+        @keyup.enter="send"
+      />
+      <button @click.prevent.stop="send" class="btn">
+        <i class="bx bx-right-arrow"></i>
+      </button>
     </div>
   </div>
 </template>
 
 
 <script>
-import { mapState } from "vuex";
+// import Vue from "vue";
+// import store from "./../store";
+// import VueSocketIO from "vue-socket.io";
+// import SocketIO from "socket.io-client";
 
+import { Toast } from "./../utils/helpers";
+import socketAPI from "./../apis/socket";
+import { fromNowFilter } from "./../utils/mixins";
+import { mapState } from "vuex";
 export default {
   name: "messageBox",
+  components: {
+    // PerfectScrollbar,
+  },
+  props: {
+    onlineList: {
+      type: Array,
+      required: false,
+    },
+  },
+  mixins: [fromNowFilter],
   data() {
     return {
+      userId: -1,
       text: "",
+      newMessages: [],
+      announceData: "",
     };
   },
-
-  sockets: {
-    connect: function () {
-      console.log("socket connected");
-    },
-    onlineList: function(data){
-      console.log('onlineList', data)
-    },
-    announce: function(data) {
-      console.log("announce data:", data);
-    },
+  created() {
+    this.fetchHistory();
+    this.$socket.connect();
+    this.userId = this.currentUser.id;
+    const userId = this.currentUser.id;
+    console.log(userId);
   },
-  
-
   methods: {
+    scroll() {
+      const container = document.querySelector("#messageBox-wrapper");
+      console.log(container.scrollHeight());
+    },
     send() {
       const userId = this.currentUser.id;
       const text = this.text;
@@ -94,6 +108,22 @@ export default {
         UserId: userId,
       });
       this.text = "";
+    },
+    async fetchHistory() {
+      try {
+        const { data } = await socketAPI.getHistory();
+        console.log(data);
+        this.newMessages = data;
+        this.updateScroll();
+      } catch {
+        Toast.fire({
+          icon: "error",
+          title: "無法取的歷史訊息",
+        });
+      }
+    },
+    updateScroll() {
+      this.$refs.messageList.scrollTop = this.$refs.messageList.scrollHeight;
     },
   },
 
@@ -106,8 +136,35 @@ export default {
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
-}
-
+  sockets: {
+    connect: function () {
+      console.log("connect");
+      const userId = this.currentUser.id;
+      this.$socket.emit("joinPublic", userId);
+    },
+    announce: function (data) {
+      console.log("announce data:", data);
+    },
+    newMessage: function (data) {
+      console.log("newMessage data:", data);
+      this.newMessages.push({
+        User: {
+          id: data.user.id,
+          avatar: data.user.avatar,
+          name: data.user.name,
+          account: data.user.account,
+        },
+        text: data.msg,
+        createdAt: data.date,
+      });
+    },
+    disconnect: function () {
+      console.log("disconnect");
+      const userId = this.currentUser.id;
+      this.$socket.emit("leavePublic", userId);
+    },
+  },
+};
 </script>
 
 
