@@ -53,7 +53,13 @@
           </div>
         </div>
         <div class="button-wrapper">
-          <button class="form-submit-btn" type="submit">登入</button>
+          <button
+            :disabled="isProcessing"
+            class="form-submit-btn"
+            type="submit"
+          >
+            登入
+          </button>
         </div>
       </form>
       <div class="other-link-wrapper">
@@ -77,6 +83,7 @@ export default {
       PasswordError: false,
       showAccountFocus: false,
       showPasswordFocus: false,
+      isProcessing: false,
     };
   },
   methods: {
@@ -108,6 +115,7 @@ export default {
         }
 
         if (this.accountError || this.PasswordError) return;
+        this.isProcessing = true
         const { data } = await authorizationAPI.logIn({
           email: this.account,
           password: this.password,
@@ -126,6 +134,7 @@ export default {
           icon: "warning",
           title: "請輸入正確帳號與密碼",
         });
+        this.isProcessing = false
       }
     },
   },

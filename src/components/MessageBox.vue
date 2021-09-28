@@ -1,5 +1,5 @@
 <template>
-  <div class="messageBox">
+  <div class="messageBox" ref="chat">
     <div class="header">
       <div class="title">公開聊天室</div>
     </div>
@@ -59,11 +59,6 @@
 
 
 <script>
-// import Vue from "vue";
-// import store from "./../store";
-// import VueSocketIO from "vue-socket.io";
-// import SocketIO from "socket.io-client";
-
 import { Toast } from "./../utils/helpers";
 import socketAPI from "./../apis/socket";
 import { fromNowFilter } from "./../utils/mixins";
@@ -95,11 +90,15 @@ export default {
     const userId = this.currentUser.id;
     console.log(userId);
   },
-  mounted() {},
+  mounted() {
+      this.scrollToBottom();
+  },
+  updated() {
+    this.scrollToBottom()
+  },
   methods: {
-    scroll() {
-      const container = document.querySelector("#messageBox-wrapper");
-      console.log(container.scrollHeight());
+    scrollToBottom() {
+      this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
     },
     send() {
       const userId = this.currentUser.id;
@@ -115,16 +114,13 @@ export default {
         const { data } = await socketAPI.getHistory();
         console.log(data);
         this.newMessages = data;
-        this.updateScroll();
+        this.scrollToBottom();
       } catch {
         Toast.fire({
           icon: "error",
           title: "無法取的歷史訊息",
         });
       }
-    },
-    updateScroll() {
-      this.$refs.messageList.scrollTop = this.$refs.messageList.scrollHeight;
     },
   },
   computed: {

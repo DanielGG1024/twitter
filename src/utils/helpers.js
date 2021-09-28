@@ -9,9 +9,6 @@ const baseURL = 'https://tranquil-crag-64775.herokuapp.com/api/'
 export const apiHelper = axios.create({
     baseURL,
 })
-// export const apiSocketHelper = axios.create({
-//     socketURL,
-// })
 export const Toast = Swal.mixin({
     toast: true,
     position: 'top-end',

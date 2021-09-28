@@ -4,17 +4,22 @@
       <Menu />
       <main class="content">
         <div class="content-wrapper">
-          <ReplyDetail
-            :initial-tweet="tweet"
-            @after-tweetReply-post="afterTweetReplyPost"
-          />
-          <!-- reply-tweets -->
-          <ReplyTweets
-            v-for="tweetReply in tweetReplies"
-            :key="tweetReply.UserId"
-            :tweetReplies="tweetReply"
-            :tweetUserAccount="tweet.user.account"
-          />
+          <Spinner v-if="isLoading" />
+          <template v-else>
+            <ReplyDetail
+              :initial-tweet="tweet"
+              @after-tweetReply-post="afterTweetReplyPost"
+            />
+            <!-- reply-tweets -->
+            <div class="reply-wrapper">
+              <ReplyTweets
+                v-for="tweetReply in tweetReplies"
+                :key="tweetReply.UserId"
+                :tweetReplies="tweetReply"
+                :tweetUserAccount="tweet.user.account"
+              />
+            </div>
+          </template>
         </div>
       </main>
       <Popular />
@@ -27,6 +32,7 @@ import Menu from "./../components/Menu";
 import Popular from "./../components/Popular";
 import ReplyDetail from "./../components/ReplyDetail";
 import ReplyTweets from "./../components/ReplyTweets";
+import Spinner from "./../components/Spinner";
 import { Toast } from "./../utils/helpers";
 import tweetAPI from "./../apis/tweet";
 export default {
@@ -35,6 +41,7 @@ export default {
     Popular,
     ReplyDetail,
     ReplyTweets,
+    Spinner,
   },
   data() {
     return {
@@ -51,6 +58,7 @@ export default {
         isLiked: false,
         id: -1,
       },
+      isLoading: true,
       tweetReplies: "",
     };
   },
@@ -106,7 +114,9 @@ export default {
         const response = await tweetAPI.getTweetReplies({ tweetId });
         const { data } = response;
         this.tweetReplies = data;
+        this.isLoading = false;
       } catch {
+        this.isLoading = false;
         Toast.fire({
           icon: "error",
           title: "無法取得回復,請稍後在試",
@@ -127,11 +137,15 @@ export default {
 .content {
   height: 100vh;
   width: 600px;
-  overflow: scroll;
+  // overflow-y: scroll;
 }
 
 .content-wrapper {
-  height: 175px;
+  height: 100%;
   width: 100%;
+}
+.reply-wrapper {
+  overflow-y: scroll;
+  height: auto;
 }
 </style>

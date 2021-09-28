@@ -18,7 +18,7 @@ git add -A
 git commit -m 'deploy'
 
 # 部署到 https://DanielGG1024.github.io
-# git push -f git@github.com:DanielGG1024/DanielGG1024.github.io.git main
+git push -f git@github.com:DanielGG1024/twitter-front-end-vue.git main:gh-pages
 
 # 部署到 https://DanielGG1024.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/twitter-front-end-vue.git master:gh-pages

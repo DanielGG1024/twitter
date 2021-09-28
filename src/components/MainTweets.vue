@@ -1,5 +1,5 @@
 <template>
-  <div class="tweets scrollbar">
+  <div class="tweets" ref="chat">
     <div v-for="tweet in allTweets" :key="tweet.TweetId" class="onetweet">
       <div class="onetweet-user-icon-wrapper">
         <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
@@ -80,6 +80,10 @@ export default {
     };
   },
   methods: {
+    onScroll(event) {
+      console.log("onScroll");
+      console.log(this.$refs.scrollbar.ps, event);
+    },
     clickChatBtn(tweetId) {
       // console.log("asdf");
       this.ReplyModal = true;

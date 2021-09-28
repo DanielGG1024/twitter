@@ -98,7 +98,13 @@
           </div>
         </div>
         <div class="button-wrapper">
-          <button class="form-submit-btn" type="submit">註冊</button>
+          <button
+            :disabled="isProcessing"
+            class="form-submit-btn"
+            type="submit"
+          >
+            註冊
+          </button>
         </div>
       </form>
       <div class="cancel-wrapper">
@@ -108,6 +114,7 @@
   </div>
 </template>
 <script>
+import userAPI from "./../apis/user";
 import authorizationAPI from "./../apis/authorization";
 import { Toast } from "./../utils/helpers";
 export default {
@@ -118,12 +125,13 @@ export default {
       email: "",
       password: "",
       confirPassword: "",
-      nameWords: "0",
       accountError: false,
       nameError: false,
       emailError: false,
       passwordError: false,
       confirPasswordError: false,
+      nameWords: "0",
+      isProcessing: false,
       error: {
         email: "",
       },
@@ -199,11 +207,7 @@ export default {
         return;
       }
       try {
-        // const form = e.target;
-        // const formData = new FormData(form);
-        // for (let [name, value] of formData.entries()) {
-        //   console.log(name + ": " + value);
-        // }
+        this.isProcessing = true;
         const data = `{
           "account":"${this.account}",
           "name":"${this.name}",
@@ -225,14 +229,16 @@ export default {
           email: this.email,
           password: this.password,
         });
+        console.log("responseLogin", responseLogin);
+        localStorage.setItem("token", responseLogin.data.token);
         try {
-          localStorage.setItem("token", responseLogin.data.token);
-          this.$store.commit("setCurrentUser", responseLogin.data.user);
+          const fetchCurrentUser = await userAPI.getCurrentUser();
+          this.$store.commit("setCurrentUser", fetchCurrentUser.data);
           this.$router.push("/main");
         } catch {
           Toast.fire({
             icon: "error",
-            title: "無法轉入主頁,請稍後",
+            title: "無法轉入主頁,取得token",
           });
         }
       } catch (error) {
@@ -256,6 +262,7 @@ export default {
             title: "無法註冊帳號,請稍後",
           });
         }
+        this.isProcessing = false;
       }
     },
   },
