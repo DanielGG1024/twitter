@@ -2,17 +2,17 @@
   <div class="window demo">
     <div class="user">
       <!-- left Column -->
-      <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
-
+      <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
+      <Spinner v-if="isLoading"/>
       <!-- center column -->
-      <div id="center-column" class="center-column">
+      <div v-else id="center-column" class="center-column">
         <UserHeader :user="user" />
 
         <div class="user-self">
-          <UserInfo 
-            @after-click-setInfoBtn="clickSetModal" 
-            :user="user"
-            :userId="userId" 
+          <UserInfo
+            @after-click-setInfoBtn="clickSetModal"
+            :initialUser="user"
+            :userId="userId"
             :currentUserId="currentUserId"
           />
           <UserTab />
@@ -29,9 +29,11 @@
     <UserInfoSetModal
       v-show="showInfoSetModal"
       :showInfoSetModal="showInfoSetModal"
+      :isProcessing="isProcessing"
       @after-click-close="clickSetModal"
       :initialModalUser="modalUser"
       @after-submit="handleAfterSubmit"
+
     />
   </div>
 </template>
@@ -41,8 +43,10 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
-import Popular from "../components/UserRightColumn.vue";
+import Popular from "../components/Popular.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
+import Spinner from "../components/Spinner.vue";
+
 import { mapState } from "vuex";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
@@ -56,9 +60,11 @@ export default {
     UserTab,
     Popular,
     UserInfoSetModal,
+    Spinner,
   },
   data() {
     return {
+      isLoading: true,
       showInfoSetModal: false,
       userId: Number(this.$route.params.id),
       user: {},
@@ -69,14 +75,15 @@ export default {
         avatar: "",
         cover: "",
         introduction: "",
-      }
+      },
+      isProcessing: false
     };
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
   created() {
-    this.currentUserId = this.currentUser.id
+    this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
     console.log("userId", this.currentUserId);
   },
@@ -86,34 +93,39 @@ export default {
     const { id } = to.params;
     // console.log("beforeRU", id)
     this.fetchUserInfo(id);
-    this.userId = Number(id)
+    this.userId = Number(id);
     next();
   },
+
+  // watch: {
+  //   user: {
+  //     handler: function () {
+  //       this.fetchUserInfo(this.userId);
+  //     },
+  //     // deep: true,
+  //   },
+  // },
 
   methods: {
     async fetchUserInfo(userId) {
       try {
+        this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
         // console.log('123', data)
         this.user = data;
-        const {
-          id,
-          name,
-          avatar,
-          introduction,
-          cover,
-        } = data
+        const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
           id,
           name,
           avatar,
           introduction,
           cover,
-        }
-        console.log(this.modalUser)
-
+        };
+        // console.log(this.modalUser)
+        this.isLoading = false;
       } catch (error) {
-        console.log("error", error)
+        console.log("error", error);
+        this.isLoading = false;
         Toast.fire({
           icon: "error",
           title: "無法取得個人資料，請稍後再試",
@@ -122,33 +134,35 @@ export default {
     },
 
     clickSetModal() {
-      this.showInfoSetModal = ! this.showInfoSetModal;
+      this.showInfoSetModal = !this.showInfoSetModal;
     },
 
     async handleAfterSubmit(formData) {
-    try{
-      const {data} = await usersAPI.update({
-        userId: this.currentUserId,
-        formData
-      })
-      console.log("formData-User",formData)
-      console.log('handleSubmit',data)
-      if (data.status !== 'success') {
-        throw new Error (data.message)
-      }
-      
-      this.showInfoSetModal = false
-      this.fetchUserInfo(this.userId);
-      // this.$router.push({ name: 'user', params: `${this.currentUserId}` })
+      try {
+        this.isProcessing = true
+        const { data } = await usersAPI.update({
+          userId: this.currentUserId,
+          formData,
+        });
+        console.log("formData-User", formData);
+        console.log("handleSubmit", data);
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
 
-    }catch(error) {
-      console.log("modal-error", error)
-      Toast.fire({
-        icon: 'error',
-        title: "無法更新個人資料，請稍後再試"
-      })
-    }
+        this.showInfoSetModal = false;
+        this.fetchUserInfo(this.userId);
+        this.isProcessing = false
+      } catch (error) {
+        this.isProcessing = true
+        console.log("modal-error", error);
+        Toast.fire({
+          icon: "error",
+          title: "無法更新個人資料，請稍後再試",
+        });
+      }
     },
+
   },
 };
 </script>

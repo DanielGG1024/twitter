@@ -19,6 +19,7 @@
                 v-if="user.isFollowed"
                 @click.prevent.stop="deleteFollow(user.id)"
                 class="popular-follow-btn btn-active"
+                :disabled="isProcessing"
               >
                 正在跟隨
               </button>
@@ -26,11 +27,11 @@
                 v-else
                 class="popular-follow-btn"
                 @click.prevent.stop="addFollow(user.id)"
+                :disabled="isProcessing"
               >
                 跟隨
               </button>
             </template>
-          </div>
         </div>
       </div>
     </div>
@@ -46,39 +47,62 @@ export default {
     return {
       currentUserId: -1,
       users: "",
+      isProcessing: false
     };
   },
   created() {
     this.fetchTopUsers();
   },
+  watch: {
+    users: {
+      handler: function () {
+        this.fetchTopUsers();
+      },
+    },
+  },
   methods: {
-    async deleteFollow(userId) {
+    async deleteFollow(user) {
       try {
+        this.isProcessing = true
+        const userId = user.id  
         const response = await tweetAPI.removeFollow({ userId });
         if (response.status !== 200) {
           throw new Error();
         }
-        this.fetchTopUsers();
+        this.$emit("follow-click")
+        user.isFollowed = false     
+        this.isProcessing = false   
+
       } catch {
+        this.isProcessing = false
         Toast.fire({
           icon: "error",
           title: "無法取消追蹤使用者,請稍後",
         });
       }
     },
-    async addFollow(userId) {
+    async addFollow(user) {
+      const userId = user.id
       const data = `{
         "id":"${userId}"
       }`;
       const data_JSON = JSON.parse(data);
       try {
+        this.isProcessing = true
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6df531cb1a2731f3dda8a8fc234e782581c70fbc
         if (response.status !== 200) {
           throw new Error();
         }
-        this.fetchTopUsers();
+        
+        user.isFollowed = true
+        this.isProcessing = false
       } catch {
+        this.isProcessing = false
         Toast.fire({
           icon: "error",
           title: "無法追蹤使用者,請稍後",
@@ -91,6 +115,7 @@ export default {
         const { data } = response;
         // console.log("popular data", data);
         this.users = data;
+        // console.log('top10users', data)
       } catch {
         Toast.fire({
           icon: "warning",

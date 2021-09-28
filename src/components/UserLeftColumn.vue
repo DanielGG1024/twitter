@@ -140,21 +140,20 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
-  props: {
-    userId: {
-      type: Number,
-      required: true,
-    },
-    currentUserId: {
-      type: Number,
-      required: true,
-    },
+  data() {
+    return {
+      userId: Number(this.$route.params.id),
+      currentUserId: -1,
+    };
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
   },
   created() {
-    // console.log("route-name", this.$route)
+    this.currentUserId = this.currentUser.id;
   },
   methods: {
     clickLogout() {

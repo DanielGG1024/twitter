@@ -91,6 +91,13 @@ const routes = [
       }
     ]
   },
+  // {
+  //   path: 'testing',
+  //   name: 'testingChat',
+  //   component: () => import('../views/TestingChat.vue'),
+  // },
+
+  
   {
     path: '*',
     name: 'Not-found',

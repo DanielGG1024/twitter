@@ -2,8 +2,7 @@
   <div class="window demo">
     <div class="user">
       <!-- left Column -->
-      <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
-
+      <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
       <!-- center column -->
       <div id="center-column" class="center-column">
         <!-- header -->
@@ -11,11 +10,48 @@
 
         <!-- follower/following -->
         <UserFollowTab />
-        <UserFollower
-          :initialFollowers="followers"
-          @after-follow-click="addFollow"
-          @after-remove-follow="removeFollow"
-        />
+        <div id="user-follower-list">
+          <div class="user-followers">
+            <div
+              class="follower"
+              v-for="follower in followers"
+              :key="follower.followerId"
+            >
+              <div class="avatar">
+                <div class="avatar-img">
+                  <img
+                    :src="follower.avatar | emptyImage"
+                    alt="avatar"
+                    class=""
+                  />
+                </div>
+              </div>
+              <div class="follower-main">
+                <div class="name">{{ follower.name }}</div>
+                <div class="tag-name">@{{ follower.account }}</div>
+                <div class="description scrollbar">
+                  {{ follower.introduction }}
+                </div>
+              </div>
+              <button
+                class="follower-btn following"
+                v-if="follower.isFollowed"
+                @click="removeFollow(follower.followerId)"
+                :disabled="isProcessing"
+              >
+                正在跟隨
+              </button>
+              <button
+                class="follower-btn"
+                v-else
+                @click="addFollow(follower.followerId)"
+                :disabled="isProcessing"
+              >
+                跟隨
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- right Column -->
       <Popular />
@@ -26,30 +62,41 @@
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
-import Popular from "../components/UserRightColumn.vue";
+import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
-import UserFollower from "../components/UserFollower.vue";
+
 import usersAPI from "../apis/users";
 import tweetAPI from "../apis/tweet";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 
 export default {
-  data() {
-    return {
-      userId: Number(this.$route.params.id),
-      currentUserId: -1,
-      user: {},
-      followers: [],
-    };
-  },
+  mixins: [fromNowFilter, emptyImageFilter],
   components: {
     UserLeftColumn,
     UserHeader,
     Popular,
     UserFollowTab,
-    UserFollower,
   },
+  data() {
+    return {
+      isLoading: true,
+      userId: Number(this.$route.params.id),
+      currentUserId: -1,
+      user: {},
+      followers: [],
+      isProcessing: false,
+    };
+  },
+  watch: {
+    followers: {
+      handler: function () {
+        this.fetchFollower(this.userId);
+      },
+    },
+  },
+
   created() {
     this.fetchFollower(this.userId);
     this.fetchUserInfo(this.userId);
@@ -57,47 +104,45 @@ export default {
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
-  watch: {
-    followers: {
-      handler: function () {
-        this.fetchFollower(this.userId);
-      },
-      deep: true,
-    },
-  },
   beforeRouteUpdate(to, from, next) {
     console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchFollower(id);
-    this.userId = Number(id)
+    this.userId = Number(id);
     next();
   },
 
   methods: {
     async fetchFollower(userId) {
       try {
+        this.isLoading = true;
         const { data } = await usersAPI.getUserFollowers({ userId });
         // console.log('123', data)
         this.followers = data;
+        this.isLoading = false;
       } catch (error) {
         console.log(error);
-        Toast.fire({
-          icon: "error",
-          title: "無法取得個人資料，請稍後再試",
-        });
+        (this.isLoading = false),
+          Toast.fire({
+            icon: "error",
+            title: "無法取得個人資料，請稍後再試",
+          });
       }
     },
     async fetchUserInfo(userId) {
       try {
+        this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
         // console.log('123', data)
         this.user = data;
+        this.isLoading = false;
       } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法取得個人資料，請稍後再試",
-        });
+        (this.isLoading = false),
+          Toast.fire({
+            icon: "error",
+            title: "無法取得個人資料，請稍後再試",
+          });
       }
     },
     async addFollow(userId) {
@@ -106,10 +151,13 @@ export default {
       }`;
       const data_JSON = JSON.parse(data);
       try {
+        this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
-
+        this.fetchFollower(this.userId);
+        this.isProcessing = false;
       } catch {
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title: "無法追蹤使用者,請稍後",
@@ -120,6 +168,7 @@ export default {
     async removeFollow(userId) {
       console.log(userId);
       try {
+        this.isProcessing = true;
         const response = await tweetAPI.removeFollow({ userId });
         console.log("reponse", response);
         const { data } = response;
@@ -136,7 +185,10 @@ export default {
             isfollowered: false,
           };
         });
+        this.fetchFollower(this.userId);
+        this.isProcessing = false;
       } catch (error) {
+        this.isProcessing = false;
         console.log(error);
         Toast.fire({
           icon: "error",
@@ -157,4 +209,5 @@ export default {
   margin: auto;
 }
 @import "@/assets/scss/user.scss";
+@import "@/assets/scss/userFollower.scss";
 </style>

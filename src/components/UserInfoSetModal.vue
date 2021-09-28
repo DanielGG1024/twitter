@@ -7,7 +7,7 @@
             <img src="../assets/pic/close.png" class="close" alt="" />
           </div>
           <div class="title">編輯個人資料</div>
-          <button class="save-submit">儲存</button>
+          <button class="save-submit" :disabled="isProcessing">儲存</button>
         </div>
 
         <div class="modal-banner">
@@ -20,6 +20,7 @@
               <label for="user-cover">
                 <input
                   type="file"
+                  name="cover"
                   accept="image/*"
                   @change="handleCoverChange"
                   class="form-control-file d-none"
@@ -46,6 +47,7 @@
             <label for="user-avatar">
               <input
                 type="file"
+                name="avatar"
                 accept="image/*"
                 @change="handleAvatarChange"
                 class="form-control-file d-none"
@@ -69,17 +71,18 @@
         <div class="modal-content">
           <div class="name">
             <div class="title">名稱</div>
-            <input class="content" type="text" v-model="modalUser.name" />
-            <div class="footer">8/50</div>
+            <input class="content" type="text" v-model="modalUser.name" name="name" />
+            <div class="footer">{{modalUser.name.length}}/50</div>
           </div>
           <div class="description">
             <div class="title">自我介紹</div>
             <input
+              name="introduction"
               class="content"
               type="textarea"
               v-model="modalUser.introduction"
             />
-            <div class="footer">0/160</div>
+            <div class="footer">{{modalUser.introduction.length}}/160</div>
           </div>
         </div>
       </form>
@@ -107,6 +110,10 @@ export default {
         cover: "",
       }),
     },
+    isProcessing: {
+      type: Boolean,
+      required: true,
+    }
   },
 
   data() {
@@ -118,6 +125,7 @@ export default {
         introduction: "",
         cover: "",
       },
+
     };
   },
   created() {
@@ -179,37 +187,21 @@ export default {
           title: "姓名字數不可超過50字",
         });
         return;
-      } else if (introduction.length > 140) {
+      } else if (introduction.length > 160) {
         Toast.fire({
           icon: "error",
-          title: "描述不可超過140字",
+          title: "描述不可超過160字",
         });
         return;
       }
-
-      
-
-      // 這是跟個AC教案編輯餐廳清單的方法，這個方法文字、圖片都會失敗
       const form = e.target; // 
       const formData = new FormData(form);
-    
-      
-
-      //直接回傳data裡的這筆資料。只有文字能回傳成功，圖片會失敗。應該是助教早上抓到的版本
-      // const formData = this.modalUser;
-      
-
       this.$emit("after-submit", formData);
-
-      // console測試區，可跳過不用看
-      // console.log("submit event", e);
-      // console.log("form",form)
-      // console.log("formData-modal",formData)
-      // const formData = JSON.stringify(Array.from(this.modalUser))
     },
     reset() {
       this.modalUser.cover = "";
     },
+
   },
 };
 </script>

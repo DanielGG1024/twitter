@@ -19,12 +19,12 @@
     "sass-loader": "^7.1.0",
     "sass-resources-loader": "^2.2.4",
     "socket.io": "^4.2.0",
+    "socket.io-client": "^4.2.0",
     "sweetalert2": "^11.1.6",
     "vue": "^2.6.14",
     "vue-perfect-scrollbar": "^0.2.1",
     "vue-router": "^3.5.2",
-    "vue-socket.io": "^3.0.10",
-    "vue2-perfect-scrollbar": "^1.5.0",
+    "vue-socket.io": "^3.0.5",
     "vuex": "^3.6.2"
   },
   "devDependencies": {

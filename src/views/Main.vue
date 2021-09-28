@@ -57,7 +57,7 @@ export default {
       try {
         const response = await getTweetsAPI.getTweets();
         const { data } = response;
-        // console.log(data);
+        console.log("allTweets", data);
         this.allTweets = data;
         this.isLoading = false;
       } catch {

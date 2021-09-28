@@ -53,6 +53,7 @@
               <button
                 @click="handleSubmit(tweet.TweetId)"
                 class="modal-main-tweet-button"
+                :disabled="isProcessing"
               >
                 推文
               </button>
@@ -86,9 +87,14 @@ export default {
       teweetContent: "",
       contentError: false,
       errorContentMessage: "",
-      avatar: "",
+      // avatar: "",
+      isProcessing: false,
     };
   },
+  created() {
+    console.log("tweet", this.tweet);
+  },
+
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
@@ -131,6 +137,7 @@ export default {
         }
         this.$emit("after-tweetReply-post");
         this.teweetContent = "";
+        this.isProcessing = true;
         Toast.fire({
           icon: "success",
           title: "發送成功!",
@@ -140,6 +147,7 @@ export default {
           icon: "error",
           title: "無法回復,請稍後",
         });
+        this.isProcessing = false;
       }
       // console.log("tweetID", tweetId);
     },

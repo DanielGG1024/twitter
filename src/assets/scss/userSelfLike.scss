@@ -4,7 +4,7 @@
   overflow-y: scroll;
   .like {
     width: 600px;
-    height: 144px;
+    // height: 144px;
     display: flex;
     border-bottom: 1px $divider solid;
     
@@ -19,11 +19,15 @@
         background-color: $emptyBg;
         margin: 13px 10px 0 15px;
       }
+      img{
+      border-radius: 50%;
+
+      }
     }
     
     &-main {
       width: 510px;
-      height: 134px;
+      // height: 134px;
       margin: 10px 15px 0 0;
       font-weight: 500;
       font-size: 15px;
@@ -41,6 +45,7 @@
 
       .name {
         font-weight: 700;
+        color: $nameTitle;
         
       }
 
@@ -53,6 +58,8 @@
     &-content {
       line-height: 22px;
       margin-bottom: 10px;
+      overflow-y: scroll;
+      color: $nameTitle;
     }
 
     &-status {
@@ -60,6 +67,7 @@
       justify-content: space-between;
       width: 134px;
       height: 30px;
+      margin-bottom: 5px;
       .state {
         display: flex;
         align-items: center;
@@ -70,6 +78,7 @@
         &-img {
           width: 12.34px;
           height: 12.34px;
+          cursor: pointer;
         }
         &-count {
           margin-left: 10px;
@@ -80,6 +89,7 @@
         &-img {
           width: 20.1px;
           height: 18.91px;
+          cursor: pointer;
         }
         &-count {
           margin-left: 6.95px;
