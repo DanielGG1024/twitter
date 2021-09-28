@@ -67,8 +67,10 @@ export default {
         if (response.status !== 200) {
           throw new Error();
         }
+        this.$emit("follow-click")
         user.isFollowed = false     
         this.isProcessing = false   
+
       } catch {
         this.isProcessing = false
         Toast.fire({

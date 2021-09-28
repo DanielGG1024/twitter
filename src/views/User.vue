@@ -11,7 +11,7 @@
         <div class="user-self">
           <UserInfo
             @after-click-setInfoBtn="clickSetModal"
-            :user="user"
+            :initialUser="user"
             :userId="userId"
             :currentUserId="currentUserId"
           />
@@ -97,6 +97,15 @@ export default {
     next();
   },
 
+  // watch: {
+  //   user: {
+  //     handler: function () {
+  //       this.fetchUserInfo(this.userId);
+  //     },
+  //     // deep: true,
+  //   },
+  // },
+
   methods: {
     async fetchUserInfo(userId) {
       try {
@@ -153,6 +162,7 @@ export default {
         });
       }
     },
+
   },
 };
 </script>

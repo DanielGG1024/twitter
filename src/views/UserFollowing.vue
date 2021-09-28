@@ -1,23 +1,57 @@
 <template>
   <div class="window demo">
-    <div class="user" >
+    <div class="user">
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
-      <Spinner v-if="isLoading"/>
       <!-- center column -->
-      <div v-else id="center-column" class="center-column">
+      <div id="center-column" class="center-column">
         <!-- header -->
-        <UserHeader :user="user"/>
+        <UserHeader :user="user" />
 
         <!-- follower/following -->
         <UserFollowTab />
-        <UserFollowing
-          :initialFollowings="followings"
-          :isProcessing="isProcessing"
-          @after-follow-click="addFollow"
-          @after-remove-follow="removeFollow"
-
-        />
+        <div id="user-follower-list">
+          <div class="user-followers">
+            <div
+              class="follower"
+              v-for="following in followings"
+              :key="following.followingId"
+            >
+              <div class="avatar">
+                <div class="avatar-img">
+                  <img
+                    :src="following.avatar | emptyImage"
+                    alt="avatar"
+                    class=""
+                  />
+                </div>
+              </div>
+              <div class="follower-main">
+                <div class="name">{{ following.name }}</div>
+                <div class="tag-name">@{{ following.account }}</div>
+                <div class="description scrollbar">
+                  {{ following.introduction }}
+                </div>
+              </div>
+              <button
+                class="follower-btn following"
+                v-if="following.isFollowed"
+                @click="removeFollow(following.followingId)"
+                :disabled="isProcessing"
+              >
+                正在跟隨
+              </button>
+              <button
+                class="follower-btn"
+                v-else
+                @click="addFollow(following.followingId)"
+                :disabled="isProcessing"
+              >
+                跟隨
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- right Column -->
       <Popular />
@@ -30,22 +64,21 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
-import UserFollowing from "../components/UserFollowing.vue";
-import Spinner from "../components/Spinner.vue";
+
 
 import usersAPI from "../apis/users";
 import tweetAPI from "../apis/tweet";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 
 export default {
+  mixins: [fromNowFilter, emptyImageFilter],
   components: {
     UserLeftColumn,
     UserHeader,
     Popular,
     UserFollowTab,
-    UserFollowing,
-    Spinner,
   },
   data() {
     return {
@@ -54,8 +87,15 @@ export default {
       currentUserId: -1,
       user: {},
       followings: [],
-      isProcessing: false
+      isProcessing: false,
     };
+  },
+  watch: {
+    followings: {
+      handler: function () {
+        this.fetchFollowing(this.userId);
+      },
+    },
   },
   created() {
     this.fetchFollowing(this.userId);
@@ -64,14 +104,7 @@ export default {
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
-  watch: {
-    followings: {
-      handler: function () {
-        this.fetchFollowing(this.userId);
-      },
-      // deep: true,
-    },
-  },
+
   beforeRouteUpdate(to, from, next) {
     console.log(to, from);
     // 路由改變時重新抓取資料
@@ -118,13 +151,13 @@ export default {
       }`;
       const data_JSON = JSON.parse(data);
       try {
-        this.isProcessing = true
+        this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
-        this.fetchFollowing(this.userId)
-        this.isProcessing = false
+        this.fetchFollowing(this.userId);
+        this.isProcessing = false;
       } catch {
-        this.isProcessing = false
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title: "無法追蹤使用者,請稍後",
@@ -135,7 +168,7 @@ export default {
     async removeFollow(userId) {
       console.log(userId);
       try {
-        this.isProcessing = true
+        this.isProcessing = true;
         const response = await tweetAPI.removeFollow({ userId });
         console.log("reponse", response);
         const { data } = response;
@@ -152,10 +185,10 @@ export default {
             isfollowered: false,
           };
         });
-        this.fetchFollowing(this.userId)
-        this.isProcessing = false
+        this.fetchFollowing(this.userId);
+        this.isProcessing = false;
       } catch (error) {
-        this.isProcessing = false
+        this.isProcessing = false;
         console.log(error);
         Toast.fire({
           icon: "error",
@@ -176,4 +209,5 @@ export default {
   margin: auto;
 }
 @import "@/assets/scss/user.scss";
+@import "@/assets/scss/userFollower.scss";
 </style>

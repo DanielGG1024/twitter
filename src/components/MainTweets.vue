@@ -37,7 +37,24 @@
           </div>
           <div class="heart">
             <div class="onetweet-footer-icon">
-              <img class="heart-icon" src="../assets/pic/heart.png" alt="" />
+              <img
+              v-if="tweet.isLiked"
+              @click.stop.prevent="removeLike(tweet)"
+              class="heart-icon"
+              src="../assets/pic/icon_like_fill.png"
+              alt="heart-icon"
+              :disabled="isProcessing"
+            />
+            <img
+              v-else
+              @click.stop.prevent="addLike(tweet)"
+              class="heart-icon"
+              src="../assets/pic/heart.png"
+              alt="heart-icon"
+              :disabled="isProcessing"
+            />
+
+
             </div>
             <span class="footer-amount">{{ tweet.LikesCount }}</span>
           </div>
@@ -56,6 +73,9 @@
 <script>
 import ReplyModal from "./../components/ReplyModal";
 import { fromNowFilter } from "./../utils/mixins";
+import { Toast } from "./../utils/helpers";
+import tweetAPI from "../apis/tweet";
+
 
 export default {
   name: "MainTweets",
@@ -77,6 +97,8 @@ export default {
           avatar: "",
         },
       },
+      isProcessing: false,
+
     };
   },
   methods: {
@@ -92,6 +114,52 @@ export default {
     afterTweetReplyPost() {
       this.ReplyModal = false;
       this.$emit("after-tweetReply-post");
+    },
+    async addLike(tweet) {
+      console.log("tweet", tweet);
+      try {
+        this.isProcessing = true;
+        const tweetId = tweet.TweetId;
+        const { data } = await tweetAPI.addLike({ tweetId });
+        console.log("add data", data);
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        tweet.LikesCount += 1;
+        tweet.isLiked = true;
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法喜歡,請稍後在試",
+        });
+      }
+    },
+    async removeLike(tweet) {
+      console.log("tweet", tweet);
+      try {
+        this.isProcessing = true;
+        const tweetId = tweet.TweetId;
+        const response = await tweetAPI.removeLike({ tweetId });
+        console.log("delete reponse", response);
+        const { data } = response;
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        tweet.isLiked = false;
+        tweet.LikesCount -= 1;
+        this.isProcessing = false;
+      } catch (error) {
+        this.isProcessing = false;
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取消喜歡,請稍後在試",
+        });
+      }
     },
   },
 };
