@@ -137,7 +137,7 @@ export default {
 .content {
   height: 100vh;
   width: 600px;
-  // overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 .content-wrapper {

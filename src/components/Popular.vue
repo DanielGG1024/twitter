@@ -32,6 +32,7 @@
                 跟隨
               </button>
             </template>
+          </div>
         </div>
       </div>
     </div>
@@ -47,7 +48,7 @@ export default {
     return {
       currentUserId: -1,
       users: "",
-      isProcessing: false
+      isProcessing: false,
     };
   },
   created() {
@@ -61,48 +62,42 @@ export default {
     },
   },
   methods: {
-    async deleteFollow(user) {
+    async deleteFollow(id) {
       try {
-        this.isProcessing = true
-        const userId = user.id  
+        this.isProcessing = true;
+        const userId = id;
         const response = await tweetAPI.removeFollow({ userId });
         if (response.status !== 200) {
           throw new Error();
         }
-        this.$emit("follow-click")
-        user.isFollowed = false     
-        this.isProcessing = false   
+        this.$emit("follow-click");
 
+        this.isProcessing = false;
       } catch {
-        this.isProcessing = false
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title: "無法取消追蹤使用者,請稍後",
         });
       }
     },
-    async addFollow(user) {
-      const userId = user.id
+    async addFollow(id) {
+      const userId = id;
+      console.log(id);
       const data = `{
         "id":"${userId}"
       }`;
       const data_JSON = JSON.parse(data);
       try {
-        this.isProcessing = true
+        this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
-        console.log("popular response", response);
-<<<<<<< HEAD
-=======
-
->>>>>>> 6df531cb1a2731f3dda8a8fc234e782581c70fbc
+        // console.log("popular response", response);
         if (response.status !== 200) {
           throw new Error();
         }
-        
-        user.isFollowed = true
-        this.isProcessing = false
+        this.isProcessing = false;
       } catch {
-        this.isProcessing = false
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title: "無法追蹤使用者,請稍後",

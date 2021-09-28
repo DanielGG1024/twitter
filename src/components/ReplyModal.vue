@@ -91,9 +91,9 @@ export default {
       isProcessing: false,
     };
   },
-  created() {
-    console.log("tweet", this.tweet);
-  },
+  // created() {
+  //   // console.log("tweet", this.tweet);
+  // },
 
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
@@ -131,7 +131,7 @@ export default {
         }`;
         const data_JSON = JSON.parse(data);
         const response = await tweetAPI.postTweetReply({ tweetId, data_JSON });
-        console.log("Page ReplyModal response:", response);
+        // console.log("Page ReplyModal response:", response);
         if (response.data.status !== "success") {
           throw new Error();
         }

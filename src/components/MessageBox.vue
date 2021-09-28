@@ -50,11 +50,7 @@
         placeholder="輸入訊息..."
         @keyup.enter="send"
       />
-      <button 
-        @click.prevent.stop="send" 
-        class="btn"
-        :disabled="isProcessing"
-      >
+      <button @click.prevent.stop="send" class="btn" :disabled="isProcessing">
         <i class="bx bx-right-arrow"></i>
       </button>
     </div>
@@ -85,7 +81,7 @@ export default {
       text: "",
       newMessages: [],
       announceData: "",
-      isProcessing: false
+      isProcessing: false,
     };
   },
   created() {
@@ -95,18 +91,15 @@ export default {
     const userId = this.currentUser.id;
     console.log(userId);
   },
-  mounted() {
-      this.scrollToBottom();
-  },
   updated() {
-    this.scrollToBottom()
+    this.scrollToBottom();
   },
   methods: {
     scrollToBottom() {
       this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
     },
     send() {
-      this.isProcessing = true
+      this.isProcessing = true;
       const userId = this.currentUser.id;
       const text = this.text;
       this.$socket.emit("chatmessage", {
@@ -114,7 +107,7 @@ export default {
         UserId: userId,
       });
       this.text = "";
-      this.isProcessing = false
+      this.isProcessing = false;
     },
     async fetchHistory() {
       try {
@@ -135,6 +128,7 @@ export default {
     const userId = this.currentUser.id;
     this.$socket.emit("leave");
     this.$socket.emit("joinPublic", userId);
+    this.scrollToBottom();
   },
 
   computed: {
