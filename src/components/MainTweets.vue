@@ -80,10 +80,6 @@ export default {
     };
   },
   methods: {
-    onScroll(event) {
-      console.log("onScroll");
-      console.log(this.$refs.scrollbar.ps, event);
-    },
     clickChatBtn(tweetId) {
       // console.log("asdf");
       this.ReplyModal = true;
