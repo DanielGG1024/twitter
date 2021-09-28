@@ -1,5 +1,5 @@
 <template>
-  <div class="tweets scrollbar">
+  <div class="tweets" ref="chat">
     <div v-for="tweet in allTweets" :key="tweet.TweetId" class="onetweet">
       <div class="onetweet-user-icon-wrapper">
         <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
@@ -11,7 +11,7 @@
           <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
             <span class="user-title">{{ tweet.User.name }}</span>
             <span class="user-info">
-              <a href="#" class="user-link"> {{ tweet.User.account }}</a>
+              <a href="#" class="user-link"> ＠{{ tweet.User.account }}</a>
               <span class="user-link-time"
                 >．{{ tweet.createdAt | fromNow }}</span
               >

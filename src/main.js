@@ -4,14 +4,11 @@ import router from './router'
 import 'boxicons'
 import axios from 'axios'
 import store from './store'
+import VueSocketIO from 'vue-socket.io'
+import SocketIO from 'socket.io-client'
 
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
-
-
-
-import VueSocketIO from 'vue-socket.io'
-import SocketIO from 'socket.io-client'
 
 Vue.use(new VueSocketIO({
   debug: true,
@@ -24,18 +21,9 @@ Vue.use(new VueSocketIO({
 }));
 
 
-
-
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
 
-
-
-// Vue.use(new VueSocketIO({
-//   debug: true,
-//   connection: 'https://c8ef-219-85-165-164.ngrok.io/',
-//   vuex: {}
-// }))

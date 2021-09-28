@@ -107,7 +107,13 @@
             </div>
 
             <div class="button-wrapper">
-              <button class="form-submit-btn" type="submit">修改</button>
+              <button
+                :disabled="isProcessing"
+                class="form-submit-btn"
+                type="submit"
+              >
+                修改
+              </button>
             </div>
           </form>
         </div>
@@ -137,6 +143,7 @@ export default {
       emailError: false,
       passwordError: false,
       confirPasswordError: false,
+      isProcessing: false,
       error: {
         email: "",
       },
@@ -144,6 +151,7 @@ export default {
   },
   created() {
     this.fetchUser();
+    this.keyupNameWords();
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
@@ -225,6 +233,7 @@ export default {
         return;
       }
       try {
+        // this.isProcessing = true;
         const userId = this.currentUser.id;
         const data = `{
           "account":"${this.account}",
@@ -244,11 +253,14 @@ export default {
           icon: "success",
           title: "成功修改資料",
         });
-      } catch {
+        // this.isProcessing = false;
+      } catch (error) {
+        console.log("setting page error", error);
         Toast.fire({
           icon: "error",
           title: "無法修改資料,請稍後",
         });
+        // this.isProcessing = false;
       }
     },
   },
