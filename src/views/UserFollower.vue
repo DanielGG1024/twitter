@@ -1,8 +1,8 @@
 <template>
   <div class="window demo">
-    <div class="user" v-show="!isLoading">
+    <div class="user">
       <!-- left Column -->
-      <UserLeftColumn :userId="userId" :currentUserId="currentUserId"/>
+      <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
 
       <!-- center column -->
       <div id="center-column" class="center-column">
@@ -26,7 +26,7 @@
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
-import Popular from "../components/UserRightColumn.vue";
+import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
 import UserFollower from "../components/UserFollower.vue";
 import usersAPI from "../apis/users";
@@ -35,6 +35,13 @@ import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
 export default {
+  components: {
+    UserLeftColumn,
+    UserHeader,
+    Popular,
+    UserFollowTab,
+    UserFollower,
+  },
   data() {
     return {
       isLoading: true,
@@ -44,13 +51,7 @@ export default {
       followers: [],
     };
   },
-  components: {
-    UserLeftColumn,
-    UserHeader,
-    Popular,
-    UserFollowTab,
-    UserFollower,
-  },
+
   created() {
     this.fetchFollower(this.userId);
     this.fetchUserInfo(this.userId);
@@ -63,7 +64,7 @@ export default {
       handler: function () {
         this.fetchFollower(this.userId);
       },
-      deep: true,
+      // deep: true,
     },
   },
   beforeRouteUpdate(to, from, next) {
@@ -71,37 +72,40 @@ export default {
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchFollower(id);
-    this.userId = Number(id)
+    this.userId = Number(id);
     next();
   },
 
   methods: {
     async fetchFollower(userId) {
       try {
-        this.isLoading = true
+        this.isLoading = true;
         const { data } = await usersAPI.getUserFollowers({ userId });
         // console.log('123', data)
         this.followers = data;
         this.isLoading = false;
       } catch (error) {
         console.log(error);
-        this.isLoading = false,
-        Toast.fire({
-          icon: "error",
-          title: "無法取得個人資料，請稍後再試",
-        });
+        (this.isLoading = false),
+          Toast.fire({
+            icon: "error",
+            title: "無法取得個人資料，請稍後再試",
+          });
       }
     },
     async fetchUserInfo(userId) {
       try {
+        this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
         // console.log('123', data)
         this.user = data;
+        this.isLoading = false;
       } catch (error) {
-        Toast.fire({
-          icon: "error",
-          title: "無法取得個人資料，請稍後再試",
-        });
+        (this.isLoading = false),
+          Toast.fire({
+            icon: "error",
+            title: "無法取得個人資料，請稍後再試",
+          });
       }
     },
     async addFollow(userId) {
@@ -112,7 +116,7 @@ export default {
       try {
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
-
+        this.fetchFollower(this.userId);
       } catch {
         Toast.fire({
           icon: "error",
@@ -140,6 +144,7 @@ export default {
             isfollowered: false,
           };
         });
+        this.fetchFollower(this.userId);
       } catch (error) {
         console.log(error);
         Toast.fire({

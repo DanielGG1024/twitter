@@ -4,7 +4,7 @@
       <img class="cover-photo" :src="user.cover" alt="cover-photo" />
     </div>
     <img class="user-avatar" :src="user.avatar" alt="user-avatar" />
-    <button class="btn-follow" @click.prevent.stop="clickSetInfoModal">
+    <button v-show="currentUserId === userId" class="btn-follow" @click.prevent.stop="clickSetInfoModal">
       編輯個人資料
     </button>
     <div class="user-description">

@@ -16,7 +16,7 @@
           <div class="popular-follow">
             <button
               v-if="user.isFollowed"
-              @click.prevent.stop="deleteFollow(user.id)"
+              @click.prevent.stop="deleteFollow(user)"
               class="popular-follow-btn btn-active"
             >
               正在跟隨
@@ -24,7 +24,7 @@
             <button
               v-else
               class="popular-follow-btn"
-              @click.prevent.stop="addFollow(user.id)"
+              @click.prevent.stop="addFollow(user)"
             >
               跟隨
             </button>
@@ -48,14 +48,22 @@ export default {
   created() {
     this.fetchTopUsers();
   },
+  watch: {
+    users: {
+      handler: function () {
+        this.fetchTopUsers();
+      },
+    },
+  },
   methods: {
-    async deleteFollow(userId) {
+    async deleteFollow(user) {
       try {
+        const userId = user.id  
         const response = await tweetAPI.removeFollow({ userId });
         if (response.status !== 200) {
           throw new Error();
         }
-        this.fetchTopUsers();
+        user.isFollowed = false        
       } catch {
         Toast.fire({
           icon: "error",
@@ -63,7 +71,8 @@ export default {
         });
       }
     },
-    async addFollow(userId) {
+    async addFollow(user) {
+      const userId = user.id
       const data = `{
         "id":"${userId}"
       }`;
@@ -71,18 +80,12 @@ export default {
       try {
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
-        // this.users = this.users.forEach((item) => {
-        //   console.log("foreach");
-        //   if (item.id === userId) {
-        //     ...item,
-        //     item.isFollowed: true
-        //   }else{
-        //     ...item
-        //   }
+
         if (response.status !== 200) {
           throw new Error();
         }
-        this.fetchTopUsers();
+        
+        user.isFollowed = true
       } catch {
         Toast.fire({
           icon: "error",
@@ -96,6 +99,7 @@ export default {
         const { data } = response;
         // console.log("popular data", data);
         this.users = data;
+        // console.log('top10users', data)
       } catch {
         Toast.fire({
           icon: "warning",

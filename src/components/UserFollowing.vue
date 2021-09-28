@@ -1,11 +1,14 @@
 <template>
   <div id="user-follower-list">
     <div class="user-followers">
-      <div class="follower" v-for="following in initialFollowings"
-        :key="following.followingId">
+      <div 
+        class="follower" 
+        v-for="following in initialFollowings"
+        :key="following.followingId"
+      >
         <div class="avatar">
           <div class="avatar-img">
-            <img :src="following.avatar" alt="avatar" class="" />
+            <img :src="following.avatar | emptyImage" alt="avatar" class="" />
           </div>
         </div>
         <div class="follower-main">
@@ -15,18 +18,29 @@
             {{following.introduction}}
           </div>
         </div>
-        <button class="follower-btn following" v-if="following.isFollowed" @click="clickRemoveBtn(following.followingId)">正在追隨</button>
-        <button class="follower-btn" v-else @click="clickFollowBtn(following.followingId)">追隨</button>
+        <button 
+          class="follower-btn following" 
+          v-if="following.isFollowed" 
+          @click="clickRemoveBtn(following.followingId)"
+          >正在跟隨</button>
+        <button 
+          class="follower-btn" 
+          v-else 
+          @click="clickFollowBtn(following.followingId)"
+        >
+        跟隨
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import tweetAPI from "../apis/tweet";
-// import { Toast } from "./../utils/helpers";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
+
 
 export default {
+  mixins: [fromNowFilter, emptyImageFilter],
   props: {
     initialFollowings: {
       type: Array,

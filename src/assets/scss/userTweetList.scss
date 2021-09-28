@@ -12,7 +12,7 @@
 
     &-avatar{
       width: 75px;
-      height: 135px;
+      // height: 135px;
       img {
         width: 50px;
         height: 50px;
@@ -44,9 +44,9 @@
 
     &-content {
       width: 510px;
-      height: 66px;
+      // height: 66px;
       line-height: 22px;
-      overflow-y: scroll;
+      // overflow-y: scroll;
       color: $nameTitle;
     }
 
@@ -58,6 +58,7 @@
       font-weight: 500;
       font-size: 13px;
       line-height: 13px;
+      margin: 5px 0 15px;
 
       .state {
         display: flex;
@@ -75,6 +76,7 @@
         margin-right: 50px;
         font-size: 13px;
         line-height: 13px;
+        color: $tag;
       }
       
     }

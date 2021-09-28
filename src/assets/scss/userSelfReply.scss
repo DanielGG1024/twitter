@@ -5,9 +5,12 @@
   overflow-x: hidden;
   .reply {
     width: 600px;
-    height: 130px;
+    // margin-top: 10px;
+
+    // height: 130px;
     display: flex;
     border-bottom: 1px $divider solid;
+    // border: 2px red solid;
 
     .avatar {
       width: 75px;
@@ -23,8 +26,8 @@
     &-main {
       // border: 1px red solid;
       width: 510px;
-      height: 110px;
-      margin: auto 15px auto 0;
+      // height: 110px;
+      margin: 10px 15px 10PX 0;
       font-weight: 500;
       font-size: 15px;
       line-height: 21.72px;

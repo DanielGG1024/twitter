@@ -4,7 +4,7 @@
   overflow-y: scroll;
   .like {
     width: 600px;
-    height: 144px;
+    // height: 144px;
     display: flex;
     border-bottom: 1px $divider solid;
     
@@ -27,7 +27,7 @@
     
     &-main {
       width: 510px;
-      height: 134px;
+      // height: 134px;
       margin: 10px 15px 0 0;
       font-weight: 500;
       font-size: 15px;
@@ -67,6 +67,7 @@
       justify-content: space-between;
       width: 134px;
       height: 30px;
+      margin-bottom: 5px;
       .state {
         display: flex;
         align-items: center;

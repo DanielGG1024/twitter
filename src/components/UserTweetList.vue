@@ -1,9 +1,10 @@
 <template>
   <div id="tweet-list">
+
     <div class="tweet" v-for="tweet in tweets" :key="tweet.id">
       <router-link :to="{ name: 'user', params: { id: tweet.user.id } }">
       <div class="tweet-avatar">
-        <img :src="tweet.user.avatar" alt="tweet-avatar" />
+        <img :src="tweet.user.avatar | emptyImage" alt="tweet-avatar" />
       </div>
       </router-link>
       <div class="tweet-main">
@@ -32,13 +33,27 @@
             <div class="replies-count count">{{ tweet.replyCount }}</div>
           </div>
           <div class="likes state">
-            <img src="../assets/pic/heart.png" alt="heart-icon" />
+            <img
+              v-if="tweet.isLiked"
+              @click.stop.prevent="removeLike(tweet)"
+              class="likes-img"
+              src="../assets/pic/icon_like_fill.png"
+              alt="heart-icon"
+            />
+            <img
+              v-else
+              @click.stop.prevent="addLike(tweet)"
+              class="likes-img"
+              src="../assets/pic/heart.png"
+              alt="heart-icon"
+            />
             <div class="likes-count count">{{ tweet.likeCount }}</div>
           </div>
         </div>
 
       </div>
     </div>
+    
     <ReplyModal
       :ReplyModalSwitch="ReplyModal"
       :tweet="tweet"
@@ -52,13 +67,15 @@
 
 <script>
 import ReplyModal from "./../components/ReplyModal";
-import { fromNowFilter } from "./../utils/mixins";
 import usersAPI from "./../apis/users";
+import tweetAPI from "../apis/tweet";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
 
+
 export default {
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
   components: {
     ReplyModal,
   },
@@ -127,7 +144,50 @@ export default {
       this.$emit("after-tweetReply-post");
       this.fetchUserTweets(this.userId)
       
-    }
+    },
+    async addLike(tweet) {
+      console.log("tweet", tweet);
+      try {
+        const tweetId = tweet.id
+        const { data } = await tweetAPI.addLike({ tweetId });
+        console.log("add data", data)
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        tweet.likeCount += 1
+        tweet.isLiked = true
+        // this.fetchUserLikes(this.userId);
+
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法喜歡,請稍後在試",
+        });
+      }
+    },
+    async removeLike(tweet) {
+      console.log("tweet", tweet);
+      try {
+        const tweetId = tweet.TweetId
+        const response = await tweetAPI.removeLike({ tweetId });
+        console.log("delete reponse", response);
+        const { data } = response;
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        tweet.isLiked = false
+        tweet.likeCount -= 1
+        // this.fetchUserLikes(this.userId);
+      } catch (error) {
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取消喜歡,請稍後在試",
+        });
+      }
+    },
   },
 };
 </script>

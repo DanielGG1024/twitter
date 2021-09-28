@@ -8,7 +8,7 @@
       >
         <div class="avatar">
           <div class="avatar-img">
-            <img :src="follower.avatar" alt="avatar" class="" />
+            <img :src="follower.avatar | emptyImage" alt="avatar" class="" />
           </div>
         </div>
         <div class="follower-main">
@@ -18,41 +18,44 @@
             {{ follower.introduction }}
           </div>
         </div>
-        <button class="follower-btn following" v-if="follower.isFollowed" @click="clickRemoveBtn(follower.followerId)">
-          正在追隨
+        <button
+          class="follower-btn following"
+          v-if="follower.isFollowed"
+          @click="clickRemoveBtn(follower.followerId)"
+        >
+          正在跟隨
         </button>
-        <button class="follower-btn" v-else @click="clickFollowBtn(follower.followerId)">追隨</button>
+        <button
+          class="follower-btn"
+          v-else
+          @click="clickFollowBtn(follower.followerId)"
+        >
+          跟隨
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import tweetAPI from "../apis/tweet";
-// import { Toast } from "./../utils/helpers";
-
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 
 export default {
+  mixins: [fromNowFilter, emptyImageFilter],
   props: {
     initialFollowers: {
       type: Array,
       required: true,
     },
   },
-  // data() {
-  //   return {
-  //     followers : this.initialFollowers,
-  //   }
-  // }
+
   methods: {
     clickFollowBtn(followerId) {
-      this.$emit("after-follow-click", followerId)
+      this.$emit("after-follow-click", followerId);
     },
     clickRemoveBtn(followerId) {
-      this.$emit("after-remove-follow", followerId)
+      this.$emit("after-remove-follow", followerId);
     },
-
-
   },
 };
 </script>

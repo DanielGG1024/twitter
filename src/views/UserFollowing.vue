@@ -1,13 +1,13 @@
 <template>
   <div class="window demo">
-    <div class="user" v-show="!isLoading">
+    <div class="user" >
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
 
       <!-- center column -->
       <div id="center-column" class="center-column">
         <!-- header -->
-        <UserHeader :user="user" />
+        <UserHeader :user="user"/>
 
         <!-- follower/following -->
         <UserFollowTab />
@@ -63,7 +63,7 @@ export default {
       handler: function () {
         this.fetchFollowing(this.userId);
       },
-      deep: true,
+      // deep: true,
     },
   },
   beforeRouteUpdate(to, from, next) {
@@ -79,7 +79,7 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserFollowings({ userId });
-        // console.log('123', data)
+        // console.log('following', data)
         this.followings = data;
         this.isLoading = false;
       } catch (error) {
@@ -93,10 +93,13 @@ export default {
     },
     async fetchUserInfo(userId) {
       try {
+        this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
         // console.log('123', data)
         this.user = data;
+        this.isLoading = false;
       } catch (error) {
+        this.isLoading = false;
         Toast.fire({
           icon: "error",
           title: "無法取得個人資料，請稍後再試",
@@ -111,6 +114,7 @@ export default {
       try {
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
+        this.fetchFollowing(this.userId)
       } catch {
         Toast.fire({
           icon: "error",
@@ -138,6 +142,7 @@ export default {
             isfollowered: false,
           };
         });
+        this.fetchFollowing(this.userId)
       } catch (error) {
         console.log(error);
         Toast.fire({
@@ -155,7 +160,7 @@ export default {
 .window {
   width: 1440px;
   height: 1200px;
-  border: 1px purple solid;
+  // border: 1px purple solid;
   margin: auto;
 }
 @import "@/assets/scss/user.scss";

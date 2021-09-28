@@ -1,10 +1,11 @@
 <template>
   <div id="self-reply-list" class="self-reply reply-list">
+    
     <div class="reply" v-for="reply in replies" :key="reply.id">
       <router-link :to="{ name: 'user', params: { id: reply.User.id } }">
       <div class="avatar">
         <div class="avatar-img">
-          <img :src="reply.User.avatar" alt="avatar">
+          <img :src="reply.User.avatar | emptyImage" alt="avatar">
         </div>
       </div>
       </router-link>
@@ -31,12 +32,12 @@
 <script>
 import usersAPI from "./../apis/users"
 import { Toast } from "./../utils/helpers";
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 
 
 
 export default {
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
   data() {
     return {
       replies: [],

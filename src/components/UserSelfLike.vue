@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'user', params: { id: like.User.id } }">
       <div class="avatar">
         <div class="avatar-img">
-          <img :src="like.User.avatar" alt="" />
+          <img :src="like.User.avatar | emptyImage" alt="" />
         </div>
       </div>
       </router-link>
@@ -66,13 +66,13 @@
 
 <script>
 import ReplyModal from "./../components/ReplyModal";
-import { fromNowFilter } from "./../utils/mixins";
+import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
 import tweetAPI from "../apis/tweet";
 
 export default {
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
   components: {
     ReplyModal,
   },
@@ -163,7 +163,7 @@ export default {
     clickChatBtn(tweetId) {
       this.ReplyModal = true;
       const modalTweet = this.likes.find((item) => item.TweetId === tweetId);
-     
+    
       this.tweet = modalTweet
 
       console.log("clickBtn tweet", this.tweet)

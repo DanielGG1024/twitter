@@ -8,7 +8,7 @@
 
   .follower {
     position: relative;
-    height: 104px;
+    // height: 104px;
     display: flex;
     border-bottom: 1px $divider solid;
 
@@ -42,8 +42,8 @@
 
       .description {
         line-height: 22px;
-        overflow-y: scroll;
-        overflow-x: hidden;
+        // overflow-y: scroll;
+        // overflow-x: hidden;
       }
     }
 

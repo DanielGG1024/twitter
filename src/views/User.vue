@@ -41,7 +41,7 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
-import Popular from "../components/UserRightColumn.vue";
+import Popular from "../components/Popular.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
 import { mapState } from "vuex";
 import usersAPI from "./../apis/users";
