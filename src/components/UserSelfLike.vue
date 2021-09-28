@@ -1,26 +1,27 @@
 <template>
   <div id="self-like-list">
-    <div class="like" v-for="like in likes" :key="like.index">
+    <Spinner v-if="isLoading" />
+    <div class="like" v-else v-for="like in likes" :key="like.index">
       <router-link :to="{ name: 'user', params: { id: like.User.id } }">
-      <div class="avatar">
-        <div class="avatar-img">
-          <img :src="like.User.avatar | emptyImage" alt="" />
+        <div class="avatar">
+          <div class="avatar-img">
+            <img :src="like.User.avatar | emptyImage" alt="" />
+          </div>
         </div>
-      </div>
       </router-link>
 
       <div class="like-main">
         <router-link :to="{ name: 'Reply', params: { id: like.TweetId } }">
-
-        <div class="like-user-info">
-          <div class="name">{{ like.User.name }}</div>
-          <div class="account">
-            @{{ like.User.account }}<span>‧{{ like.createdAt | fromNow }}</span>
+          <div class="like-user-info">
+            <div class="name">{{ like.User.name }}</div>
+            <div class="account">
+              @{{ like.User.account
+              }}<span>‧{{ like.createdAt | fromNow }}</span>
+            </div>
           </div>
-        </div>
-        <div class="like-content scrollbar">
-          {{ like.description }}
-        </div>
+          <div class="like-content scrollbar">
+            {{ like.description }}
+          </div>
         </router-link>
 
         <div class="like-status">
@@ -40,6 +41,7 @@
               class="likes-img"
               src="../assets/pic/icon_like_fill.png"
               alt="heart-icon"
+              :disabled="isProcessing"
             />
             <img
               v-else
@@ -47,6 +49,7 @@
               class="likes-img"
               src="../assets/pic/heart.png"
               alt="heart-icon"
+              :disabled="isProcessing"
             />
             <div class="likes-count count">{{ like.LikesCount }}</div>
           </div>
@@ -65,7 +68,8 @@
 
 
 <script>
-import ReplyModal from "./../components/ReplyModal";
+import Spinner from "../components/Spinner.vue";
+import ReplyModal from "../components/ReplyModal.vue";
 import { fromNowFilter, emptyImageFilter } from "./../utils/mixins";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
@@ -75,6 +79,7 @@ export default {
   mixins: [fromNowFilter, emptyImageFilter],
   components: {
     ReplyModal,
+    Spinner,
   },
   data() {
     return {
@@ -82,19 +87,13 @@ export default {
       tweet: {},
       ReplyModal: false,
       userId: Number(this.$route.params.id),
+      isProcessing: false,
+      isLoading: true,
     };
   },
   created() {
     this.fetchUserLikes(this.userId);
   },
-  // watch: {
-  //   likes: {
-  //     handler: function () {
-  //       this.fetchUserLikes(this.userId);
-  //     },
-  //     // deep: true,
-  //   },
-  // },
   beforeRouteUpdate(to, from, next) {
     console.log(to, from);
     // 路由改變時重新抓取資料
@@ -105,12 +104,15 @@ export default {
   methods: {
     async fetchUserLikes(userId) {
       try {
+        this.isLoading = true
         const { data } = await usersAPI.getUserLikes({ userId });
         console.log("fetchUserLikes", data);
         this.likes = data;
 
-        console.log('likes', this.likes)
+        console.log("likes", this.likes);
+        this.isLoading = false
       } catch (error) {
+        this.isLoading = false
         Toast.fire({
           icon: "error",
           title: "無法取得推文，請稍後再試",
@@ -120,18 +122,19 @@ export default {
     async addLike(like) {
       console.log("like", like);
       try {
-        const tweetId = like.TweetId
+        this.isProcessing = true;
+        const tweetId = like.TweetId;
         const { data } = await tweetAPI.addLike({ tweetId });
-        console.log("add data", data)
+        console.log("add data", data);
         if (data.status !== "success") {
           throw new Error(data.message);
         }
 
-        like.LikesCount += 1
-        like.isliked = true
-        // this.fetchUserLikes(this.userId);
-
+        like.LikesCount += 1;
+        like.isliked = true;
+        this.isProcessing = false;
       } catch (error) {
+        this.isProcessing = false;
         console.log(error);
         Toast.fire({
           icon: "error",
@@ -142,17 +145,19 @@ export default {
     async removeLike(like) {
       console.log("like", like);
       try {
-        const tweetId = like.TweetId
+        this.isProcessing = true;
+        const tweetId = like.TweetId;
         const response = await tweetAPI.removeLike({ tweetId });
         console.log("delete reponse", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);
         }
-        like.isliked = false
-        like.LikesCount -= 1
-        // this.fetchUserLikes(this.userId);
+        like.isliked = false;
+        like.LikesCount -= 1;
+        this.isProcessing = false;
       } catch (error) {
+        this.isProcessing = false;
         console.log(error);
         Toast.fire({
           icon: "error",
@@ -163,11 +168,11 @@ export default {
     clickChatBtn(tweetId) {
       this.ReplyModal = true;
       const modalTweet = this.likes.find((item) => item.TweetId === tweetId);
-    
-      this.tweet = modalTweet
 
-      console.log("clickBtn tweet", this.tweet)
-      console.log("clickBtn modalTweet", modalTweet)
+      this.tweet = modalTweet;
+
+      console.log("clickBtn tweet", this.tweet);
+      console.log("clickBtn modalTweet", modalTweet);
     },
     afterClickClose() {
       this.ReplyModal = false;
@@ -175,9 +180,8 @@ export default {
     afterTweetReplyPost() {
       this.ReplyModal = false;
       this.$emit("after-tweetReply-post");
-      this.fetchUserLikes(this.userId)
-      
-    }
+      this.fetchUserLikes(this.userId);
+    },
   },
 };
 </script>

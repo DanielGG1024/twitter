@@ -50,7 +50,11 @@
         placeholder="輸入訊息..."
         @keyup.enter="send"
       />
-      <button @click.prevent.stop="send" class="btn">
+      <button 
+        @click.prevent.stop="send" 
+        class="btn"
+        :disabled="isProcessing"
+      >
         <i class="bx bx-right-arrow"></i>
       </button>
     </div>
@@ -86,6 +90,7 @@ export default {
       text: "",
       newMessages: [],
       announceData: "",
+      isProcessing: false
     };
   },
   created() {
@@ -101,6 +106,7 @@ export default {
       console.log(container.scrollHeight());
     },
     send() {
+      this.isProcessing = true
       const userId = this.currentUser.id;
       const text = this.text;
       this.$socket.emit("chatmessage", {
@@ -108,6 +114,7 @@ export default {
         UserId: userId,
       });
       this.text = "";
+      this.isProcessing = false
     },
     async fetchHistory() {
       try {

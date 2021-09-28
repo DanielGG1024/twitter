@@ -3,9 +3,9 @@
     <div class="user">
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
-
+      <Spinner v-if="isLoading"/>
       <!-- center column -->
-      <div id="center-column" class="center-column">
+      <div v-else id="center-column" class="center-column">
         <!-- header -->
         <UserHeader :user="user" />
 
@@ -13,6 +13,7 @@
         <UserFollowTab />
         <UserFollower
           :initialFollowers="followers"
+          :isProcessing="isProcessing"
           @after-follow-click="addFollow"
           @after-remove-follow="removeFollow"
         />
@@ -29,6 +30,8 @@ import UserHeader from "../components/UserHeader.vue";
 import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
 import UserFollower from "../components/UserFollower.vue";
+import Spinner from "../components/Spinner.vue";
+
 import usersAPI from "../apis/users";
 import tweetAPI from "../apis/tweet";
 import { Toast } from "./../utils/helpers";
@@ -41,6 +44,7 @@ export default {
     Popular,
     UserFollowTab,
     UserFollower,
+    Spinner,
   },
   data() {
     return {
@@ -49,6 +53,7 @@ export default {
       currentUserId: -1,
       user: {},
       followers: [],
+      isProcessing: false
     };
   },
 
@@ -114,10 +119,13 @@ export default {
       }`;
       const data_JSON = JSON.parse(data);
       try {
+        this.isProcessing = true
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
         this.fetchFollower(this.userId);
+        this.isProcessing = false
       } catch {
+        this.isProcessing = false
         Toast.fire({
           icon: "error",
           title: "無法追蹤使用者,請稍後",
@@ -128,6 +136,7 @@ export default {
     async removeFollow(userId) {
       console.log(userId);
       try {
+        this.isProcessing = true
         const response = await tweetAPI.removeFollow({ userId });
         console.log("reponse", response);
         const { data } = response;
@@ -145,7 +154,9 @@ export default {
           };
         });
         this.fetchFollower(this.userId);
+        this.isProcessing = false
       } catch (error) {
+        this.isProcessing = false
         console.log(error);
         Toast.fire({
           icon: "error",

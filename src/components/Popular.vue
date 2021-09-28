@@ -18,6 +18,7 @@
               v-if="user.isFollowed"
               @click.prevent.stop="deleteFollow(user)"
               class="popular-follow-btn btn-active"
+              :disabled="isProcessing"
             >
               正在跟隨
             </button>
@@ -25,6 +26,7 @@
               v-else
               class="popular-follow-btn"
               @click.prevent.stop="addFollow(user)"
+              :disabled="isProcessing"
             >
               跟隨
             </button>
@@ -43,6 +45,7 @@ export default {
     return {
       isFollow: true,
       users: "",
+      isProcessing: false
     };
   },
   created() {
@@ -58,13 +61,16 @@ export default {
   methods: {
     async deleteFollow(user) {
       try {
+        this.isProcessing = true
         const userId = user.id  
         const response = await tweetAPI.removeFollow({ userId });
         if (response.status !== 200) {
           throw new Error();
         }
-        user.isFollowed = false        
+        user.isFollowed = false     
+        this.isProcessing = false   
       } catch {
+        this.isProcessing = false
         Toast.fire({
           icon: "error",
           title: "無法取消追蹤使用者,請稍後",
@@ -78,6 +84,7 @@ export default {
       }`;
       const data_JSON = JSON.parse(data);
       try {
+        this.isProcessing = true
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
 
@@ -86,7 +93,9 @@ export default {
         }
         
         user.isFollowed = true
+        this.isProcessing = false
       } catch {
+        this.isProcessing = false
         Toast.fire({
           icon: "error",
           title: "無法追蹤使用者,請稍後",

@@ -1,11 +1,11 @@
 <template>
   <div class="window demo">
-    <div class="user" v-show="!isLoading">
+    <div class="user">
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
-
+      <Spinner v-if="isLoading"/>
       <!-- center column -->
-      <div id="center-column" class="center-column">
+      <div v-else id="center-column" class="center-column">
         <UserHeader :user="user" />
 
         <div class="user-self">
@@ -29,9 +29,11 @@
     <UserInfoSetModal
       v-show="showInfoSetModal"
       :showInfoSetModal="showInfoSetModal"
+      :isProcessing="isProcessing"
       @after-click-close="clickSetModal"
       :initialModalUser="modalUser"
       @after-submit="handleAfterSubmit"
+
     />
   </div>
 </template>
@@ -43,6 +45,8 @@ import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
 import Popular from "../components/Popular.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
+import Spinner from "../components/Spinner.vue";
+
 import { mapState } from "vuex";
 import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
@@ -56,6 +60,7 @@ export default {
     UserTab,
     Popular,
     UserInfoSetModal,
+    Spinner,
   },
   data() {
     return {
@@ -71,6 +76,7 @@ export default {
         cover: "",
         introduction: "",
       },
+      isProcessing: false
     };
   },
   computed: {
@@ -124,6 +130,7 @@ export default {
 
     async handleAfterSubmit(formData) {
       try {
+        this.isProcessing = true
         const { data } = await usersAPI.update({
           userId: this.currentUserId,
           formData,
@@ -136,8 +143,9 @@ export default {
 
         this.showInfoSetModal = false;
         this.fetchUserInfo(this.userId);
-        // this.$router.push({ name: 'user', params: `${this.currentUserId}` })
+        this.isProcessing = false
       } catch (error) {
+        this.isProcessing = true
         console.log("modal-error", error);
         Toast.fire({
           icon: "error",

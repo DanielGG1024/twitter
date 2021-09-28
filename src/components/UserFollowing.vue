@@ -22,11 +22,13 @@
           class="follower-btn following" 
           v-if="following.isFollowed" 
           @click="clickRemoveBtn(following.followingId)"
+          :disabled="isProcessing"
           >正在跟隨</button>
         <button 
           class="follower-btn" 
           v-else 
           @click="clickFollowBtn(following.followingId)"
+          :disabled="isProcessing"
         >
         跟隨
         </button>
@@ -46,6 +48,10 @@ export default {
       type: Array,
       required: true,
     },
+    isProcessing: {
+      type: Boolean,
+      required: true,
+    }
   },
   methods: {
     clickFollowBtn(followerId) {

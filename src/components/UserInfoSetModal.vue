@@ -7,7 +7,7 @@
             <img src="../assets/pic/close.png" class="close" alt="" />
           </div>
           <div class="title">編輯個人資料</div>
-          <button class="save-submit">儲存</button>
+          <button class="save-submit" :disabled="isProcessing">儲存</button>
         </div>
 
         <div class="modal-banner">
@@ -110,6 +110,10 @@ export default {
         cover: "",
       }),
     },
+    isProcessing: {
+      type: Boolean,
+      required: true,
+    }
   },
 
   data() {
@@ -121,6 +125,7 @@ export default {
         introduction: "",
         cover: "",
       },
+
     };
   },
   created() {
