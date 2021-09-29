@@ -108,7 +108,7 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserTweets({ userId });
-        console.log("this", data);
+        // console.log("tweetList", data);
         this.tweets = data;
         this.isLoading = false;
       } catch (error) {

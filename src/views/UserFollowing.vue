@@ -3,8 +3,10 @@
     <div class="user">
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
+
+      <Spinner v-if="isLoading" class="user-spinner"/>
       <!-- center column -->
-      <div id="center-column" class="center-column">
+      <div v-else id="center-column" class="center-column">
         <!-- header -->
         <UserHeader :user="user" />
 
@@ -50,12 +52,13 @@
                 跟隨
               </button>
             </div>
-            <div v-if="followings.length < 1">目前無追蹤者</div>
           </div>
         </div>
       </div>
       <!-- right Column -->
-      <Popular />
+      <Popular 
+        @follow-click="fetchFollowing(userId)"
+      />
     </div>
   </div>
 </template>
@@ -65,6 +68,8 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
+import Spinner from "../components/Spinner.vue";
+
 
 import usersAPI from "../apis/users";
 import tweetAPI from "../apis/tweet";
@@ -79,6 +84,7 @@ export default {
     UserHeader,
     Popular,
     UserFollowTab,
+    Spinner,
   },
   data() {
     return {
@@ -90,13 +96,13 @@ export default {
       isProcessing: false,
     };
   },
-  watch: {
-    followings: {
-      handler: function () {
-        this.fetchFollowing(this.userId);
-      },
-    },
-  },
+  // watch: {
+  //   followings: {
+  //     handler: function () {
+  //       this.fetchFollowing(this.userId);
+  //     },
+  //   },
+  // },
   created() {
     this.fetchFollowing(this.userId);
     this.fetchUserInfo(this.userId);
@@ -118,7 +124,7 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserFollowings({ userId });
-        // console.log('following', data)
+        console.log('following', data)
         this.followings = data;
         this.isLoading = false;
       } catch (error) {

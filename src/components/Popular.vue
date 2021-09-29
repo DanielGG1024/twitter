@@ -6,18 +6,21 @@
       </div>
       <div v-for="user in users" :key="user.id" class="one-popular-wrapper">
         <div class="one-popular">
+          <router-link :to="{ name: 'user', params: { id: user.id } }">
           <div class="user-icon-wrapper">
             <img class="user-icon" :src="user.avatar" alt="" />
           </div>
+          </router-link>
           <div class="popular-txt">
             <span class="popular-title">{{ user.name }}</span>
-            <a class="popular-link" href="">@{{ user.account }}</a>
+            <router-link class="popular-link" :to="{ name: 'user', params: { id: user.id } }">@{{ user.account }}</router-link>
           </div>
+          
           <div class="popular-follow">
             <template v-if="user.id !== currentUser.id">
               <button
                 v-if="user.isFollowed"
-                @click.prevent.stop="deleteFollow(user.id)"
+                @click.prevent.stop="deleteFollow(user)"
                 class="popular-follow-btn btn-active"
                 :disabled="isProcessing"
               >
@@ -26,7 +29,7 @@
               <button
                 v-else
                 class="popular-follow-btn"
-                @click.prevent.stop="addFollow(user.id)"
+                @click.prevent.stop="addFollow(user)"
                 :disabled="isProcessing"
               >
                 跟隨
@@ -54,24 +57,24 @@ export default {
   created() {
     this.fetchTopUsers();
   },
-  watch: {
-    users: {
-      handler: function () {
-        this.fetchTopUsers();
-      },
-    },
-  },
+  // watch: {
+  //   users: {
+  //     handler: function () {
+  //       this.fetchTopUsers();
+  //     },
+  //   },
+  // },
   methods: {
-    async deleteFollow(id) {
+    async deleteFollow(user) {
       try {
         this.isProcessing = true;
-        const userId = id;
+        const userId = user.id;
         const response = await tweetAPI.removeFollow({ userId });
         if (response.status !== 200) {
           throw new Error();
         }
         this.$emit("follow-click");
-
+        user.isFollowed = false
         this.isProcessing = false;
       } catch {
         this.isProcessing = false;
@@ -81,9 +84,8 @@ export default {
         });
       }
     },
-    async addFollow(id) {
-      const userId = id;
-      console.log(id);
+    async addFollow(user) {
+      const userId = user.id;
       const data = `{
         "id":"${userId}"
       }`;
@@ -95,7 +97,9 @@ export default {
         if (response.status !== 200) {
           throw new Error();
         }
+        user.isFollowed = true;
         this.isProcessing = false;
+        this.$emit("follow-click");
       } catch {
         this.isProcessing = false;
         Toast.fire({
@@ -110,7 +114,7 @@ export default {
         const { data } = response;
         // console.log("popular data", data);
         this.users = data;
-        // console.log('top10users', data)
+        // console.log('top10users', this.users)
       } catch {
         Toast.fire({
           icon: "warning",

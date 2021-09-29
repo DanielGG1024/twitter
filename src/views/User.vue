@@ -3,20 +3,24 @@
     <div class="user">
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
-      <Spinner v-if="isLoading"/>
-      <!-- center column -->
-      <div v-else id="center-column" class="center-column">
-        <UserHeader :user="user" />
 
-        <div class="user-self">
-          <UserInfo
-            @after-click-setInfoBtn="clickSetModal"
-            :initialUser="user"
-            :userId="userId"
-            :currentUserId="currentUserId"
-          />
-          <UserTab />
-        </div>
+      <!-- center column -->
+
+      <div id="center-column" class="center-column">
+        <Spinner v-if="isLoading" class="user-spinner" />
+        <template v-else>
+          <UserHeader :user="user" />
+
+          <div class="user-self">
+            <UserInfo
+              @after-click-setInfoBtn="clickSetModal"
+              :initialUser="user"
+              :userId="userId"
+              :currentUserId="currentUserId"
+            />
+            <UserTab />
+          </div>
+        </template>
 
         <div class="user-self-switch">
           <!-- list-tweet / reply list / like list -->
@@ -24,7 +28,7 @@
         </div>
       </div>
       <!-- right Column -->
-      <Popular />
+      <Popular @follow-click="fetchUserInfo(userId)" />
     </div>
     <UserInfoSetModal
       v-show="showInfoSetModal"
@@ -33,7 +37,6 @@
       @after-click-close="clickSetModal"
       :initialModalUser="modalUser"
       @after-submit="handleAfterSubmit"
-
     />
   </div>
 </template>
@@ -76,7 +79,8 @@ export default {
         cover: "",
         introduction: "",
       },
-      isProcessing: false
+      isProcessing: false,
+      otherUser: {},
     };
   },
   computed: {
@@ -85,7 +89,7 @@ export default {
   created() {
     this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
-    console.log("userId", this.currentUserId);
+    // console.log("currentUserId", this.currentUserId);
   },
   beforeRouteUpdate(to, from, next) {
     console.log(to, from);
@@ -111,7 +115,7 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
-        // console.log('123', data)
+        console.log("123", data);
         this.user = data;
         const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
@@ -122,6 +126,10 @@ export default {
           cover,
         };
         // console.log(this.modalUser)
+        if (this.currentUserId !== this.userId) {
+          this.otherUserInfo(this.userId);
+          console.log("start");
+        }
         this.isLoading = false;
       } catch (error) {
         console.log("error", error);
@@ -132,6 +140,13 @@ export default {
         });
       }
     },
+    async otherUserInfo(userId) {
+      const { data } = await usersAPI.getUserFollowings({ userId });
+      console.log("other-data", data);
+      const otherUser = data.find((item) => item.followingId === userId);
+      console.log(otherUser);
+      this.otherUser = otherUser;
+    },
 
     clickSetModal() {
       this.showInfoSetModal = !this.showInfoSetModal;
@@ -139,7 +154,7 @@ export default {
 
     async handleAfterSubmit(formData) {
       try {
-        this.isProcessing = true
+        this.isProcessing = true;
         const { data } = await usersAPI.update({
           userId: this.currentUserId,
           formData,
@@ -152,9 +167,9 @@ export default {
 
         this.showInfoSetModal = false;
         this.fetchUserInfo(this.userId);
-        this.isProcessing = false
+        this.isProcessing = false;
       } catch (error) {
-        this.isProcessing = true
+        this.isProcessing = true;
         console.log("modal-error", error);
         Toast.fire({
           icon: "error",
@@ -162,7 +177,6 @@ export default {
         });
       }
     },
-
   },
 };
 </script>

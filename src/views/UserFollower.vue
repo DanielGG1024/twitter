@@ -4,7 +4,8 @@
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
       <!-- center column -->
-      <div id="center-column" class="center-column">
+      <Spinner v-if="isLoading" class="user-spinner"/>
+      <div v-else id="center-column" class="center-column">
         <!-- header -->
         <UserHeader :user="user" />
 
@@ -50,14 +51,13 @@
                 跟隨
               </button>
             </div>
-            <div v-if="followers.length < 1">
-              目前無追蹤者
-            </div>
           </div>
         </div>
       </div>
       <!-- right Column -->
-      <Popular />
+      <Popular 
+        @follow-click="fetchFollower(userId)"
+      />
     </div>
   </div>
 </template>
@@ -67,6 +67,8 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
+import Spinner from "../components/Spinner.vue";
+
 
 import usersAPI from "../apis/users";
 import tweetAPI from "../apis/tweet";
@@ -81,6 +83,7 @@ export default {
     UserHeader,
     Popular,
     UserFollowTab,
+    Spinner,
   },
   data() {
     return {
@@ -92,13 +95,13 @@ export default {
       isProcessing: false,
     };
   },
-  watch: {
-    followers: {
-      handler: function () {
-        this.fetchFollower(this.userId);
-      },
-    },
-  },
+  // watch: {
+  //   followers: {
+  //     handler: function () {
+  //       this.fetchFollower(this.userId);
+  //     },
+  //   },
+  // },
 
   created() {
     this.fetchFollower(this.userId);

@@ -10,13 +10,13 @@
           <MainTweetPost @after-tweet-post="afterTweetPost" />
         </div>
         <Spinner v-if="isLoading" />
-  
+
         <MainTweets
           v-else
           :allTweets="allTweets"
           @after-tweetReply-post="afterTweetPost"
         />
-        
+
         <!-- @after-click-chat-btn="openReplyModal" -->
       </main>
       <Popular />
@@ -79,6 +79,7 @@ export default {
   min-height: 100vh;
   display: flex;
   font-family: "Noto Sans TC";
+  margin: 0 auto;
 }
 
 .content {
