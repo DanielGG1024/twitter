@@ -75,7 +75,7 @@ export default {
 }
 
 .cards-wrapper {
-  // height: calc(100vh - 55px);
+  height: calc(100vh - 55px);
   overflow-y: scroll;
   display: flex;
   flex-wrap: wrap;
