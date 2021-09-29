@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import { component } from 'vue/types/umd'
 import store from './../store'
-
 
 Vue.use(VueRouter)
 
@@ -91,13 +89,6 @@ const routes = [
       }
     ]
   },
-  // {
-  //   path: 'testing',
-  //   name: 'testingChat',
-  //   component: () => import('../views/TestingChat.vue'),
-  // },
-
-  
   {
     path: '*',
     name: 'Not-found',
@@ -106,7 +97,6 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  // linkExactActiveClass:'active',
   linkActiveClass: 'active',
   routes
 })
@@ -118,12 +108,13 @@ router.beforeEach(async (to, from, next) => {
   if (tokenInLocalStorage && tokenInLocalStorage !== tokenInStore) {
     isAuthenticated = await store.dispatch('fetchCurrentUser')
   }
-  // console.log('isAuthenticated', isAuthenticated)
   const pathsWithoutAuthentication = ['Regist', 'Login', 'AdminLogin']
+  //如果認證為false 且又"不是"要去包含"pathsWithoutAuthentication"中的路徑 請回login
   if (!isAuthenticated && !pathsWithoutAuthentication.includes(to.name)) {
     next('/login')
     return
   }
+  // 如果認真為真 且又要去包含"pathsWithoutAuthentication"中的路徑 請回首頁
   if (isAuthenticated && pathsWithoutAuthentication.includes(to.name)) {
     next('/main')
     return
