@@ -1,5 +1,5 @@
 <template>
-  <div class="messageBox">
+  <div class="messageBox" ref="chat">
     <div class="header">
       <div class="title">公開聊天室</div>
     </div>
@@ -50,11 +50,7 @@
         placeholder="輸入訊息..."
         @keyup.enter="send"
       />
-      <button 
-        @click.prevent.stop="send" 
-        class="btn"
-        :disabled="isProcessing"
-      >
+      <button @click.prevent.stop="send" class="btn" :disabled="isProcessing">
         <i class="bx bx-right-arrow"></i>
       </button>
     </div>
@@ -63,11 +59,6 @@
 
 
 <script>
-// import Vue from "vue";
-// import store from "./../store";
-// import VueSocketIO from "vue-socket.io";
-// import SocketIO from "socket.io-client";
-
 import { Toast } from "./../utils/helpers";
 import socketAPI from "./../apis/socket";
 import { fromNowFilter } from "./../utils/mixins";
@@ -90,7 +81,7 @@ export default {
       text: "",
       newMessages: [],
       announceData: "",
-      isProcessing: false
+      isProcessing: false,
     };
   },
   created() {
@@ -100,13 +91,15 @@ export default {
     const userId = this.currentUser.id;
     console.log(userId);
   },
+  updated() {
+    this.scrollToBottom();
+  },
   methods: {
-    scroll() {
-      const container = document.querySelector("#messageBox-wrapper");
-      console.log(container.scrollHeight());
+    scrollToBottom() {
+      this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
     },
     send() {
-      this.isProcessing = true
+      this.isProcessing = true;
       const userId = this.currentUser.id;
       const text = this.text;
       this.$socket.emit("chatmessage", {
@@ -114,14 +107,14 @@ export default {
         UserId: userId,
       });
       this.text = "";
-      this.isProcessing = false
+      this.isProcessing = false;
     },
     async fetchHistory() {
       try {
         const { data } = await socketAPI.getHistory();
         console.log(data);
         this.newMessages = data;
-        this.updateScroll();
+        this.scrollToBottom();
       } catch {
         Toast.fire({
           icon: "error",
@@ -129,15 +122,13 @@ export default {
         });
       }
     },
-    updateScroll() {
-      this.$refs.messageList.scrollTop = this.$refs.messageList.scrollHeight;
-    },
   },
 
   mounted() {
     const userId = this.currentUser.id;
     this.$socket.emit("leave");
     this.$socket.emit("joinPublic", userId);
+    this.scrollToBottom();
   },
 
   computed: {

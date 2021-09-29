@@ -53,7 +53,13 @@
           </div>
         </div>
         <div class="button-wrapper">
-          <button class="form-submit-btn" type="submit">登入</button>
+          <button
+            :disabled="isProcessing"
+            class="form-submit-btn"
+            type="submit"
+          >
+            登入
+          </button>
         </div>
       </form>
       <div class="other-link-wrapper">
@@ -67,6 +73,7 @@
 <script>
 import { Toast } from "../utils/helpers";
 import authorizationAPI from "./../apis/authorization";
+import userAPI from "./../apis/user";
 export default {
   data() {
     return {
@@ -76,6 +83,7 @@ export default {
       PasswordError: false,
       showAccountFocus: false,
       showPasswordFocus: false,
+      isProcessing: false,
     };
   },
   methods: {
@@ -105,18 +113,20 @@ export default {
         } else {
           this.PasswordError = false;
         }
+
         if (this.accountError || this.PasswordError) return;
-        const response = await authorizationAPI.logIn({
+        this.isProcessing = true
+        const { data } = await authorizationAPI.logIn({
           email: this.account,
           password: this.password,
         });
-        // console.log(response);
-        const { data } = response;
+
         if (data.status !== "success") {
           throw new Error(data.message);
         }
         localStorage.setItem("token", data.token);
-        this.$store.commit("setCurrentUser", data.user);
+        const fetchCurrentUser = await userAPI.getCurrentUser();
+        this.$store.commit("setCurrentUser", fetchCurrentUser.data);
         this.$router.push("/main");
       } catch (error) {
         console.log(error);
@@ -124,6 +134,7 @@ export default {
           icon: "warning",
           title: "請輸入正確帳號與密碼",
         });
+        this.isProcessing = false
       }
     },
   },

@@ -1,4 +1,4 @@
-// ./src/components/Spinner.vue
+
 <template>
   <div class="spinner">
     <div class="bouncing-loader">
@@ -8,8 +8,6 @@
     </div>
   </div>
 </template>
-
-
 
 <style lang="scss" scoped>
 .spinner {

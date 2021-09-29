@@ -9,10 +9,14 @@
           </div>
           <MainTweetPost @after-tweet-post="afterTweetPost" />
         </div>
+        <Spinner v-if="isLoading" />
+  
         <MainTweets
+          v-else
           :allTweets="allTweets"
           @after-tweetReply-post="afterTweetPost"
         />
+        
         <!-- @after-click-chat-btn="openReplyModal" -->
       </main>
       <Popular />
@@ -24,9 +28,10 @@ import Menu from "./../components/Menu";
 import Popular from "./../components/Popular";
 import MainTweetPost from "./../components/MainTweetPost";
 import MainTweets from "./../components/MainTweets";
-
+import Spinner from "./../components/Spinner";
 import { Toast } from "./../utils/helpers";
 import getTweetsAPI from "./../apis/tweet";
+
 export default {
   namd: "main",
   components: {
@@ -34,10 +39,12 @@ export default {
     Popular,
     MainTweetPost,
     MainTweets,
+    Spinner,
     // ReplyModal,
   },
   data() {
     return {
+      isLoading: true,
       allTweets: [],
       tweet: {},
     };
@@ -50,9 +57,10 @@ export default {
       try {
         const response = await getTweetsAPI.getTweets();
         const { data } = response;
-        console.log("allTweets", data);
         this.allTweets = data;
+        this.isLoading = false;
       } catch {
+        this.isLoading = false;
         Toast.fire({
           icon: "warning",
           title: "tweets錯誤唷",
