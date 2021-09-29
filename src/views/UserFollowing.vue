@@ -50,6 +50,7 @@
                 跟隨
               </button>
             </div>
+            <div v-if="followings.length < 1">目前無追蹤者</div>
           </div>
         </div>
       </div>
@@ -64,7 +65,6 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
-
 
 import usersAPI from "../apis/users";
 import tweetAPI from "../apis/tweet";

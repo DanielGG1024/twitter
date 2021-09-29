@@ -50,6 +50,9 @@
                 跟隨
               </button>
             </div>
+            <div v-if="followers.length < 1">
+              目前無追蹤者
+            </div>
           </div>
         </div>
       </div>
