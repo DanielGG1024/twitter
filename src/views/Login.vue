@@ -101,6 +101,7 @@ export default {
     },
     async handleSubmit() {
       try {
+        //防止空值
         const account = this.account.trim();
         const password = this.password.trim();
         if (account === "") {
@@ -113,14 +114,13 @@ export default {
         } else {
           this.PasswordError = false;
         }
-
         if (this.accountError || this.PasswordError) return;
-        this.isProcessing = true
+        this.isProcessing = true;
+        // 皆有值開始登入
         const { data } = await authorizationAPI.logIn({
           email: this.account,
           password: this.password,
         });
-
         if (data.status !== "success") {
           throw new Error(data.message);
         }
@@ -129,12 +129,27 @@ export default {
         this.$store.commit("setCurrentUser", fetchCurrentUser.data);
         this.$router.push("/main");
       } catch (error) {
-        console.log(error);
-        Toast.fire({
-          icon: "warning",
-          title: "請輸入正確帳號與密碼",
-        });
-        this.isProcessing = false
+        switch (error.response.data.message) {
+          case "Passwords did not match":
+            Toast.fire({
+              icon: "warning",
+              title: "請輸入正確密碼",
+            });
+            break;
+          case "No such user found":
+            Toast.fire({
+              icon: "warning",
+              title: "請輸入正確帳號",
+            });
+            break;
+          default:
+            Toast.fire({
+              icon: "error",
+              title: "無法登入,請稍後",
+            });
+            break;
+        }
+        this.isProcessing = false;
       }
     },
   },

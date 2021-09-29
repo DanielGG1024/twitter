@@ -229,7 +229,6 @@ export default {
           email: this.email,
           password: this.password,
         });
-        console.log("responseLogin", responseLogin);
         localStorage.setItem("token", responseLogin.data.token);
         try {
           const fetchCurrentUser = await userAPI.getCurrentUser();
@@ -242,25 +241,39 @@ export default {
           });
         }
       } catch (error) {
-        // console.log("error:", err);
-        // console.log("error.message:", err.message);
-        // console.log("error.msg:", err.msg);
-        console.log("error.message:", error.message);
-        if (error.message === "Request failed with status code 409") {
-          Toast.fire({
-            icon: "warning",
-            title: "account 或 Email已重覆註冊",
-          });
-        } else if (error.message === "Request failed with status code 401") {
-          Toast.fire({
-            icon: "warning",
-            title: "密碼與密碼確認不符!",
-          });
-        } else {
-          Toast.fire({
-            icon: "error",
-            title: "無法註冊帳號,請稍後",
-          });
+        console.log("error122333", error);
+        console.error("debug", error);
+        switch (error.response.data.message) {
+          case "email 已重覆註冊！":
+            Toast.fire({
+              icon: "warning",
+              title: "email 已重覆註冊！",
+            });
+            break;
+          case "account 已重覆註冊！":
+            Toast.fire({
+              icon: "warning",
+              title: "account 已重覆註冊！",
+            });
+            break;
+          case "email 和 account 已重覆註冊！":
+            Toast.fire({
+              icon: "warning",
+              title: "email 和 account 已重覆註冊",
+            });
+            break;
+          case "兩次密碼輸入不同！":
+            Toast.fire({
+              icon: "warning",
+              title: "兩次密碼輸入不同！",
+            });
+            break;
+          default:
+            Toast.fire({
+              icon: "error",
+              title: "無法註冊帳號,請稍後",
+            });
+            break;
         }
         this.isProcessing = false;
       }
