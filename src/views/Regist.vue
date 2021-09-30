@@ -241,8 +241,6 @@ export default {
           });
         }
       } catch (error) {
-        console.log("error122333", error);
-        console.error("debug", error);
         switch (error.response.data.message) {
           case "email 已重覆註冊！":
             Toast.fire({

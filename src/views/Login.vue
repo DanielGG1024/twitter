@@ -142,12 +142,6 @@ export default {
               title: "請輸入正確帳號",
             });
             break;
-          default:
-            Toast.fire({
-              icon: "error",
-              title: "無法登入,請稍後",
-            });
-            break;
         }
         this.isProcessing = false;
       }

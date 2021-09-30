@@ -1,9 +1,9 @@
 <template>
-  <div class="messageBox">
+  <div class="messageBox" ref="chat">
     <div class="header">
       <div class="title">公開聊天室</div>
     </div>
-    <div class="messageBox-wrapper" ref="messageBox">
+    <div class="messageBox-wrapper" id="messageBox-wrapper" ref="messageList">
       <div v-for="user in onlineList" :key="user.id" class="notify">
         <div class="notify-mgs">{{ user.name }}上線</div>
       </div>
@@ -91,25 +91,17 @@ export default {
     const userId = this.currentUser.id;
     console.log(userId);
   },
-  mounted() {
-    const userId = this.currentUser.id;
-    this.$socket.emit("leave");
-    this.$socket.emit("joinPublic", userId);
-    this.scrollToBottom();
-  },
   updated() {
     this.scrollToBottom();
   },
   methods: {
     scrollToBottom() {
-      this.$refs.messageBox.scrollTop = this.$refs.messageBox.scrollHeight;
+      this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
     },
     send() {
       this.isProcessing = true;
       const userId = this.currentUser.id;
-      const text = this.text.trim();
-      console.log(text);
-      if (text.length === 0) return;
+      const text = this.text;
       this.$socket.emit("chatmessage", {
         msg: text,
         UserId: userId,
@@ -131,6 +123,14 @@ export default {
       }
     },
   },
+
+  mounted() {
+    const userId = this.currentUser.id;
+    this.$socket.emit("leave");
+    this.$socket.emit("joinPublic", userId);
+    this.scrollToBottom();
+  },
+
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
