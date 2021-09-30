@@ -54,10 +54,10 @@ import { Toast } from "./../utils/helpers";
 import tweetAPI from "./../apis/tweet";
 import { mapState } from "vuex";
 export default {
-  name: "Popular",
+  name: "UserRightColumn",
   props: {
     initialTopUsers: {
-      type: Object,
+      type: Array,
       required: true,
     },
   },

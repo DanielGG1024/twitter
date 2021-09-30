@@ -96,7 +96,7 @@ export default {
       },
       isProcessing: false,
       newTweet: false,
-      topUsers: {},
+      topUsers: [],
       tweets: [],
     };
   },
