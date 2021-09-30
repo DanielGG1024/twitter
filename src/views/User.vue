@@ -96,7 +96,7 @@ export default {
       },
       isProcessing: false,
       newTweet: false,
-      topUsers: {},
+      topUsers: [],
       tweets: [],
     };
   },
@@ -151,7 +151,7 @@ export default {
       try {
         const response = await tweetAPI.getTopUser();
         const { data } = response;
-        // console.log("popular data", data);
+        console.log("popular data", data);
         this.topUsers = data;
         // console.log('topusers', this.users)
       } catch {
