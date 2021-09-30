@@ -20,6 +20,19 @@
         </li>
 
         <li>
+          <router-link class="nav-item" :to="{ name: 'publicMessage' }">
+            <img
+              class="icon icon-message"
+              src="../assets/pic/message_spot.png"
+              alt="icon-user"
+            />
+
+
+            <div class="nav-link nav-user">公開聊天室</div>
+          </router-link>
+        </li>
+
+        <li>
           <router-link
             class="nav-item"
             :to="{ name: 'user', params: { id: this.getCurrentUser } }"
@@ -52,18 +65,7 @@
           </router-link>
         </li>
 
-        <li>
-          <router-link class="nav-item" :to="{ name: 'publicMessage' }">
-            <img
-              class="icon icon-message"
-              src="../assets/pic/message_spot.png"
-              alt="icon-user"
-            />
-
-
-            <div class="nav-link nav-user">公開聊天室</div>
-          </router-link>
-        </li>
+        
 
         <li>
           <router-link :to="{ name: 'Setting' }" class="nav-item">
@@ -76,7 +78,10 @@
           </router-link>
         </li>
         <li class="nav-item nav-post">
-          <button class="nav-post-btn">推文</button>
+          <button 
+            class="nav-post-btn" 
+            @click.prevent.stop="clickPostModal"
+          >推文</button>
         </li>
       </ul>
     </nav>
@@ -90,13 +95,24 @@
         <a href="#" class="nav-link"> 登出 </a>
       </li>
     </ul>
+    <MainTweetPostModal
+      :MainTweetPostModalSwitch="MainTweetPostModal"
+      @after-click-close="afterClickClose"
+      @after-click-background="afterClickClose"
+      @after-tweet-post="afterTweetPost"
+    />
   </header>
 </template>
 
 <script>
+import MainTweetPostModal from "./../components/MainTweetPostModal";
 import { mapState } from "vuex";
 
 export default {
+  name: "UserlefColumn",
+  components: {
+    MainTweetPostModal,
+  },
   props: {
     userId: {
       type: Number,
@@ -110,6 +126,7 @@ export default {
   data() {
     return {
       getCurrentUser: -1,
+      MainTweetPostModal: false,
     }
   },
   computed: {
@@ -123,6 +140,15 @@ export default {
     clickLogout() {
       this.$store.commit("revokeAuthentication");
       this.$router.push("/login");
+    },
+    clickPostModal() {
+      this.MainTweetPostModal = true;
+    },
+    afterClickClose() {
+      this.MainTweetPostModal = false;
+    },
+    afterTweetPost() {
+      this.$emit("after-tweet-post");
     },
   },
 };

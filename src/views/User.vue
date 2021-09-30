@@ -2,7 +2,11 @@
   <div class="window demo">
     <div class="user">
       <!-- left Column -->
-      <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
+      <UserLeftColumn
+        :userId="userId"
+        :currentUserId="currentUserId"
+        @after-tweet-post="afterTweetPost"
+      />
 
       <!-- center column -->
 
@@ -26,7 +30,10 @@
 
         <div class="user-self-switch">
           <!-- list-tweet / reply list / like list -->
-          <router-view class="scrollbar"></router-view>
+          <router-view
+            class="scrollbar"
+            :initialNewTweet="newTweet"
+          ></router-view>
         </div>
       </div>
       <!-- right Column -->
@@ -88,7 +95,9 @@ export default {
         introduction: "",
       },
       isProcessing: false,
-      topUsers: []
+      newTweet: false,
+      topUsers: [],
+      tweets: [],
     };
   },
   computed: {
@@ -97,7 +106,9 @@ export default {
   created() {
     this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
+    this.fetchUserTweets(this.userId);
     this.fetchTopUsers();
+
     // console.log("currentUserId", this.currentUserId);
   },
   beforeRouteUpdate(to, from, next) {
@@ -106,6 +117,7 @@ export default {
     const { id } = to.params;
     // console.log("beforeRU", id)
     this.fetchUserInfo(id);
+    this.fetchUserTweets(id);
     this.userId = Number(id);
     next();
   },
@@ -115,7 +127,7 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
-        console.log("123", data);
+        // console.log("123", data);
         this.user = data;
         const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
@@ -146,6 +158,21 @@ export default {
         Toast.fire({
           icon: "warning",
           title: "無法取得前十",
+        });
+      }
+    },
+    async fetchUserTweets(userId) {
+      try {
+        this.isLoading = true;
+        const { data } = await usersAPI.getUserTweets({ userId });
+        // console.log("tweetList", data);
+        this.tweets = data;
+        this.isLoading = false;
+      } catch (error) {
+        this.isLoading = false;
+        Toast.fire({
+          icon: "error",
+          title: "無法取得推文，請稍後再試",
         });
       }
     },
@@ -209,6 +236,9 @@ export default {
           // console.log('map match')
         }
       });
+    },
+    afterTweetPost() {
+      this.newTweet = !this.newTweet;
     },
   },
 };
