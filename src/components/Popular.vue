@@ -4,113 +4,50 @@
       <div class="popular-title-wrapper">
         <div class="title">Popular</div>
       </div>
-      <div v-for="user in users" :key="user.id" class="one-popular-wrapper">
-        <div class="one-popular">
-          <div class="user-icon-wrapper">
-            <img class="user-icon" :src="user.avatar" alt="" />
-          </div>
-          <div class="popular-txt">
-            <span class="popular-title">{{ user.name }}</span>
-            <a class="popular-link" href="">@{{ user.account }}</a>
-          </div>
-          <div class="popular-follow">
-            <template v-if="user.id !== currentUser.id">
-              <button
-                v-if="user.isFollowed"
-                @click.prevent.stop="deleteFollow(user.id)"
-                class="popular-follow-btn btn-active"
-                :disabled="isProcessing"
-              >
-                正在跟隨
-              </button>
-              <button
-                v-else
-                class="popular-follow-btn"
-                @click.prevent.stop="addFollow(user.id)"
-                :disabled="isProcessing"
-              >
-                跟隨
-              </button>
-            </template>
-          </div>
-        </div>
-      </div>
+      <PopularItem
+        v-for="user in users"
+        :key="user.id"
+        :user="user"
+        :currentUserId="currentUserId"
+        @after-click-delete-follow="afterClickDeleteFollow"
+      />
     </div>
   </div>
 </template>
 <script>
 import { Toast } from "./../utils/helpers";
 import tweetAPI from "./../apis/tweet";
+import PopularItem from "./../components/PopularItem";
 import { mapState } from "vuex";
+
 export default {
   name: "Popular",
+  components: {
+    PopularItem,
+  },
   data() {
     return {
       currentUserId: -1,
       users: "",
       isProcessing: false,
+      PopularItem,
     };
   },
   created() {
     this.fetchTopUsers();
-  },
-  watch: {
-    users: {
-      handler: function () {
-        this.fetchTopUsers();
-      },
-    },
+    this.currentUserId = this.currentUser.id;
   },
   methods: {
-    async deleteFollow(id) {
-      try {
-        this.isProcessing = true;
-        const userId = id;
-        const response = await tweetAPI.removeFollow({ userId });
-        if (response.status !== 200) {
-          throw new Error();
-        }
-        this.$emit("follow-click");
+    afterClickDeleteFollow(userId) {
+      console.log(userId)
+    },
 
-        this.isProcessing = false;
-      } catch {
-        this.isProcessing = false;
-        Toast.fire({
-          icon: "error",
-          title: "無法取消追蹤使用者,請稍後",
-        });
-      }
-    },
-    async addFollow(id) {
-      const userId = id;
-      console.log(id);
-      const data = `{
-        "id":"${userId}"
-      }`;
-      const data_JSON = JSON.parse(data);
-      try {
-        this.isProcessing = true;
-        const response = await tweetAPI.addFollow({ data_JSON });
-        // console.log("popular response", response);
-        if (response.status !== 200) {
-          throw new Error();
-        }
-        this.isProcessing = false;
-      } catch {
-        this.isProcessing = false;
-        Toast.fire({
-          icon: "error",
-          title: "無法追蹤使用者,請稍後",
-        });
-      }
-    },
+  
     async fetchTopUsers() {
       try {
         const response = await tweetAPI.getTopUser();
         const { data } = response;
-        // console.log("popular data", data);
         this.users = data;
-        // console.log('top10users', data)
       } catch {
         Toast.fire({
           icon: "warning",
@@ -126,5 +63,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.popular {
+  height: 100vh;
+  width: 462px;
+  padding-top: 15px;
+  padding-left: 30px;
+}
+.popular-wrapper {
+  width: 75%;
+  background-color: $popularBg;
+  border-radius: 10px;
+}
+.title {
+  font-size: 18px;
+  line-height: 55px;
+  font-weight: 700;
+  padding-left: 15px;
+}
 @import "./../assets/scss/popular.scss";
 </style>

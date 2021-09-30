@@ -12,6 +12,7 @@
 <style lang="scss" scoped>
 .spinner {
   padding-top: 100px;
+  margin: 0px auto;
 }
 
 .bouncing-loader {
