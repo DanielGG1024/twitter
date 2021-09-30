@@ -7,15 +7,19 @@
       <div v-for="user in users" :key="user.id" class="one-popular-wrapper">
         <div class="one-popular">
           <router-link :to="{ name: 'user', params: { id: user.id } }">
-          <div class="user-icon-wrapper">
-            <img class="user-icon" :src="user.avatar" alt="" />
-          </div>
+            <div class="user-icon-wrapper">
+              <img class="user-icon" :src="user.avatar" alt="" />
+            </div>
           </router-link>
           <div class="popular-txt">
             <span class="popular-title">{{ user.name }}</span>
-            <router-link class="popular-link" :to="{ name: 'user', params: { id: user.id } }">@{{ user.account }}</router-link>
+            <router-link
+              class="popular-link"
+              :to="{ name: 'user', params: { id: user.id } }"
+              >@{{ user.account }}</router-link
+            >
           </div>
-          
+
           <div class="popular-follow">
             <template v-if="user.id !== currentUser.id">
               <button
@@ -66,8 +70,7 @@ export default {
         if (response.status !== 200) {
           throw new Error();
         }
-        this.$emit("remove-follow-click", userId);
-        user.isFollowed = false
+        user.isFollowed = false;
         this.isProcessing = false;
       } catch {
         this.isProcessing = false;
@@ -92,7 +95,6 @@ export default {
         }
         user.isFollowed = true;
         this.isProcessing = false;
-        this.$emit("add-follow-click", userId);
       } catch {
         this.isProcessing = false;
         Toast.fire({
