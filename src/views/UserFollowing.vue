@@ -38,7 +38,7 @@
               <button
                 class="follower-btn following"
                 v-if="following.isFollowed"
-                @click="removeFollow(following.followingId)"
+                @click="removeFollow(following)"
                 :disabled="isProcessing"
               >
                 正在跟隨
@@ -46,7 +46,7 @@
               <button
                 class="follower-btn"
                 v-else
-                @click="addFollow(following.followingId)"
+                @click="addFollow(following)"
                 :disabled="isProcessing"
               >
                 跟隨
@@ -56,8 +56,10 @@
         </div>
       </div>
       <!-- right Column -->
-      <Popular 
-        @follow-click="fetchFollowing(userId)"
+      <UserRightColumn
+        :initialTopUsers="topUsers"
+        @add-follow-click="addFollowingUser"
+        @remove-follow-click="removeFollowingUser"
       />
     </div>
   </div>
@@ -65,8 +67,10 @@
 
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
+import UserRightColumn from "../components/UserRightColumn.vue";
+
 import UserHeader from "../components/UserHeader.vue";
-import Popular from "../components/Popular.vue";
+// import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
 import Spinner from "../components/Spinner.vue";
 
@@ -81,8 +85,9 @@ export default {
   mixins: [fromNowFilter, emptyImageFilter],
   components: {
     UserLeftColumn,
+    UserRightColumn,
     UserHeader,
-    Popular,
+    // Popular,
     UserFollowTab,
     Spinner,
   },
@@ -92,6 +97,7 @@ export default {
       userId: Number(this.$route.params.id),
       currentUserId: -1,
       user: {},
+      topUsers: {},
       followings: [],
       isProcessing: false,
     };
@@ -106,6 +112,7 @@ export default {
   created() {
     this.fetchFollowing(this.userId);
     this.fetchUserInfo(this.userId);
+    this.fetchTopUsers();
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
@@ -151,7 +158,22 @@ export default {
         });
       }
     },
-    async addFollow(userId) {
+    async fetchTopUsers() {
+      try {
+        const response = await tweetAPI.getTopUser();
+        const { data } = response;
+        // console.log("popular data", data);
+        this.topUsers = data;
+        // console.log('topusers', this.users)
+      } catch {
+        Toast.fire({
+          icon: "warning",
+          title: "無法取得前十",
+        });
+      }
+    },
+    async addFollow(following) {
+      const userId = following.followingId
       const data = `{
         "id":"${userId}"
       }`;
@@ -160,7 +182,9 @@ export default {
         this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
-        this.fetchFollowing(this.userId);
+
+        following.isFollowed = true
+
         this.isProcessing = false;
       } catch {
         this.isProcessing = false;
@@ -171,7 +195,8 @@ export default {
       }
     },
 
-    async removeFollow(userId) {
+    async removeFollow(following) {
+      const userId = following.followingId
       console.log(userId);
       try {
         this.isProcessing = true;
@@ -181,7 +206,7 @@ export default {
         if (data.status !== "success") {
           throw new Error(data.message);
         }
-
+        
         this.followings = this.followings.map((following) => {
           if (following.id !== userId) {
             return following;
@@ -191,7 +216,9 @@ export default {
             isfollowered: false,
           };
         });
-        this.fetchFollowing(this.userId);
+      
+        following.isFollowed = false
+
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;
@@ -202,6 +229,15 @@ export default {
         });
       }
     },
+    addFollowingUser() {
+      this.fetchFollowing(this.userId);
+      
+    },
+    removeFollowingUser(userId) {
+      this.followings = this.followings.filter(following => following.followingId !== userId)
+      
+    },
+
   },
 };
 </script>

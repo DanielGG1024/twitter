@@ -1,6 +1,6 @@
 #user-info {
   width: 598px;
-  height: 375px;
+  // height: 375px;
   position: relative;
   .cover-container {
     width: 100%;
@@ -37,9 +37,13 @@
       font-size: 15px;
       line-height: 15px;
   }
+  .following{
+    background-color: $orange;
+    color: $white;
+  }
   .user-description {
     width: 570px;
-    height: 106px;
+    // height: 106px;
     margin: 69px auto 0;
     .user-name {
       font-weight: 900;
@@ -64,10 +68,10 @@
     }
     .user-follow {
       display: flex;
-
       font-weight: 500;
       font-size: 14px;
       line-height: 20.27px;
+      margin: 10px 0;
       .link-btn {
         color: $tag;
       }

@@ -1,7 +1,7 @@
 <template>
   <div id="tweet-list">
     <Spinner v-if="isLoading" />
-    <div class="tweet" v-for="tweet in tweets" :key="tweet.id">
+    <div v-else class="tweet" v-for="tweet in tweets" :key="tweet.id">
       <router-link :to="{ name: 'user', params: { id: tweet.user.id } }">
         <div class="tweet-avatar">
           <img :src="tweet.user.avatar | emptyImage" alt="tweet-avatar" />

@@ -4,7 +4,7 @@
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
       <!-- center column -->
-      <Spinner v-if="isLoading" class="user-spinner"/>
+      <Spinner v-if="isLoading" class="user-spinner" />
       <div v-else id="center-column" class="center-column">
         <!-- header -->
         <UserHeader :user="user" />
@@ -37,7 +37,7 @@
               <button
                 class="follower-btn following"
                 v-if="follower.isFollowed"
-                @click="removeFollow(follower.followerId)"
+                @click="removeFollow(follower)"
                 :disabled="isProcessing"
               >
                 正在跟隨
@@ -45,7 +45,7 @@
               <button
                 class="follower-btn"
                 v-else
-                @click="addFollow(follower.followerId)"
+                @click="addFollow(follower)"
                 :disabled="isProcessing"
               >
                 跟隨
@@ -55,8 +55,11 @@
         </div>
       </div>
       <!-- right Column -->
-      <Popular 
-        @follow-click="fetchFollower(userId)"
+
+      <UserRightColumn
+        :initialTopUsers="topUsers"
+        @add-follow-click="followClicked"
+        @remove-follow-click="followClicked"
       />
     </div>
   </div>
@@ -64,11 +67,11 @@
 
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
+import UserRightColumn from "../components/UserRightColumn.vue";
+
 import UserHeader from "../components/UserHeader.vue";
-import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
 import Spinner from "../components/Spinner.vue";
-
 
 import usersAPI from "../apis/users";
 import tweetAPI from "../apis/tweet";
@@ -80,8 +83,9 @@ export default {
   mixins: [fromNowFilter, emptyImageFilter],
   components: {
     UserLeftColumn,
+    UserRightColumn,
     UserHeader,
-    Popular,
+    // Popular,
     UserFollowTab,
     Spinner,
   },
@@ -91,21 +95,16 @@ export default {
       userId: Number(this.$route.params.id),
       currentUserId: -1,
       user: {},
+      topUsers: {},
       followers: [],
       isProcessing: false,
     };
   },
-  // watch: {
-  //   followers: {
-  //     handler: function () {
-  //       this.fetchFollower(this.userId);
-  //     },
-  //   },
-  // },
 
   created() {
     this.fetchFollower(this.userId);
     this.fetchUserInfo(this.userId);
+    this.fetchTopUsers();
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
@@ -151,7 +150,23 @@ export default {
           });
       }
     },
-    async addFollow(userId) {
+    async fetchTopUsers() {
+      try {
+        const response = await tweetAPI.getTopUser();
+        const { data } = response;
+        // console.log("popular data", data);
+        this.topUsers = data;
+        // console.log('topusers', this.users)
+      } catch {
+        Toast.fire({
+          icon: "warning",
+          title: "無法取得前十",
+        });
+      }
+    },
+
+    async addFollow(follower) {
+      const userId = follower.followerId
       const data = `{
         "id":"${userId}"
       }`;
@@ -160,7 +175,17 @@ export default {
         this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
-        this.fetchFollower(this.userId);
+
+        follower.isFollowed = true
+
+        this.topUsers.map((topUser) => {
+          if (userId !== topUser.id) {
+            return;
+          } else if (userId === topUser.id) {
+            topUser.isFollowed = true;
+          }
+        });
+
         this.isProcessing = false;
       } catch {
         this.isProcessing = false;
@@ -171,7 +196,8 @@ export default {
       }
     },
 
-    async removeFollow(userId) {
+    async removeFollow(follower) {
+      const userId = follower.followerId
       console.log(userId);
       try {
         this.isProcessing = true;
@@ -182,6 +208,8 @@ export default {
           throw new Error(data.message);
         }
 
+        
+
         this.followers = this.followers.map((follower) => {
           if (follower.id !== userId) {
             return follower;
@@ -191,7 +219,18 @@ export default {
             isfollowered: false,
           };
         });
-        this.fetchFollower(this.userId);
+
+        follower.isFollowed = false
+
+        this.topUsers.map((topUser) => {
+          if (userId !== topUser.id) {
+            return;
+          } else if (userId === topUser.id) {
+            topUser.isFollowed = false;
+          }
+        });
+
+        // this.fetchFollower(this.userId);
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;
@@ -202,6 +241,16 @@ export default {
         });
       }
     },
+
+    followClicked(userId) {
+      this.followers.map((follower) => {
+          if (userId !== follower.followerId) {
+            return;
+          } else if (userId === follower.followerId) {
+            follower.isFollowed = !follower.isFollowed 
+          }
+        });
+    }
   },
 };
 </script>

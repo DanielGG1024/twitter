@@ -57,13 +57,6 @@ export default {
   created() {
     this.fetchTopUsers();
   },
-  // watch: {
-  //   users: {
-  //     handler: function () {
-  //       this.fetchTopUsers();
-  //     },
-  //   },
-  // },
   methods: {
     async deleteFollow(user) {
       try {
@@ -73,7 +66,7 @@ export default {
         if (response.status !== 200) {
           throw new Error();
         }
-        this.$emit("follow-click");
+        this.$emit("remove-follow-click", userId);
         user.isFollowed = false
         this.isProcessing = false;
       } catch {
@@ -99,7 +92,7 @@ export default {
         }
         user.isFollowed = true;
         this.isProcessing = false;
-        this.$emit("follow-click");
+        this.$emit("add-follow-click", userId);
       } catch {
         this.isProcessing = false;
         Toast.fire({

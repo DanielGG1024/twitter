@@ -14,6 +14,8 @@
           <div class="user-self">
             <UserInfo
               @after-click-setInfoBtn="clickSetModal"
+              @add-follow-click="followClicked"
+              @remove-follow-click="followClicked"
               :initialUser="user"
               :userId="userId"
               :currentUserId="currentUserId"
@@ -28,7 +30,11 @@
         </div>
       </div>
       <!-- right Column -->
-      <Popular @follow-click="fetchUserInfo(userId)" />
+      <UserRightColumn
+        :initialTopUsers="topUsers"
+        @add-follow-click="addFollowCount"
+        @remove-follow-click="removeFollowCount"
+      />
     </div>
     <UserInfoSetModal
       v-show="showInfoSetModal"
@@ -43,25 +49,27 @@
 
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
+import UserRightColumn from "../components/UserRightColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
-import Popular from "../components/Popular.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
 import Spinner from "../components/Spinner.vue";
 
 import { mapState } from "vuex";
-import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
+import usersAPI from "./../apis/users";
+import tweetAPI from "../apis/tweet";
 
 export default {
   name: "User",
   components: {
     UserLeftColumn,
+    UserRightColumn,
     UserHeader,
     UserInfo,
     UserTab,
-    Popular,
+
     UserInfoSetModal,
     Spinner,
   },
@@ -80,7 +88,7 @@ export default {
         introduction: "",
       },
       isProcessing: false,
-      otherUser: {},
+      topUsers: {},
     };
   },
   computed: {
@@ -89,6 +97,7 @@ export default {
   created() {
     this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
+    this.fetchTopUsers();
     // console.log("currentUserId", this.currentUserId);
   },
   beforeRouteUpdate(to, from, next) {
@@ -100,15 +109,6 @@ export default {
     this.userId = Number(id);
     next();
   },
-
-  // watch: {
-  //   user: {
-  //     handler: function () {
-  //       this.fetchUserInfo(this.userId);
-  //     },
-  //     // deep: true,
-  //   },
-  // },
 
   methods: {
     async fetchUserInfo(userId) {
@@ -125,11 +125,6 @@ export default {
           introduction,
           cover,
         };
-        // console.log(this.modalUser)
-        if (this.currentUserId !== this.userId) {
-          this.otherUserInfo(this.userId);
-          console.log("start");
-        }
         this.isLoading = false;
       } catch (error) {
         console.log("error", error);
@@ -140,12 +135,19 @@ export default {
         });
       }
     },
-    async otherUserInfo(userId) {
-      const { data } = await usersAPI.getUserFollowings({ userId });
-      console.log("other-data", data);
-      const otherUser = data.find((item) => item.followingId === userId);
-      console.log(otherUser);
-      this.otherUser = otherUser;
+    async fetchTopUsers() {
+      try {
+        const response = await tweetAPI.getTopUser();
+        const { data } = response;
+        // console.log("popular data", data);
+        this.topUsers = data;
+        // console.log('topusers', this.users)
+      } catch {
+        Toast.fire({
+          icon: "warning",
+          title: "無法取得前十",
+        });
+      }
     },
 
     clickSetModal() {
@@ -176,6 +178,37 @@ export default {
           title: "無法更新個人資料，請稍後再試",
         });
       }
+    },
+    addFollowCount(userId) {
+      if (this.currentUserId === this.userId) {
+        this.user.followingsCount += 1;
+      } else if (userId === this.userId) {
+        this.user.followersCount += 1;
+        this.user.isFollowed = true;
+      }
+    },
+    removeFollowCount(userId) {
+      if (this.currentUserId === this.userId) {
+        this.user.followingsCount -= 1;
+      } else if (userId === this.userId) {
+        this.user.followersCount -= 1;
+        this.user.isFollowed = false;
+      }
+    },
+    followClicked(userId) {
+      if (userId === this.userId) {
+        !this.user.isFollowed;
+      }
+
+      this.topUsers.map((topUser) => {
+        if (userId !== topUser.id) {
+          // console.log('map no match')
+          return;
+        } else if (userId === topUser.id) {
+          topUser.isFollowed = !topUser.isFollowed;
+          // console.log('map match')
+        }
+      });
     },
   },
 };

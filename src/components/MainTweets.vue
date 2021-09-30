@@ -1,5 +1,5 @@
 <template>
-  <div class="tweets" ref="chat">
+  <div class="tweets scrollbar" ref="chat">
     <div v-for="tweet in allTweets" :key="tweet.TweetId" class="onetweet">
       <div class="onetweet-user-icon-wrapper">
         <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
@@ -38,23 +38,21 @@
           <div class="heart">
             <div class="onetweet-footer-icon">
               <img
-              v-if="tweet.isLiked"
-              @click.stop.prevent="removeLike(tweet)"
-              class="heart-icon"
-              src="../assets/pic/icon_like_fill.png"
-              alt="heart-icon"
-              :disabled="isProcessing"
-            />
-            <img
-              v-else
-              @click.stop.prevent="addLike(tweet)"
-              class="heart-icon"
-              src="../assets/pic/heart.png"
-              alt="heart-icon"
-              :disabled="isProcessing"
-            />
-
-
+                v-if="tweet.isLiked"
+                @click.stop.prevent="removeLike(tweet)"
+                class="heart-icon"
+                src="../assets/pic/icon_like_fill.png"
+                alt="heart-icon"
+                :disabled="isProcessing"
+              />
+              <img
+                v-else
+                @click.stop.prevent="addLike(tweet)"
+                class="heart-icon"
+                src="../assets/pic/heart.png"
+                alt="heart-icon"
+                :disabled="isProcessing"
+              />
             </div>
             <span class="footer-amount">{{ tweet.LikesCount }}</span>
           </div>
@@ -75,7 +73,6 @@ import ReplyModal from "./../components/ReplyModal";
 import { fromNowFilter } from "./../utils/mixins";
 import { Toast } from "./../utils/helpers";
 import tweetAPI from "../apis/tweet";
-
 
 export default {
   name: "MainTweets",
@@ -98,7 +95,6 @@ export default {
         },
       },
       isProcessing: false,
-
     };
   },
   methods: {

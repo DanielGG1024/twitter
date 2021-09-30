@@ -1,9 +1,9 @@
 <template>
   <div id="user-info" class="user-info">
     <div class="cover-container">
-      <img class="cover-photo" :src="user.cover" alt="cover-photo" />
+      <img class="cover-photo" :src="this.initialUser.cover" alt="cover-photo" />
     </div>
-    <img class="user-avatar" :src="user.avatar" alt="user-avatar" />
+    <img class="user-avatar" :src="this.initialUser.avatar" alt="user-avatar" />
     <button
       v-if="currentUserId === userId"
       class="btn-follow"
@@ -13,17 +13,17 @@
     </button>
     <div v-else class="other-follow">
       <button
-        class="btn-follow follower-btn following"
-        v-if="otherUser.isFollowed"
-        @click="removeFollow(otherUser.followingId)"
+        class="btn-follow  following"
+        v-if="user.isFollowed"
+        @click="removeFollow(userId)"
         :disabled="isProcessing"
       >
         正在跟隨
       </button>
       <button
-        class="btn-follow follower-btn"
+        class="btn-follow "
         v-else
-        @click="addFollow(otherUser.followingId)"
+        @click="addFollow(userId)"
         :disabled="isProcessing"
       >
         跟隨
@@ -31,20 +31,20 @@
     </div>
 
     <div class="user-description">
-      <div class="user-name">{{ user.name }}</div>
-      <div class="user-account">@{{ user.account }}</div>
+      <div class="user-name">{{ this.initialUser.name }}</div>
+      <div class="user-account">@{{ this.initialUser.account }}</div>
       <div class="user-introduce">
-        {{ user.introduction }}
+        {{ this.initialUser.introduction }}
       </div>
       <div class="user-follow">
         <router-link class="link-btn" :to="{ name: 'follower' }">
           <div class="iFollow">
-            <span>{{ user.followingsCount }}個</span> 跟隨中
+            <span>{{ this.initialUser.followingsCount }}個</span> 跟隨中
           </div>
         </router-link>
         <router-link class="link-btn" :to="{ name: 'following' }">
           <div class="follow-me">
-            <span>{{ user.followersCount }}位</span> 追隨者
+            <span>{{ this.initialUser.followersCount }}位</span> 追隨者
           </div>
         </router-link>
       </div>
@@ -75,15 +75,12 @@ export default {
     return {
       user: {},
       isLoading: true,
-      otherUser: {},
-      isProcessing: false,
+      isProcessing: false,  
     };
   },
   created() {
     this.user = this.initialUser;
-    console.log("userinfo", this.user);
-    console.log('currentUserId', this.currentUserId)
-    console.log('userId', this.userId)
+
   },
 
   methods: {
@@ -100,11 +97,6 @@ export default {
           introduction,
           cover,
         };
-        // console.log(this.modalUser)
-        if (this.currentUserId !== this.userId) {
-          this.otherUserInfo(this.userId);
-          console.log('this.otherUser', this.otherUser)
-        }
       } catch (error) {
         console.log("error", error);
         Toast.fire({
@@ -124,13 +116,6 @@ export default {
         this.$emit("after-click-setInfoBtn");
       }
     },
-    // async otherUserInfo(userId) {
-    //   const { data } = await usersAPI.getUserFollowings({ userId });
-    //   console.log("other-data", data);
-    //   const otherUser = data.find((item) => item.followingId === userId);
-    //   this.otherUser = otherUser;
-    //   console.log(this.otherUser);
-    // },
 
     async addFollow(userId) {
       const data = `{
@@ -145,7 +130,9 @@ export default {
           throw new Error(data.message);
         }
 
-        (this.otherUser.isFollowed = true), (this.isProcessing = false);
+        this.user.isFollowed = true, 
+        this.isProcessing = false;
+        this.$emit("add-follow-click", userId);
       } catch {
         this.isProcessing = false;
         Toast.fire({
@@ -166,7 +153,9 @@ export default {
           throw new Error(data.message);
         }
 
-        (this.otherUser.isFollowed = true), (this.isProcessing = false);
+        this.user.isFollowed = false, 
+        this.isProcessing = false;
+        this.$emit("remove-follow-click", userId);
       } catch (error) {
         this.isProcessing = false;
         console.log(error);
