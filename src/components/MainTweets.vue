@@ -2,7 +2,7 @@
   <div class="tweets scrollbar" ref="chat">
     <div v-for="tweet in allTweets" :key="tweet.TweetId" class="onetweet">
       <div class="onetweet-user-icon-wrapper">
-        <router-link :to="{ name: 'Reply', params: { id: tweet.TweetId } }">
+        <router-link :to="{ name: 'user', params: { id: tweet.User.id } }">
           <img class="user-icon" :src="tweet.User.avatar" alt="" />
         </router-link>
       </div>

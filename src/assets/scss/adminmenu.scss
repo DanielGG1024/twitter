@@ -38,6 +38,8 @@
   font-weight: 700;
   text-decoration: none;
   color: $nameTitle;
+  display: flex;
+  align-items: center;
 }
 .menu-link-title {
   margin-left: 20px;

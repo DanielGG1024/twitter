@@ -7,8 +7,15 @@
         <div class="content-header">
           <span class="title">使用者列表</span>
         </div>
+
         <div class="cards-wrapper">
-          <AdminUserCards v-for="user in users" :key="user.id" :user="user" />
+          <Spinner v-if="isLoading" />
+          <AdminUserCards
+            v-else
+            v-for="user in users"
+            :key="user.id"
+            :user="user"
+          />
         </div>
       </main>
     </div>
@@ -19,16 +26,19 @@
 import AdminMenu from "./../components/AdminMenu";
 import AdminUserCards from "./../components/AdminUserCards";
 import adminAPI from "./../apis/admin";
+import Spinner from "./../components/Spinner";
 import { Toast } from "./../utils/helpers";
 export default {
-  name:'adminUser',
+  name: "adminUser",
   components: {
     AdminMenu,
     AdminUserCards,
+    Spinner,
   },
   data() {
     return {
       users: [],
+      isLoading: true,
     };
   },
   created() {
@@ -39,11 +49,13 @@ export default {
       try {
         const { data } = await adminAPI.adminGetUsers();
         this.users = data;
+        this.isLoading = false;
       } catch {
         Toast({
           icon: "error",
           title: "無法取得後台使用者資料",
         });
+        this.isLoading = false;
       }
     },
   },
@@ -76,6 +88,7 @@ export default {
 
 .cards-wrapper {
   height: calc(100vh - 55px);
+  width: 100%;
   overflow-y: scroll;
   display: flex;
   flex-wrap: wrap;
