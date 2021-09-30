@@ -87,7 +87,7 @@ export default {
     async fetchUserInfo(userId) {
       try {
         const { data } = await usersAPI.get({ userId });
-        console.log("123", data);
+        // console.log("123", data);
         this.user = data;
         const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {

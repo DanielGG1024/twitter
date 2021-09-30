@@ -108,7 +108,8 @@ export default {
         this.ciickClose();
         this.$emit("after-tweet-post");
         this.teweetContent = "";
-      } catch {
+      } catch (error){
+        console.log('error', error)
         Toast.fire({
           icon: "error",
           title: "無法送出推文,請稍後",

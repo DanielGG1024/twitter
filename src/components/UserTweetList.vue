@@ -78,15 +78,33 @@ export default {
     ReplyModal,
     Spinner,
   },
+  props: {
+    initialNewTweet: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data() {
     return {
       tweets: [],
-      tweet: {},
+      tweet: {
+        User: {
+          avatar: "",
+        },
+      },
       ReplyModal: false,
       userId: Number(this.$route.params.id),
       isProcessing: false,
       isLoading: true,
     };
+  },
+  watch: {
+    initialNewTweet: {
+      handler: function () {
+        this.fetchUserTweets(this.userId);
+      },
+      // deep: true,
+    },
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
@@ -94,6 +112,7 @@ export default {
   created() {
     const { id: userId } = this.$route.params;
     this.fetchUserTweets(userId);
+    console.log("newTweet", this.initialNewTweet);
   },
   beforeRouteUpdate(to, from, next) {
     // console.log(to, from);
