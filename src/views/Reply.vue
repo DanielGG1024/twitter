@@ -14,7 +14,7 @@
             <div class="reply-wrapper">
               <ReplyTweets
                 v-for="tweetReply in tweetReplies"
-                :key="tweetReply.UserId"
+                :key="tweetReply.id"
                 :tweetReplies="tweetReply"
                 :tweetUserAccount="tweet.user.account"
               />
@@ -57,6 +57,7 @@ export default {
         likeCounts: 0,
         isLiked: false,
         id: -1,
+        UserId: -1,
       },
       isLoading: true,
       tweetReplies: "",
@@ -82,7 +83,8 @@ export default {
       try {
         const response = await tweetAPI.getTweet({ tweetId });
         const { data } = response;
-        // console.log("dataReply", data);
+        console.log("response: ", response);
+        console.log("dataReply", data);
         const {
           description,
           createdAt,
@@ -91,6 +93,7 @@ export default {
           isLiked,
           id,
           user,
+          UserId,
         } = data;
         this.tweet.user.name = user.name;
         this.tweet.user.account = user.account;
@@ -101,6 +104,7 @@ export default {
         this.tweet.likeCounts = likeCounts;
         this.tweet.isLiked = isLiked;
         this.tweet.id = id;
+        this.tweet.UserId = UserId;
       } catch {
         Toast.fire({
           icon: "warning",
