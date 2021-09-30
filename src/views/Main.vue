@@ -74,12 +74,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+
 .main-container {
   min-width: 100vh;
   min-height: 100vh;
   display: flex;
   font-family: "Noto Sans TC";
-  margin: 0 auto;
 }
 
 .content {

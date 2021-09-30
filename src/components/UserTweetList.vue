@@ -176,7 +176,7 @@ export default {
       console.log("tweet", tweet);
       try {
         this.isProcessing = true;
-        const tweetId = tweet.TweetId;
+        const tweetId = tweet.id;
         const response = await tweetAPI.removeLike({ tweetId });
         console.log("delete reponse", response);
         const { data } = response;
