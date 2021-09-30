@@ -9,7 +9,6 @@
         :key="user.id"
         :user="user"
         :currentUserId="currentUserId"
-        @after-click-delete-follow="afterClickDeleteFollow"
       />
     </div>
   </div>
@@ -38,11 +37,6 @@ export default {
     this.currentUserId = this.currentUser.id;
   },
   methods: {
-    afterClickDeleteFollow(userId) {
-      console.log(userId)
-    },
-
-  
     async fetchTopUsers() {
       try {
         const response = await tweetAPI.getTopUser();

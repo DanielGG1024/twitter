@@ -36,7 +36,9 @@
   .popular {
       grid-area: popular;
   }
-
+  &-spinner {
+    height: 100%;
+  }
 
 
 }

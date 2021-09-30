@@ -73,7 +73,6 @@ export default {
           ...this.oneUser,
           isFollowed: false,
         };
-        // this.$emit("after-click-delete-follow", userId);
         this.isProcessing = false;
         this.deleteFollowMessage = "正在跟隨";
       } catch {

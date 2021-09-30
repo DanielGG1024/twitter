@@ -1,45 +1,64 @@
 <template>
   <div id="user-info" class="user-info">
-      <div class="cover-container">
-        <img class="cover-photo" :src="user.cover" alt="cover-photo" />
-      </div>
-      <img class="user-avatar" :src="user.avatar" alt="user-avatar" />
+    <div class="cover-container">
+      <img class="cover-photo" :src="this.initialUser.cover" alt="cover-photo" />
+    </div>
+    <img class="user-avatar" :src="this.initialUser.avatar" alt="user-avatar" />
+    <button
+      v-if="currentUserId === userId"
+      class="btn-follow"
+      @click.prevent.stop="clickSetInfoModal"
+    >
+      編輯個人資料
+    </button>
+    <div v-else class="other-follow">
       <button
-        v-show="currentUserId === userId"
-        class="btn-follow"
-        @click.prevent.stop="clickSetInfoModal"
+        class="btn-follow  following"
+        v-if="user.isFollowed"
+        @click="removeFollow(userId)"
+        :disabled="isProcessing"
       >
-        編輯個人資料
+        正在跟隨
       </button>
-      <div class="user-description">
-        <div class="user-name">{{ user.name }}</div>
-        <div class="user-account">@{{ user.account }}</div>
-        <div class="user-introduce">
-          {{ user.introduction }}
-        </div>
-        <div class="user-follow">
-          <router-link class="link-btn" :to="{ name: 'follower' }">
-            <div class="iFollow">
-              <span>{{ user.followingsCount }}個</span> 跟隨中
-            </div>
-          </router-link>
-          <router-link class="link-btn" :to="{ name: 'following' }">
-            <div class="follow-me">
-              <span>{{ user.followersCount }}位</span> 追隨者
-            </div>
-          </router-link>
-        </div>
+      <button
+        class="btn-follow "
+        v-else
+        @click="addFollow(userId)"
+        :disabled="isProcessing"
+      >
+        跟隨
+      </button>
+    </div>
+
+    <div class="user-description">
+      <div class="user-name">{{ this.initialUser.name }}</div>
+      <div class="user-account">@{{ this.initialUser.account }}</div>
+      <div class="user-introduce">
+        {{ this.initialUser.introduction }}
       </div>
+      <div class="user-follow">
+        <router-link class="link-btn" :to="{ name: 'follower' }">
+          <div class="iFollow">
+            <span>{{ this.initialUser.followingsCount }}個</span> 跟隨中
+          </div>
+        </router-link>
+        <router-link class="link-btn" :to="{ name: 'following' }">
+          <div class="follow-me">
+            <span>{{ this.initialUser.followersCount }}位</span> 追隨者
+          </div>
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import usersAPI from "./../apis/users";
+import tweetAPI from "./../apis/tweet";
 import { Toast } from "./../utils/helpers";
 export default {
-
   props: {
-    initialUser:{
+    initialUser: {
       type: Object,
       required: true,
     },
@@ -56,24 +75,19 @@ export default {
     return {
       user: {},
       isLoading: true,
+      isProcessing: false,  
     };
   },
-  watch: {
-    user: {
-      handler: function () {
-        this.fetchUserInfo(this.userId);
-      },
-    },
-  },
   created() {
-    this.user = this.initialUser
+    this.user = this.initialUser;
+
   },
 
   methods: {
     async fetchUserInfo(userId) {
       try {
         const { data } = await usersAPI.get({ userId });
-        // console.log('123', data)
+        console.log("123", data);
         this.user = data;
         const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
@@ -83,7 +97,6 @@ export default {
           introduction,
           cover,
         };
-        // console.log(this.modalUser)
       } catch (error) {
         console.log("error", error);
         Toast.fire({
@@ -101,6 +114,55 @@ export default {
         return;
       } else {
         this.$emit("after-click-setInfoBtn");
+      }
+    },
+
+    async addFollow(userId) {
+      const data = `{
+        "id":"${userId}"
+      }`;
+      const data_JSON = JSON.parse(data);
+      try {
+        this.isProcessing = true;
+        const response = await tweetAPI.addFollow({ data_JSON });
+        console.log("addFollow", response);
+        if (response.data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        this.user.isFollowed = true, 
+        this.isProcessing = false;
+        this.$emit("add-follow-click", userId);
+      } catch {
+        this.isProcessing = false;
+        Toast.fire({
+          icon: "error",
+          title: "無法追蹤使用者,請稍後",
+        });
+      }
+    },
+
+    async removeFollow(userId) {
+      console.log(userId);
+      try {
+        this.isProcessing = true;
+        const response = await tweetAPI.removeFollow({ userId });
+        console.log("reponse", response);
+        const { data } = response;
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+
+        this.user.isFollowed = false, 
+        this.isProcessing = false;
+        this.$emit("remove-follow-click", userId);
+      } catch (error) {
+        this.isProcessing = false;
+        console.log(error);
+        Toast.fire({
+          icon: "error",
+          title: "無法取消喜歡,請稍後在試",
+        });
       }
     },
   },

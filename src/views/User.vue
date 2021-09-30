@@ -3,20 +3,26 @@
     <div class="user">
       <!-- left Column -->
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
-      <Spinner v-if="isLoading"/>
-      <!-- center column -->
-      <div v-else id="center-column" class="center-column">
-        <UserHeader :user="user" />
 
-        <div class="user-self">
-          <UserInfo
-            @after-click-setInfoBtn="clickSetModal"
-            :initialUser="user"
-            :userId="userId"
-            :currentUserId="currentUserId"
-          />
-          <UserTab />
-        </div>
+      <!-- center column -->
+
+      <div id="center-column" class="center-column">
+        <Spinner v-if="isLoading" class="user-spinner" />
+        <template v-else>
+          <UserHeader :user="user" />
+
+          <div class="user-self">
+            <UserInfo
+              @after-click-setInfoBtn="clickSetModal"
+              @add-follow-click="followClicked"
+              @remove-follow-click="followClicked"
+              :initialUser="user"
+              :userId="userId"
+              :currentUserId="currentUserId"
+            />
+            <UserTab />
+          </div>
+        </template>
 
         <div class="user-self-switch">
           <!-- list-tweet / reply list / like list -->
@@ -24,7 +30,11 @@
         </div>
       </div>
       <!-- right Column -->
-      <Popular />
+      <UserRightColumn
+        :initialTopUsers="topUsers"
+        @add-follow-click="addFollowCount"
+        @remove-follow-click="removeFollowCount"
+      />
     </div>
     <UserInfoSetModal
       v-show="showInfoSetModal"
@@ -33,32 +43,33 @@
       @after-click-close="clickSetModal"
       :initialModalUser="modalUser"
       @after-submit="handleAfterSubmit"
-
     />
   </div>
 </template>
 
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
+import UserRightColumn from "../components/UserRightColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
 import UserTab from "../components/UserTab.vue";
-import Popular from "../components/Popular.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
 import Spinner from "../components/Spinner.vue";
 
 import { mapState } from "vuex";
-import usersAPI from "./../apis/users";
 import { Toast } from "./../utils/helpers";
+import usersAPI from "./../apis/users";
+import tweetAPI from "../apis/tweet";
 
 export default {
   name: "User",
   components: {
     UserLeftColumn,
+    UserRightColumn,
     UserHeader,
     UserInfo,
     UserTab,
-    Popular,
+
     UserInfoSetModal,
     Spinner,
   },
@@ -76,7 +87,8 @@ export default {
         cover: "",
         introduction: "",
       },
-      isProcessing: false
+      isProcessing: false,
+      topUsers: {},
     };
   },
   computed: {
@@ -85,7 +97,8 @@ export default {
   created() {
     this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
-    console.log("userId", this.currentUserId);
+    this.fetchTopUsers();
+    // console.log("currentUserId", this.currentUserId);
   },
   beforeRouteUpdate(to, from, next) {
     console.log(to, from);
@@ -97,21 +110,12 @@ export default {
     next();
   },
 
-  // watch: {
-  //   user: {
-  //     handler: function () {
-  //       this.fetchUserInfo(this.userId);
-  //     },
-  //     // deep: true,
-  //   },
-  // },
-
   methods: {
     async fetchUserInfo(userId) {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
-        // console.log('123', data)
+        console.log("123", data);
         this.user = data;
         const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
@@ -121,7 +125,6 @@ export default {
           introduction,
           cover,
         };
-        // console.log(this.modalUser)
         this.isLoading = false;
       } catch (error) {
         console.log("error", error);
@@ -132,6 +135,20 @@ export default {
         });
       }
     },
+    async fetchTopUsers() {
+      try {
+        const response = await tweetAPI.getTopUser();
+        const { data } = response;
+        // console.log("popular data", data);
+        this.topUsers = data;
+        // console.log('topusers', this.users)
+      } catch {
+        Toast.fire({
+          icon: "warning",
+          title: "無法取得前十",
+        });
+      }
+    },
 
     clickSetModal() {
       this.showInfoSetModal = !this.showInfoSetModal;
@@ -139,7 +156,7 @@ export default {
 
     async handleAfterSubmit(formData) {
       try {
-        this.isProcessing = true
+        this.isProcessing = true;
         const { data } = await usersAPI.update({
           userId: this.currentUserId,
           formData,
@@ -152,9 +169,9 @@ export default {
 
         this.showInfoSetModal = false;
         this.fetchUserInfo(this.userId);
-        this.isProcessing = false
+        this.isProcessing = false;
       } catch (error) {
-        this.isProcessing = true
+        this.isProcessing = true;
         console.log("modal-error", error);
         Toast.fire({
           icon: "error",
@@ -162,7 +179,37 @@ export default {
         });
       }
     },
+    addFollowCount(userId) {
+      if (this.currentUserId === this.userId) {
+        this.user.followingsCount += 1;
+      } else if (userId === this.userId) {
+        this.user.followersCount += 1;
+        this.user.isFollowed = true;
+      }
+    },
+    removeFollowCount(userId) {
+      if (this.currentUserId === this.userId) {
+        this.user.followingsCount -= 1;
+      } else if (userId === this.userId) {
+        this.user.followersCount -= 1;
+        this.user.isFollowed = false;
+      }
+    },
+    followClicked(userId) {
+      if (userId === this.userId) {
+        !this.user.isFollowed;
+      }
 
+      this.topUsers.map((topUser) => {
+        if (userId !== topUser.id) {
+          // console.log('map no match')
+          return;
+        } else if (userId === topUser.id) {
+          topUser.isFollowed = !topUser.isFollowed;
+          // console.log('map match')
+        }
+      });
+    },
   },
 };
 </script>

@@ -1,97 +1,128 @@
 <template>
-  <div id="right-column" class="popular right-column">
-    <header class="popular-header">
-      <div class="popular-header-title">Popular</div>
-    </header>
+  <div class="popular">
+    <div class="popular-wrapper">
+      <div class="popular-title-wrapper">
+        <div class="title">Popular</div>
+      </div>
+      <div
+        v-for="user in initialTopUsers"
+        :key="user.id"
+        class="one-popular-wrapper"
+      >
+        <div class="one-popular">
+          <router-link :to="{ name: 'user', params: { id: user.id } }">
+            <div class="user-icon-wrapper">
+              <img class="user-icon" :src="user.avatar" alt="" />
+            </div>
+          </router-link>
+          <div class="popular-txt">
+            <span class="popular-title">{{ user.name }}</span>
+            <router-link
+              class="popular-link"
+              :to="{ name: 'user', params: { id: user.id } }"
+              >@{{ user.account }}</router-link
+            >
+          </div>
 
-    <div class="popular-person" v-for="topUser in topUsers" :key="topUser.id">
-      <div class="popular-person-detail">
-        <div class="avatar">
-          <img :src="topUser.avatar" alt="avatar" class="" />
+          <div class="popular-follow">
+            <template v-if="user.id !== currentUser.id">
+              <button
+                v-if="user.isFollowed"
+                @click.prevent.stop="deleteFollow(user)"
+                class="popular-follow-btn btn-active"
+                :disabled="isProcessing"
+              >
+                正在跟隨
+              </button>
+              <button
+                v-else
+                class="popular-follow-btn"
+                @click.prevent.stop="addFollow(user)"
+                :disabled="isProcessing"
+              >
+                跟隨
+              </button>
+            </template>
+          </div>
         </div>
-        <div class="popular-account">
-          <div class="name">{{ topUser.name }}</div>
-          <div class="tag-name">@{{ topUser.account }}</div>
-        </div>
-        <button
-          v-if="topUser.isFollowed"
-          @click.stop.prevent="removeFollow(topUser.id)"
-          class="popular-follow-btn isFollowed"
-        >
-          正在跟隨
-        </button>
-        <button
-          v-else
-          @click.stop.prevent="addFollow(topUser.id)"
-          class="popular-follow-btn"
-        >
-          跟隨
-        </button>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import { Toast } from "./../utils/helpers";
-import usersAPI from "./../apis/users";
 import tweetAPI from "./../apis/tweet";
-
+import { mapState } from "vuex";
 export default {
+  name: "Popular",
+  props: {
+    initialTopUsers: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
-      topUsers: [],
-      currentUserId: Number(this.$route.params.id),
+      currentUserId: -1,
+      users: "",
+      isProcessing: false,
     };
   },
-  created() {
-    this.fetchTopUsers();
-  },
+
   methods: {
-    async fetchTopUsers() {
+    async deleteFollow(user) {
       try {
-        const { data } = await usersAPI.getTopUsers();
-        // console.log("this", data);
-        this.topUsers = data;
-      } catch (error) {
+        this.isProcessing = true;
+        const userId = user.id;
+        const response = await tweetAPI.removeFollow({ userId });
+        if (response.status !== 200) {
+          throw new Error();
+        }
+        this.$emit("remove-follow-click", userId);
+
+        user.isFollowed = false;
+        this.isProcessing = false;
+      } catch {
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
-          title: "無法取得推文，請稍後再試",
+          title: "無法取消追蹤使用者,請稍後",
         });
       }
     },
-    async addFollow(userId) {
+    async addFollow(user) {
+      const userId = user.id;
       const data = `{
         "id":"${userId}"
       }`;
       const data_JSON = JSON.parse(data);
       try {
+        this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
-        console.log("popular response", response);
-        if (data.status !== "success") {
-          throw new Error(data.message);
+        // console.log("popular response", response);
+        if (response.status !== 200) {
+          throw new Error();
         }
-        this.topUsers = this.topUsers.map((topUser) => {
-          if (topUser.id !== userId) {
-            return topUser;
-          }
-          return {
-            ...topUser,
-            isFolowed: true,
-          };
-        });
-      } catch (error) {
-        console.log(error);
+
+        user.isFollowed = true;
+        this.isProcessing = false;
+        this.$emit("add-follow-click", userId);
+      } catch {
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title: "無法追蹤使用者,請稍後",
         });
       }
     },
+
+  },
+  computed: {
+    ...mapState(["currentUser", "isAuthenticated"]),
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/scss/userRightColumn.scss";
+@import "./../assets/scss/popular.scss";
 </style>

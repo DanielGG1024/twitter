@@ -1,7 +1,7 @@
 <template>
   <div id="tweet-list">
     <Spinner v-if="isLoading" />
-    <div class="tweet" v-for="tweet in tweets" :key="tweet.id">
+    <div v-else class="tweet" v-for="tweet in tweets" :key="tweet.id">
       <router-link :to="{ name: 'user', params: { id: tweet.user.id } }">
         <div class="tweet-avatar">
           <img :src="tweet.user.avatar | emptyImage" alt="tweet-avatar" />
@@ -108,7 +108,7 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserTweets({ userId });
-        console.log("this", data);
+        // console.log("tweetList", data);
         this.tweets = data;
         this.isLoading = false;
       } catch (error) {
@@ -176,7 +176,7 @@ export default {
       console.log("tweet", tweet);
       try {
         this.isProcessing = true;
-        const tweetId = tweet.TweetId;
+        const tweetId = tweet.id;
         const response = await tweetAPI.removeLike({ tweetId });
         console.log("delete reponse", response);
         const { data } = response;

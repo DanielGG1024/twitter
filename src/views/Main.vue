@@ -10,13 +10,13 @@
           <MainTweetPost @after-tweet-post="afterTweetPost" />
         </div>
         <Spinner v-if="isLoading" />
-  
+
         <MainTweets
           v-else
           :allTweets="allTweets"
           @after-tweetReply-post="afterTweetPost"
         />
-        
+
         <!-- @after-click-chat-btn="openReplyModal" -->
       </main>
       <Popular />
@@ -74,6 +74,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+
 .main-container {
   min-width: 100vh;
   min-height: 100vh;

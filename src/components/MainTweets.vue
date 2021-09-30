@@ -1,5 +1,5 @@
 <template>
-  <div class="tweets" ref="chat">
+  <div class="tweets scrollbar" ref="chat">
     <div v-for="tweet in allTweets" :key="tweet.TweetId" class="onetweet">
       <div class="onetweet-user-icon-wrapper">
         <router-link :to="{ name: 'user', params: { id: tweet.User.id } }">
