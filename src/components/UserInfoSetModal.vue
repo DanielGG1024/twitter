@@ -194,7 +194,7 @@ export default {
         });
         return;
       }
-      const form = e.target; // 
+      const form = e.target; 
       const formData = new FormData(form);
       this.$emit("after-submit", formData);
     },
