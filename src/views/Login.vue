@@ -58,7 +58,7 @@
             class="form-submit-btn"
             type="submit"
           >
-            登入
+            {{ loginMessage }}
           </button>
         </div>
       </form>
@@ -84,6 +84,7 @@ export default {
       showAccountFocus: false,
       showPasswordFocus: false,
       isProcessing: false,
+      loginMessage: "登入",
     };
   },
   methods: {
@@ -117,6 +118,7 @@ export default {
         if (this.accountError || this.PasswordError) return;
         this.isProcessing = true;
         // 皆有值開始登入
+        this.loginMessage = "請稍後...";
         const { data } = await authorizationAPI.logIn({
           email: this.account,
           password: this.password,
@@ -149,6 +151,7 @@ export default {
             });
             break;
         }
+        this.loginMessage = "登入";
         this.isProcessing = false;
       }
     },
