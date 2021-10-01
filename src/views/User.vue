@@ -110,13 +110,10 @@ export default {
     
     this.fetchTopUsers();
     this.fetchUserTweets(this.userId);
-    // console.log("currentUserId", this.currentUserId);
   },
   beforeRouteUpdate(to, from, next) {
-    console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
-    // console.log("beforeRU", id)
     this.fetchUserInfo(id);
     this.fetchUserTweets(id);
     this.userId = Number(id);
@@ -128,9 +125,7 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
-        // console.log("123", data);
         this.user = data;
-        console.log("321", this.user);
         const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
           ...this.modalUser,
@@ -140,7 +135,6 @@ export default {
           introduction,
           cover,
         };
-        console.log('user-modaluser', this.modalUser)
         this.isLoading = false;
       } catch (error) {
         console.log("error", error);
@@ -155,9 +149,7 @@ export default {
       try {
         const response = await tweetAPI.getTopUser();
         const { data } = response;
-        // console.log("popular data", data);
         this.topUsers = data;
-        // console.log('topusers', this.users)
       } catch {
         Toast.fire({
           icon: "warning",
@@ -169,7 +161,6 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserTweets({ userId });
-        // console.log("tweetList", data);
         this.tweets = data;
         this.isLoading = false;
       } catch (error) {
@@ -192,8 +183,6 @@ export default {
           userId: this.currentUserId,
           formData,
         });
-        console.log("formData-User", formData);
-        console.log("handleSubmit", data);
         if (data.status !== "success") {
           throw new Error(data.message);
         }
@@ -233,11 +222,9 @@ export default {
 
       this.topUsers.map((topUser) => {
         if (userId !== topUser.id) {
-          // console.log('map no match')
           return;
         } else if (userId === topUser.id) {
           topUser.isFollowed = !topUser.isFollowed;
-          // console.log('map match')
         }
       });
     },

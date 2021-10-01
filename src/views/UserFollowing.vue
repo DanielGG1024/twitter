@@ -62,6 +62,9 @@
         @remove-follow-click="removeFollowingUser"
       />
     </div>
+    <div v-show="noLength === true" class="noLength">
+      尚未跟隨任何人
+    </div>
   </div>
 </template>
 
@@ -100,15 +103,10 @@ export default {
       topUsers: [],
       followings: [],
       isProcessing: false,
+      noLength: false,
     };
   },
-  // watch: {
-  //   followings: {
-  //     handler: function () {
-  //       this.fetchFollowing(this.userId);
-  //     },
-  //   },
-  // },
+
   created() {
     this.fetchFollowing(this.userId);
     this.fetchUserInfo(this.userId);
@@ -119,7 +117,6 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchFollowing(id);
@@ -131,9 +128,11 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserFollowings({ userId });
-        console.log('following', data)
         this.followings = data;
         this.isLoading = false;
+        if (this.followings.length === 0) {
+          this.noLength = true;
+        }
       } catch (error) {
         console.log(error);
         this.isLoading = false;
@@ -147,7 +146,6 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
-        // console.log('123', data)
         this.user = data;
         this.isLoading = false;
       } catch (error) {
@@ -162,9 +160,7 @@ export default {
       try {
         const response = await tweetAPI.getTopUser();
         const { data } = response;
-        // console.log("popular data", data);
         this.topUsers = data;
-        // console.log('topusers', this.users)
       } catch {
         Toast.fire({
           icon: "warning",
@@ -197,11 +193,9 @@ export default {
 
     async removeFollow(following) {
       const userId = following.followingId
-      console.log(userId);
       try {
         this.isProcessing = true;
         const response = await tweetAPI.removeFollow({ userId });
-        console.log("reponse", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);

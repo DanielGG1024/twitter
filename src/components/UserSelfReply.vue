@@ -55,7 +55,6 @@ export default {
     this.fetchUserReplies(userId);
   },
   beforeRouteUpdate(to, from, next) {
-    console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchUserReplies(id);
@@ -66,7 +65,6 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserReplies({ userId });
-        console.log("this reply", data);
         this.replies = data;
         this.isLoading = false;
         if(this.replies.length === 0){

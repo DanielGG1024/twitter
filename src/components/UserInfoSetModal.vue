@@ -127,8 +127,7 @@ export default {
     };
   },
   watch: {
-    initialModalUser(newValue, oldValue) {
-      console.log("new", newValue, "old", oldValue);
+    initialModalUser(newValue) {
       this.modalUser = {
         ...this.modalUser,
         ...newValue,
@@ -148,7 +147,6 @@ export default {
     },
     handleAvatarChange(e) {
       const files = e.target.files;
-      // console.log("files", files);
       if (files.length === 0) {
         // 使用者沒有選擇上傳的檔案
         this.modalUser.avatar = "";
@@ -160,7 +158,6 @@ export default {
     },
     handleCoverChange(e) {
       const files = e.target.files;
-      // console.log("files", files);
       if (files.length === 0) {
         // 使用者沒有選擇上傳的檔案
         this.modalUser.cover = "";

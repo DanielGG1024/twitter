@@ -89,10 +89,8 @@ export default {
     // },
   },
   beforeRouteLeave(to, from, next) {
-    console.log(to, from);
     const userId = this.currentUser.id;
     this.$socket.emit("leavePublic", userId);
-    console.log("router test");
     next();
   },
   computed: {

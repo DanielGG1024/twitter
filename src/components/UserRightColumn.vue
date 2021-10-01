@@ -99,7 +99,6 @@ export default {
       try {
         this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
-        // console.log("popular response", response);
         if (response.status !== 200) {
           throw new Error();
         }

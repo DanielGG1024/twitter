@@ -35,7 +35,6 @@
 export default {
   methods: {
     clickLogout() {
-      // console.log("logout");
       this.$store.commit("revokeAuthentication");
       this.$router.push("/login");
     },

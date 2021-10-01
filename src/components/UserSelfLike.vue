@@ -110,7 +110,6 @@ export default {
     this.fetchUserLikes(this.userId);
   },
   beforeRouteUpdate(to, from, next) {
-    console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchUserLikes(id);
@@ -121,10 +120,7 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserLikes({ userId });
-        console.log("fetchUserLikes", data);
         this.likes = data;
-
-        console.log("likes", this.likes);
         this.isLoading = false;
         if (this.likes.length === 0) {
           this.noLength = true;
@@ -138,12 +134,10 @@ export default {
       }
     },
     async addLike(like) {
-      console.log("like", like);
       try {
         this.isProcessing = true;
         const tweetId = like.TweetId;
         const { data } = await tweetAPI.addLike({ tweetId });
-        console.log("add data", data);
         if (data.status !== "success") {
           throw new Error(data.message);
         }
@@ -161,12 +155,10 @@ export default {
       }
     },
     async removeLike(like) {
-      console.log("like", like);
       try {
         this.isProcessing = true;
         const tweetId = like.TweetId;
         const response = await tweetAPI.removeLike({ tweetId });
-        console.log("delete reponse", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);
@@ -186,11 +178,7 @@ export default {
     clickChatBtn(tweetId) {
       this.ReplyModal = true;
       const modalTweet = this.likes.find((item) => item.TweetId === tweetId);
-
       this.tweet = modalTweet;
-
-      console.log("clickBtn tweet", this.tweet);
-      console.log("clickBtn modalTweet", modalTweet);
     },
     afterClickClose() {
       this.ReplyModal = false;
