@@ -52,6 +52,7 @@
         </div>
       </div>
     </div>
+    <div v-show=" noLength === true " class="noLength">快去發表第一則推文吧！</div>
 
     <ReplyModal
       :ReplyModalSwitch="ReplyModal"
@@ -96,6 +97,7 @@ export default {
       userId: Number(this.$route.params.id),
       isProcessing: false,
       isLoading: true,
+      noLength: false,
     };
   },
   watch: {
@@ -130,6 +132,9 @@ export default {
         // console.log("tweetList", data);
         this.tweets = data;
         this.isLoading = false;
+        if(this.tweets.length === 0){
+          this.noLength = true
+        }
       } catch (error) {
         this.isLoading = false;
         Toast.fire({

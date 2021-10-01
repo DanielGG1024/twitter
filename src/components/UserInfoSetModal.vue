@@ -13,7 +13,7 @@
         <div class="modal-banner">
           <div class="form-group">
             <div class="banner-container">
-              <img class="banner" :src="modalUser.cover" alt="cover-photo" />
+              <img class="banner" :src="modalUser.cover | emptyImage " alt="cover-photo" />
             </div>
 
             <div class="banner-btn-group">
@@ -55,8 +55,7 @@
               />
               <img
                 class="avatar"
-                v-if="modalUser.avatar"
-                :src="modalUser.avatar"
+                :src="modalUser.avatar | emptyImage"
                 alt="user-avatar"
               />
               <img
@@ -76,13 +75,15 @@
           </div>
           <div class="description">
             <div class="title">自我介紹</div>
-            <input
+            <textarea
               name="introduction"
-              class="content"
+              class="content introduction scrollbar"
               type="textarea"
               v-model="modalUser.introduction"
+              rows="5"
+              cols="40"
             />
-            <div class="footer">{{modalUser.introduction.length}}/160</div>
+            <div class="footer">{{modalUser.introduction ? modalUser.introduction.length : "0"  }}/160</div>
           </div>
         </div>
       </form>
@@ -92,9 +93,12 @@
 
 <script>
 import { Toast } from "./../utils/helpers";
+import { emptyImageFilter } from "./../utils/mixins";
+
 
 export default {
   name: "UserInfoSetModal",
+  mixins: [emptyImageFilter],
   props: {
     showInfoSetModal: {
       type: Boolean,
@@ -102,13 +106,14 @@ export default {
     },
     initialModalUser: {
       type: Object,
-      default: () => ({
-        id: -1,
-        name: "",
-        avatar: "",
-        introduction: "",
-        cover: "",
-      }),
+      // default: () => ({
+      //   id: -1,
+      //   name: "",
+      //   avatar: "",
+      //   introduction: "",
+      //   cover: "",
+      // }),
+      required: true,
     },
     isProcessing: {
       type: Boolean,
@@ -128,22 +133,26 @@ export default {
 
     };
   },
-  created() {
-    this.modalUser = {
-      ...this.modalUser,
-      ...this.initialModalUser,
-    };
-    // console.log(this.modalUser);
-  },
   watch: {
-    initialModalUser(newValue) {
-      // console.log("new", newValue, "old", oldValue);
+    initialModalUser(newValue, oldValue) {
+      console.log("new", newValue, "old", oldValue);
       this.modalUser = {
         ...this.modalUser,
         ...newValue,
       };
     },
   },
+  created() {
+    console.log('initial', this.initialModalUser)
+    console.log('setinfo', this.modalUser)
+    this.modalUser = {
+      ...this.modalUser,
+      ...this.initialModalUser,
+    };
+    console.log("setInfoModal-initialModalUser", this.initialModalUser)
+    console.log("setInfoModal-modalUser",this.modalUser);
+  },
+  
   methods: {
     clickClose() {
       this.$emit("after-click-close");

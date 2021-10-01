@@ -97,7 +97,7 @@ export default {
       userId: Number(this.$route.params.id),
       currentUserId: -1,
       user: {},
-      topUsers: {},
+      topUsers: [],
       followings: [],
       isProcessing: false,
     };

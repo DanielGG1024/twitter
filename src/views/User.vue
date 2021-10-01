@@ -84,6 +84,7 @@ export default {
     return {
       isLoading: true,
       showInfoSetModal: false,
+      // showInfoSetModal: true,
       userId: Number(this.$route.params.id),
       user: {},
       currentUserId: -1,
@@ -106,9 +107,9 @@ export default {
   created() {
     this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
-    this.fetchUserTweets(this.userId);
+    
     this.fetchTopUsers();
-
+    this.fetchUserTweets(this.userId);
     // console.log("currentUserId", this.currentUserId);
   },
   beforeRouteUpdate(to, from, next) {
@@ -129,14 +130,17 @@ export default {
         const { data } = await usersAPI.get({ userId });
         // console.log("123", data);
         this.user = data;
+        console.log("321", this.user);
         const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
+          ...this.modalUser,
           id,
           name,
           avatar,
           introduction,
           cover,
         };
+        console.log('user-modaluser', this.modalUser)
         this.isLoading = false;
       } catch (error) {
         console.log("error", error);
@@ -151,7 +155,7 @@ export default {
       try {
         const response = await tweetAPI.getTopUser();
         const { data } = response;
-        console.log("popular data", data);
+        // console.log("popular data", data);
         this.topUsers = data;
         // console.log('topusers', this.users)
       } catch {

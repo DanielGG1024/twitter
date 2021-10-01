@@ -123,5 +123,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.popular {
+  height: 100vh;
+  width: 462px;
+  padding-top: 15px;
+  padding-left: 30px;
+}
+.popular-wrapper {
+  width: 75%;
+  background-color: $popularBg;
+  border-radius: 10px;
+}
+.title {
+  font-size: 18px;
+  line-height: 55px;
+  font-weight: 700;
+  padding-left: 15px;
+}
 @import "./../assets/scss/popular.scss";
 </style>

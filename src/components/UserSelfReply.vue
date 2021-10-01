@@ -26,6 +26,7 @@
         </router-link>
       </div>
     </div>
+    <div v-show=" noLength === true " class="noLength">快去回覆好友的推文吧！</div>
   </div>
 </template>
 
@@ -46,6 +47,7 @@ export default {
       replies: [],
       isProcessing: false,
       isLoading: true,
+      noLength: false,
     };
   },
   created() {
@@ -67,6 +69,9 @@ export default {
         console.log("this reply", data);
         this.replies = data;
         this.isLoading = false;
+        if(this.replies.length === 0){
+          this.noLength = true
+        }
       } catch (error) {
         this.isLoading = false
         Toast.fire({

@@ -56,6 +56,9 @@
         </div>
       </div>
     </div>
+    <div v-show="noLength === true" class="noLength">
+      快去給喜歡的推文一個 like！
+    </div>
     <ReplyModal
       :ReplyModalSwitch="ReplyModal"
       :tweet="tweet"
@@ -93,6 +96,7 @@ export default {
       userId: Number(this.$route.params.id),
       isProcessing: false,
       isLoading: true,
+      noLength: false,
     };
   },
   created() {
@@ -108,15 +112,18 @@ export default {
   methods: {
     async fetchUserLikes(userId) {
       try {
-        this.isLoading = true
+        this.isLoading = true;
         const { data } = await usersAPI.getUserLikes({ userId });
         console.log("fetchUserLikes", data);
         this.likes = data;
 
         console.log("likes", this.likes);
-        this.isLoading = false
+        this.isLoading = false;
+        if (this.likes.length === 0) {
+          this.noLength = true;
+        }
       } catch (error) {
-        this.isLoading = false
+        this.isLoading = false;
         Toast.fire({
           icon: "error",
           title: "無法取得推文，請稍後再試",
