@@ -103,7 +103,7 @@
             class="form-submit-btn"
             type="submit"
           >
-            註冊
+            {{registMessage}}
           </button>
         </div>
       </form>
@@ -135,6 +135,7 @@ export default {
       error: {
         email: "",
       },
+      registMessage: '註冊'
     };
   },
   methods: {
@@ -208,6 +209,7 @@ export default {
       }
       try {
         this.isProcessing = true;
+        this.registMessage = '請稍後...'
         const data = `{
           "account":"${this.account}",
           "name":"${this.name}",
@@ -237,12 +239,11 @@ export default {
         } catch {
           Toast.fire({
             icon: "error",
-            title: "無法轉入主頁,取得token",
+            title: "無法轉入主頁",
           });
+          this.registMessage = '註冊'
         }
       } catch (error) {
-        console.log("error122333", error);
-        console.error("debug", error);
         switch (error.response.data.message) {
           case "email 已重覆註冊！":
             Toast.fire({
@@ -275,6 +276,7 @@ export default {
             });
             break;
         }
+        this.registMessage = '註冊'
         this.isProcessing = false;
       }
     },

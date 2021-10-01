@@ -43,16 +43,22 @@
         <div @click="clickChat" class="icon-wrpper">
           <img class="icon" src="./../assets/pic/chat.png" alt="" />
         </div>
-        <div
+        <button
           v-if="tweet.isLiked"
           @click="removeLike(tweet.id)"
           class="icon-wrpper"
+          :disabled="isProcessing"
         >
           <img class="icon" src="./../assets/pic/icon_like_fill.png" alt="" />
-        </div>
-        <div v-else @click="addLike(tweet.id)" class="icon-wrpper">
+        </button>
+        <button
+          v-else
+          @click="addLike(tweet.id)"
+          class="icon-wrpper"
+          :disabled="isProcessing"
+        >
           <img class="icon" src="./../assets/pic/heart.png" alt="" />
-        </div>
+        </button>
       </div>
     </div>
     <ReplyDetailModal
@@ -96,7 +102,7 @@ export default {
         likeCounts: 0,
         isLiked: false,
         id: -1,
-        UserId: -1
+        UserId: -1,
       },
     };
   },
@@ -122,6 +128,7 @@ export default {
     async addLike(tweetId) {
       // console.log("like");
       try {
+        this.isProcessing = true;
         const response = await tweetAPI.addLike({ tweetId });
         const { data } = response;
         if (data.status !== "success") {
@@ -129,15 +136,18 @@ export default {
         }
         this.tweet.likeCounts = this.tweet.likeCounts + 1;
         this.tweet.isLiked = true;
+        this.isProcessing = false;
       } catch {
         Toast.fire({
           icon: "error",
           title: "無法喜歡,請稍後在試",
         });
+        this.isProcessing = false;
       }
     },
     async removeLike(tweetId) {
       try {
+        this.isProcessing = true;
         const response = await tweetAPI.removeLike({ tweetId });
         // console.log("response", response);
         const { data } = response;
@@ -146,11 +156,13 @@ export default {
         }
         this.tweet.likeCounts = this.tweet.likeCounts - 1;
         this.tweet.isLiked = false;
+        this.isProcessing = false;
       } catch {
         Toast.fire({
           icon: "error",
           title: "無法取消喜歡,請稍後在試",
         });
+        this.isProcessing = false;
       }
     },
   },
