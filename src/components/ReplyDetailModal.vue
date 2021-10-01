@@ -12,9 +12,11 @@
           </div>
         </div>
         <div class="reply">
-          <div class="reply-icon-wrapper">
-            <img class="user-icon" :src="tweet.user.avatar" alt="" />
-          </div>
+          <!-- <router-link :to="{ name: 'user', params: { id: tweet.UserId } }"> -->
+            <div class="reply-icon-wrapper">
+              <img class="user-icon" :src="tweet.user.avatar" alt="" />
+            </div>
+          <!-- </router-link> -->
           <div class="txt-wrapper">
             <div class="txt-info">
               <span class="user-name">{{ tweet.user.name }}</span>

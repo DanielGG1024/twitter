@@ -12,9 +12,11 @@
     </div>
     <div class="reply-tweet">
       <div class="reply-tweet-user">
-        <div class="user-icon-wrapper">
-          <img class="user-icon" :src="tweet.user.avatar" alt="" />
-        </div>
+        <router-link :to="{ name: 'user', params: { id: tweet.UserId } }">
+          <div class="user-icon-wrapper">
+            <img class="user-icon" :src="tweet.user.avatar" alt="" />
+          </div>
+        </router-link>
         <div class="user-info">
           <div class="user-name">{{ tweet.user.name }}</div>
           <div class="user-account">@{{ tweet.user.account }}</div>
@@ -94,6 +96,7 @@ export default {
         likeCounts: 0,
         isLiked: false,
         id: -1,
+        UserId: -1
       },
     };
   },

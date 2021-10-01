@@ -102,7 +102,7 @@ export default {
       // console.log("asdf");
       this.ReplyModal = true;
       this.tweet = this.allTweets.find((item) => item.TweetId === tweetId);
-      console.log("clickChatBtn", this.tweet);
+      // console.log("clickChatBtn", this.tweet);
     },
     afterClickClose() {
       this.ReplyModal = false;
