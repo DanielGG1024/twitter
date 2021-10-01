@@ -30,8 +30,9 @@
               <button
                 @click.prevent.stop="handleSubmit"
                 class="modal-main-tweet-button"
+                :disabled="isProcessing"
               >
-                推文
+                {{submitMessage}}
               </button>
             </div>
           </div>
@@ -60,6 +61,8 @@ export default {
       contentError: false,
       errorContentMessage: "",
       avatar: "",
+      submitMessage:'推文',
+      isProcessing: false,
     };
   },
   computed: {
@@ -93,6 +96,8 @@ export default {
         this.errorContentMessage = "";
       }
       try {
+        this.isProcessing = true
+        this.submitMessage = '請稍後..'
         const data = `{
           "description":"${tweet}"
         }`;
@@ -108,12 +113,15 @@ export default {
         this.ciickClose();
         this.$emit("after-tweet-post");
         this.teweetContent = "";
+        this.isProcessing = false
+        this.submitMessage = '推文'
       } catch (error){
-        console.log('error', error)
         Toast.fire({
           icon: "error",
           title: "無法送出推文,請稍後",
         });
+        this.isProcessing = false
+        this.submitMessage = '推文'
       }
     },
   },
