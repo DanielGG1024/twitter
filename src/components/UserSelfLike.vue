@@ -84,7 +84,11 @@ export default {
   data() {
     return {
       likes: [],
-      tweet: {},
+      tweet: {
+        User: {
+          avatar: "",
+        },
+      },
       ReplyModal: false,
       userId: Number(this.$route.params.id),
       isProcessing: false,

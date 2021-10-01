@@ -20,19 +20,6 @@
         </li>
 
         <li>
-          <router-link class="nav-item" :to="{ name: 'publicMessage' }">
-            <img
-              class="icon icon-message"
-              src="../assets/pic/message_spot.png"
-              alt="icon-user"
-            />
-
-
-            <div class="nav-link nav-user">公開聊天室</div>
-          </router-link>
-        </li>
-
-        <li>
           <router-link
             class="nav-item"
             :to="{ name: 'user', params: { id: this.getCurrentUser } }"
@@ -64,6 +51,21 @@
             </div>
           </router-link>
         </li>
+
+        <li>
+          <router-link class="nav-item" :to="{ name: 'publicMessage' }">
+            <img
+              class="icon icon-message"
+              src="../assets/pic/message_spot.png"
+              alt="icon-user"
+            />
+
+
+            <div class="nav-link nav-user">公開聊天室</div>
+          </router-link>
+        </li>
+
+        
 
         
 
