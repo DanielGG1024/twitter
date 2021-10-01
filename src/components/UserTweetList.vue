@@ -31,28 +31,36 @@
             <div class="replies-count count">{{ tweet.replyCount }}</div>
           </div>
           <div class="likes state">
-            <img
+            <button
               v-if="tweet.isLiked"
               @click.stop.prevent="removeLike(tweet)"
-              class="likes-img"
-              src="../assets/pic/icon_like_fill.png"
-              alt="heart-icon"
               :disabled="isProcessing"
-            />
-            <img
+            >
+              <img
+                class="likes-img"
+                src="../assets/pic/icon_like_fill.png"
+                alt="heart-icon"
+              />
+            </button>
+            <button
               v-else
               @click.stop.prevent="addLike(tweet)"
-              class="likes-img"
-              src="../assets/pic/heart.png"
-              alt="heart-icon"
               :disabled="isProcessing"
-            />
+            >
+              <img
+                class="likes-img"
+                src="../assets/pic/heart.png"
+                alt="heart-icon"
+              />
+            </button>
             <div class="likes-count count">{{ tweet.likeCount }}</div>
           </div>
         </div>
       </div>
     </div>
-    <div v-show=" noLength === true " class="noLength">快去發表第一則推文吧！</div>
+    <div v-show="noLength === true" class="noLength">
+      快去發表第一則推文吧！
+    </div>
 
     <ReplyModal
       :ReplyModalSwitch="ReplyModal"
@@ -132,8 +140,8 @@ export default {
         // console.log("tweetList", data);
         this.tweets = data;
         this.isLoading = false;
-        if(this.tweets.length === 0){
-          this.noLength = true
+        if (this.tweets.length === 0) {
+          this.noLength = true;
         }
       } catch (error) {
         this.isLoading = false;

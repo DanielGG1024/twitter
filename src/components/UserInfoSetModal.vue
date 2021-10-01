@@ -106,13 +106,6 @@ export default {
     },
     initialModalUser: {
       type: Object,
-      // default: () => ({
-      //   id: -1,
-      //   name: "",
-      //   avatar: "",
-      //   introduction: "",
-      //   cover: "",
-      // }),
       required: true,
     },
     isProcessing: {
@@ -143,14 +136,10 @@ export default {
     },
   },
   created() {
-    console.log('initial', this.initialModalUser)
-    console.log('setinfo', this.modalUser)
     this.modalUser = {
       ...this.modalUser,
       ...this.initialModalUser,
     };
-    console.log("setInfoModal-initialModalUser", this.initialModalUser)
-    console.log("setInfoModal-modalUser",this.modalUser);
   },
   
   methods: {

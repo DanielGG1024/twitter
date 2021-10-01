@@ -35,22 +35,29 @@
             <div class="replies-count count">{{ like.RepliesCount }}</div>
           </div>
           <div class="likes state">
-            <img
+            <button
               v-if="like.isliked"
+              :disabled="isProcessing"
               @click.stop.prevent="removeLike(like)"
-              class="likes-img"
-              src="../assets/pic/icon_like_fill.png"
-              alt="heart-icon"
-              :disabled="isProcessing"
-            />
-            <img
+            >
+              <img
+                class="likes-img"
+                src="../assets/pic/icon_like_fill.png"
+                alt="heart-icon"
+              />
+            </button>
+            <button
               v-else
-              @click.stop.prevent="addLike(like)"
-              class="likes-img"
-              src="../assets/pic/heart.png"
-              alt="heart-icon"
               :disabled="isProcessing"
-            />
+              @click.stop.prevent="addLike(like)"
+            >
+              <img
+                class="likes-img"
+                src="../assets/pic/heart.png"
+                alt="heart-icon"
+                :disabled="isProcessing"
+              />
+            </button>
             <div class="likes-count count">{{ like.LikesCount }}</div>
           </div>
         </div>
