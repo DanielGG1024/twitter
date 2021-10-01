@@ -13,9 +13,9 @@
         </div>
         <div class="reply">
           <!-- <router-link :to="{ name: 'user', params: { id: tweet.UserId } }"> -->
-            <div class="reply-icon-wrapper">
-              <img class="user-icon" :src="tweet.user.avatar" alt="" />
-            </div>
+          <div class="reply-icon-wrapper">
+            <img class="user-icon" :src="tweet.user.avatar" alt="" />
+          </div>
           <!-- </router-link> -->
           <div class="txt-wrapper">
             <div class="txt-info">
@@ -55,8 +55,9 @@
               <button
                 @click="handleSubmit(tweet.id)"
                 class="modal-main-tweet-button"
+                :disabled="isProcessing"
               >
-                推文
+                {{ submitMessage }}
               </button>
             </div>
           </div>
@@ -88,6 +89,8 @@ export default {
       contentError: false,
       errorContentMessage: "",
       avatar: "",
+      submitMessage: "推文",
+      isProcessing: false,
     };
   },
   computed: {
@@ -121,6 +124,8 @@ export default {
         this.errorContentMessage = "";
       }
       try {
+        this.isProcessing = true;
+        this.submitMessage = "請稍後..";
         const data = `{
           "comment":"${tweet}"
         }`;
@@ -135,11 +140,15 @@ export default {
           icon: "success",
           title: "發送成功!",
         });
+        this.isProcessing = false;
+        this.submitMessage = "推文";
       } catch {
         Toast.fire({
           icon: "error",
           title: "無法回復,請稍後",
         });
+        this.isProcessing = false;
+        this.submitMessage = "推文";
       }
     },
   },

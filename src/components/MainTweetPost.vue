@@ -11,8 +11,12 @@
       placeholder="有甚麼新鮮事?"
       v-model="mainTweetPost"
     ></textarea>
-    <button @click.prevent.stop="handleSubmit" class="main-tweet-button">
-      推文
+    <button
+      @click.prevent.stop="handleSubmit"
+      class="main-tweet-button"
+      :disabled="isProcessing"
+    >
+      {{ submitMessage }}
     </button>
     <p></p>
   </div>
@@ -20,7 +24,6 @@
 <script lang="ts">
 import { Toast } from "./../utils/helpers";
 import tweetAPI from "./../apis/tweet";
-// import userAPI from "./../apis/user";
 import { mapState } from "vuex";
 export default {
   name: "MainTweetPost",
@@ -28,6 +31,8 @@ export default {
     return {
       mainTweetPost: "",
       avatar: "",
+      isProcessing: false,
+      submitMessage: "推文",
     };
   },
   computed: {
@@ -51,12 +56,14 @@ export default {
         return;
       }
       try {
+        this.isProcessing = true;
+        this.submitMessage = "稍後";
         const data = `{
           "description":"${tweet}"
         }`;
         const data_JSON = JSON.parse(data);
         const response = await tweetAPI.postTweet({ data_JSON });
-        console.log('maintweetpost',)
+        console.log("maintweetpost");
         if (response.data.status !== "success") {
           throw new Error();
         }
@@ -66,11 +73,15 @@ export default {
         });
         this.$emit("after-tweet-post");
         this.mainTweetPost = "";
+        this.isProcessing = false;
+        this.submitMessage = "推文";
       } catch {
         Toast.fire({
           icon: "error",
           title: "無法送出推文,請稍後",
         });
+        this.isProcessing = false;
+        this.submitMessage = "推文";
       }
     },
   },

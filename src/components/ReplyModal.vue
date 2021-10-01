@@ -55,7 +55,7 @@
                 class="modal-main-tweet-button"
                 :disabled="isProcessing"
               >
-                推文
+                {{ submitMessage }}
               </button>
             </div>
           </div>
@@ -65,7 +65,6 @@
   </transition>
 </template>
 <script>
-// import userAPI from "./../apis/user";
 import tweetAPI from "./../apis/tweet";
 import { Toast } from "./../utils/helpers";
 import { mapState } from "vuex";
@@ -87,14 +86,10 @@ export default {
       teweetContent: "",
       contentError: false,
       errorContentMessage: "",
-      // avatar: "",
       isProcessing: false,
+      submitMessage: "推文",
     };
   },
-  // created() {
-  //   // console.log("tweet", this.tweet);
-  // },
-
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
@@ -126,30 +121,32 @@ export default {
         this.errorContentMessage = "";
       }
       try {
+        this.isProcessing = true;
+        this.submitMessage = "請稍後..";
         const data = `{
           "comment":"${tweet}"
         }`;
         const data_JSON = JSON.parse(data);
         const response = await tweetAPI.postTweetReply({ tweetId, data_JSON });
-        // console.log("Page ReplyModal response:", response);
         if (response.data.status !== "success") {
           throw new Error();
         }
         this.$emit("after-tweetReply-post");
-        this.teweetContent = "";
-        this.isProcessing = true;
         Toast.fire({
           icon: "success",
           title: "發送成功!",
         });
+        this.teweetContent = "";
+        this.isProcessing = false;
+        this.submitMessage = "推文";
       } catch {
         Toast.fire({
           icon: "error",
           title: "無法回復,請稍後",
         });
         this.isProcessing = false;
+        this.submitMessage = "推文";
       }
-      // console.log("tweetID", tweetId);
     },
   },
 };
