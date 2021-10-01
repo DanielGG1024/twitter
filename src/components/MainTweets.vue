@@ -37,22 +37,20 @@
           </div>
           <div class="heart">
             <div class="onetweet-footer-icon">
-              <img
+              <button
                 v-if="tweet.isLiked"
                 @click.stop.prevent="removeLike(tweet)"
-                class="heart-icon"
-                src="../assets/pic/icon_like_fill.png"
-                alt="heart-icon"
                 :disabled="isProcessing"
-              />
-              <img
+              >
+                <img src="../assets/pic/icon_like_fill.png" alt="heart-icon" />
+              </button>
+              <button
                 v-else
                 @click.stop.prevent="addLike(tweet)"
-                class="heart-icon"
-                src="../assets/pic/heart.png"
-                alt="heart-icon"
                 :disabled="isProcessing"
-              />
+              >
+                <img src="../assets/pic/heart.png" alt="heart-icon" />
+              </button>
             </div>
             <span class="footer-amount">{{ tweet.LikesCount }}</span>
           </div>

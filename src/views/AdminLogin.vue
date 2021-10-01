@@ -45,7 +45,13 @@
         </div>
 
         <div class="button-wrapper">
-          <button class="form-submit-btn" type="submit">註冊</button>
+          <button
+            :disabled="isProcessing"
+            class="form-submit-btn"
+            type="submit"
+          >
+            {{ adminLoginMessage }}
+          </button>
         </div>
       </form>
       <div class="other-link-wrapper">
@@ -64,6 +70,8 @@ export default {
       password: "",
       accountError: false,
       passwordError: false,
+      isProcessing: false,
+      adminLoginMessage: "登入",
     };
   },
   methods: {
@@ -91,6 +99,8 @@ export default {
         this.passwordError = false;
       }
       try {
+        this.isProcessing = true;
+        this.adminLoginMessage = "請稍後...";
         const response = await adminAPI.adminlogIn({
           email: this.account,
           password: this.password,
@@ -102,11 +112,14 @@ export default {
         localStorage.setItem("token", data.token);
         this.$store.commit("setCurrentUser", data.user);
         this.$router.push("/adminMain");
+        this.isProcessing = false;
       } catch {
         Toast.fire({
           icon: "error",
           title: "無法登入後台,請稍後",
         });
+        this.isProcessing = false;
+        this.adminLoginMessage = "登入";
       }
     },
   },

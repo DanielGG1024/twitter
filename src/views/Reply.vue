@@ -81,10 +81,8 @@ export default {
     async fetchReplyDetail() {
       const { id: tweetId } = this.$route.params;
       try {
-        const response = await tweetAPI.getTweet({ tweetId });
-        const { data } = response;
-        console.log("response: ", response);
-        console.log("dataReply", data);
+        const { data } = await tweetAPI.getTweet({ tweetId });
+        // console.log("fetchReplyDetail dataReply", data);
         const {
           description,
           createdAt,
@@ -92,12 +90,12 @@ export default {
           likeCounts,
           isLiked,
           id,
-          user,
+          User,
           UserId,
         } = data;
-        this.tweet.user.name = user.name;
-        this.tweet.user.account = user.account;
-        this.tweet.user.avatar = user.avatar;
+        this.tweet.user.name = User.name;
+        this.tweet.user.account = User.account;
+        this.tweet.user.avatar = User.avatar;
         this.tweet.description = description;
         this.tweet.createdAt = createdAt;
         this.tweet.replyCounts = replyCounts;
@@ -105,7 +103,7 @@ export default {
         this.tweet.isLiked = isLiked;
         this.tweet.id = id;
         this.tweet.UserId = UserId;
-      } catch {
+      } catch (error) {
         Toast.fire({
           icon: "warning",
           title: "無法取得資料",
@@ -117,6 +115,7 @@ export default {
       try {
         const response = await tweetAPI.getTweetReplies({ tweetId });
         const { data } = response;
+        // console.log(data);
         this.tweetReplies = data;
         this.isLoading = false;
       } catch {
