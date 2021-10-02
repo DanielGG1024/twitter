@@ -73,10 +73,10 @@ export default {
   },
   sockets: {
     connect: function () {
-      console.log("socket connected");
+      // console.log("socket connected");
     },
     onlineList: function (data) {
-      console.log("public-onlineList", data);
+      // console.log("public-onlineList", data);
       this.onlineList = data;
     },
     announce: function (data) {
@@ -92,7 +92,7 @@ export default {
     console.log(to, from);
     const userId = this.currentUser.id;
     this.$socket.emit("leavePublic", userId);
-    console.log("router test");
+    // console.log("router test");
     next();
   },
   computed: {

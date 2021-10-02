@@ -243,9 +243,9 @@ export default {
           "checkPassword":"${this.confirPassword}"
         }`;
         const JSON_data = JSON.parse(data);
-        console.log("JSON_data", JSON_data);
+        // console.log("JSON_data", JSON_data);
         const response = await userAPI.putUser({ userId, JSON_data });
-        console.log(response);
+        // console.log(response);
         if (response.status !== 200) {
           throw new Error();
         }
