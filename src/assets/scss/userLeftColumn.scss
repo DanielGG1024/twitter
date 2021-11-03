@@ -62,6 +62,9 @@ header {
     bottom: 0;
     &-item {
       height: 56px;
+      
+    }
+    &-link {
       display: flex;
       align-items: center;
     }

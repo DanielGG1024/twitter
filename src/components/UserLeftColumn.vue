@@ -89,12 +89,16 @@
     </nav>
     <ul class="logout">
       <li class="logout-item" @click.prevent.stop="clickLogout">
-        <img
+
+        <router-link to="/#" class="logout-link">
+            <img
           class="icon"
           src="../assets/pic/icon_logout.png"
           alt="logout-icon"
         />
-        <a href="#" class="nav-link"> 登出 </a>
+            <div class="nav-link "> 登出 </div>
+          </router-link>
+
       </li>
     </ul>
     <MainTweetPostModal

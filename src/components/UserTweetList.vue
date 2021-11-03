@@ -122,7 +122,8 @@ export default {
   created() {
     const { id: userId } = this.$route.params;
     this.fetchUserTweets(userId);
-    console.log("newTweet", this.initialNewTweet);
+    
+    // console.log("newTweet", this.initialNewTweet);
   },
   beforeRouteUpdate(to, from, next) {
     // 路由改變時重新抓取資料
@@ -166,14 +167,17 @@ export default {
         createdAt,
         User,
       };
+
+      console.log('tweet', this.tweet)
     },
     afterClickClose() {
       this.ReplyModal = false;
     },
     afterTweetReplyPost() {
       this.ReplyModal = false;
-      this.$emit("after-tweetReply-post");
-      this.fetchUserTweets(this.userId);
+      // this.fetchUserTweets(this.userId);
+      // this.tweet.RepliesCount += 1
+      console.log(this.tweet)
     },
     async addLike(tweet) {
       try {

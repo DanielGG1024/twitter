@@ -24,7 +24,34 @@
               :userId="userId"
               :currentUserId="currentUserId"
             />
-            <UserTab />
+            <div id="user-tabs">
+              <router-link :to="{ name: 'tweetList' }">
+                <div
+                  class="tab user-tweets"
+                  :class="{ clicked: this.$route.name === 'tweetList' }"
+                >
+                  推文
+                </div>
+              </router-link>
+
+              <router-link :to="{ name: 'replies' }">
+                <div
+                  class="tab user-replies"
+                  :class="{ clicked: this.$route.name === 'replies' }"
+                >
+                  推文與回覆
+                </div>
+              </router-link>
+
+              <router-link :to="{ name: 'likes' }">
+                <div
+                  class="tab user-likes"
+                  :class="{ clicked: this.$route.name === 'likes' }"
+                >
+                  喜歡的內容
+                </div>
+              </router-link>
+            </div>
           </div>
         </template>
 
@@ -59,7 +86,7 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
-import UserTab from "../components/UserTab.vue";
+// import UserTab from "../components/UserTab.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
 import Spinner from "../components/Spinner.vue";
 
@@ -75,7 +102,7 @@ export default {
     UserRightColumn,
     UserHeader,
     UserInfo,
-    UserTab,
+    // UserTab,
 
     UserInfoSetModal,
     Spinner,
@@ -107,16 +134,15 @@ export default {
   created() {
     this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
-    
     this.fetchTopUsers();
-    this.fetchUserTweets(this.userId);
   },
   beforeRouteUpdate(to, from, next) {
     // 路由改變時重新抓取資料
     const { id } = to.params;
-    this.fetchUserInfo(id);
-    this.fetchUserTweets(id);
     this.userId = Number(id);
+    if (this.userId !== this.currentUserId) {
+      this.fetchUserInfo(id);
+    }
     next();
   },
 
@@ -244,4 +270,5 @@ export default {
   margin: auto;
 }
 @import "@/assets/scss/user.scss";
+@import "@/assets/scss/userTab.scss";
 </style>
