@@ -43,6 +43,7 @@
           <button @click.prevent.stop="clickPostModal" class="menu-nav-btn">
             推文
           </button>
+          <div class="menu-nav-narrow-btn" @click="clickPostModal">+</div>
         </li>
       </ul>
       <ul class="menu-nav-wrapper">

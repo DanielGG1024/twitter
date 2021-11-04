@@ -59,7 +59,7 @@
       </div>
     </div>
     <div v-show="noLength === true" class="noLength">
-      快去發表第一則推文吧！
+      目前尚未發表貼文
     </div>
 
     <ReplyModal

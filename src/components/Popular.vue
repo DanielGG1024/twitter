@@ -59,12 +59,13 @@ export default {
 <style lang="scss" scoped>
 .popular {
   height: 100vh;
-  width: 462px;
+  // width: 462px;
+  width: 350px;
   padding-top: 15px;
   padding-left: 30px;
 }
 .popular-wrapper {
-  width: 75%;
+  width: 100%;
   background-color: $popularBg;
   border-radius: 10px;
 }

@@ -1,6 +1,3 @@
-
-
-
 .user {
   max-width: 1215px;
   max-height: 100vh;
@@ -69,8 +66,6 @@
 
 @media screen and (max-width: 1280px) {
   .user {
-    
-
     // grid-template-columns: 235px 600px 350px;
     display: grid;
     grid-template-columns: 70px 600px 380px;
@@ -81,9 +76,6 @@
 @media screen and (max-width: 1050px) {
   .user {
     display: flex;
-    // flex-direction: column;
-    // grid-template-columns: 70px 600px;
-    // justify-content: center;
     .popular{
       display: none;
     }
@@ -91,13 +83,11 @@
 
 
     .menu {
-      // grid-area: menu;
       width: 70px;
       height: 100vh;
     }
 
     .center-column {
-      // grid-area: center-column;
       max-width: 600px;
       height: 100vh;
     }

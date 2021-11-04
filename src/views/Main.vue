@@ -16,7 +16,6 @@
           :allTweets="allTweets"
           @after-tweetReply-post="afterTweetPost"
         />
-
         <!-- @after-click-chat-btn="openReplyModal" -->
       </main>
       <Popular />
@@ -74,13 +73,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
-
 .main-container {
-  min-width: 100vh;
+  max-width: 1440px;
   min-height: 100vh;
   display: flex;
+  justify-content: center;
+  margin: auto;
   font-family: "Noto Sans TC";
+  border: 3px red solid;
 }
 
 .content {

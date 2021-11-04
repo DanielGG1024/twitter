@@ -1,5 +1,4 @@
 <template>
-  <div id="window">
     <div class="publicMessage">
       <!-- Menu -->
       <div class="menu-container">
@@ -41,7 +40,6 @@
         <MessageBox :onlineList="onlineList" />
       </div>
     </div>
-  </div>
 </template>
 
 <script>
