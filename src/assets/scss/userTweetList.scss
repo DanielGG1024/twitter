@@ -1,12 +1,12 @@
 #tweet-list {  
-  width: 600px;
+  width: 100%;
   height: 689px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  // overflow-y: scroll;
+  // overflow-x: hidden;
 
   .tweet {
     display: flex;
-    width: 600px;
+    width: 100%;
     margin-top: 10px;
     border-bottom: 1px $divider solid;
 
@@ -24,7 +24,7 @@
       }
     }
     &-main {
-      width: 525px;
+      max-width: 525px;
       font-weight: 500;
       font-size: 15px;
     }
@@ -45,7 +45,7 @@
     }
 
     &-content {
-      width: 510px;
+      max-width: 510px;
       // height: 66px;
       line-height: 22px;
       // overflow-y: scroll;

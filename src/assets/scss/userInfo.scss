@@ -1,5 +1,5 @@
 #user-info {
-  width: 598px;
+  width: 100%;
   // height: 375px;
   position: relative;
   .cover-container {
@@ -44,7 +44,7 @@
     color: $white;
   }
   .user-description {
-    width: 570px;
+    max-width: 570px;
     // height: 106px;
     margin: 69px auto 0;
     .user-name {

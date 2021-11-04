@@ -6,13 +6,13 @@
 
       <Spinner v-if="isLoading" class="user-spinner"/>
       <!-- center column -->
-      <div v-else id="center-column" class="center-column">
+      <div v-else id="center-column" class="center-column scrollbar">
         <!-- header -->
         <UserHeader :user="user" />
 
         <!-- follower/following -->
         <UserFollowTab />
-        <div id="user-follower-list">
+        <div class="user-follower-list">
           <div class="user-followers">
             <div
               class="follower"
@@ -237,13 +237,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// 先依照設計圖，給範圍框個線
-.window {
-  width: 1440px;
-  height: 1200px;
-  // border: 1px purple solid;
-  margin: auto;
-}
 @import "@/assets/scss/user.scss";
 @import "@/assets/scss/userFollower.scss";
 </style>

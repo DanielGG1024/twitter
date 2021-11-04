@@ -1,9 +1,9 @@
 <template>
   <header class="menu left-column">
     <div class="logo-wrapper">
-      <a href="#">
-        <img class="logo" src="../assets/pic/Logo.png" alt="logo" />
-      </a>
+      <router-link to="/">
+        <img class="logo" src="../assets/pic/Logo.png" alt="" />
+      </router-link>
     </div>
 
     <nav class="nav">
@@ -23,9 +23,13 @@
           <router-link
             class="nav-item"
             :to="{ name: 'user', params: { id: this.getCurrentUser } }"
+            @click="fetchUserInfo"
           >
             <img
-              v-if=" this.currentUserId !== this.userId && this.$route.name !== 'user' "
+              v-if="
+                this.currentUserId !== this.userId &&
+                this.$route.name !== 'user'
+              "
               class="icon icon-user"
               src="../assets/pic/icon_user.png"
               alt="icon-user"
@@ -36,9 +40,7 @@
               src="../assets/pic/icon_user_orange.png"
               alt="icon-user"
             />
-            
 
-            
             <div
               class="nav-link nav-user"
               :class="{
@@ -60,14 +62,9 @@
               alt="icon-user"
             />
 
-
             <div class="nav-link nav-user">公開聊天室</div>
           </router-link>
         </li>
-
-        
-
-        
 
         <li>
           <router-link :to="{ name: 'Setting' }" class="nav-item">
@@ -79,26 +76,26 @@
             <div class="nav-link nav-setting">設定</div>
           </router-link>
         </li>
+
         <li class="nav-item nav-post">
-          <button 
-            class="nav-post-btn" 
-            @click.prevent.stop="clickPostModal"
-          >推文</button>
+          <button class="nav-post-btn" @click.prevent.stop="clickPostModal">
+            推文
+          </button>
+          <div class="nav-post-narrow-btn" @click="clickPostModal">+</div>
         </li>
       </ul>
     </nav>
+
     <ul class="logout">
       <li class="logout-item" @click.prevent.stop="clickLogout">
-
         <router-link to="/#" class="logout-link">
-            <img
-          class="icon"
-          src="../assets/pic/icon_logout.png"
-          alt="logout-icon"
-        />
-            <div class="nav-link "> 登出 </div>
-          </router-link>
-
+          <img
+            class="icon"
+            src="../assets/pic/icon_logout.png"
+            alt="logout-icon"
+          />
+          <div class="nav-link">登出</div>
+        </router-link>
       </li>
     </ul>
     <MainTweetPostModal
@@ -133,14 +130,14 @@ export default {
     return {
       getCurrentUser: -1,
       MainTweetPostModal: false,
-    }
+    };
   },
   computed: {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
 
   created() {
-    this.getCurrentUser = this.currentUser.id
+    this.getCurrentUser = this.currentUser.id;
   },
   methods: {
     clickLogout() {
@@ -155,6 +152,9 @@ export default {
     },
     afterTweetPost() {
       this.$emit("after-tweet-post");
+    },
+    fetchUserInfo() {
+      this.$emit("fetchUserInfo");
     },
   },
 };

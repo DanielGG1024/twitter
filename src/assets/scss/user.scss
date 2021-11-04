@@ -2,35 +2,32 @@
 
 
 .user {
-  // max-width: 1440px;
-  // max-height: 1200px;
-  margin: 0 82px 0 113px;
-
-  
+  max-width: 1215px;
+  max-height: 100vh;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 235px 600px 350px;
-  grid-gap: 0 30px;
+  grid-template-columns: 5fr 12fr 7fr;
   grid-template-areas: 
     "menu center-column popular";
 
 
   .menu {
       grid-area: menu;
-      // position: fixed;
-
   }
-
+  &-self{
+    width: 100%;
+  }
   .center-column {
       grid-area: center-column;
-      width: 100%;
+      width: 600px;
+      max-height: 100vh;
+      overflow-y: scroll;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       border-right: 1px $divider solid;
       border-left: 1px $divider solid;
-
-      // overflow-y: scroll;
-
   }
 
   .popular {
@@ -41,4 +38,68 @@
   }
 
 
+  #user-tabs {
+    display: flex;
+    // margin-top: 50px;
+    height: 51px;
+    width: 100%;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 21.71px;
+    border-bottom: 1px $divider solid;
+
+    .tab {
+      text-align: center;
+      padding-top: 15px;
+      padding-bottom: 16px;
+      width: 130px;
+      height: 52px;
+      color: $tag;
+
+    }
+
+    .clicked {
+      border-bottom: 2px $orange solid;
+      color: $orange;
+    }
+
+  }
+}
+
+
+@media screen and (max-width: 1280px) {
+  .user {
+    
+
+    // grid-template-columns: 235px 600px 350px;
+    display: grid;
+    grid-template-columns: 70px 600px 380px;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .user {
+    display: flex;
+    // flex-direction: column;
+    // grid-template-columns: 70px 600px;
+    // justify-content: center;
+    .popular{
+      display: none;
+    }
+    grid-template-areas: "menu center-column";
+
+
+    .menu {
+      // grid-area: menu;
+      width: 70px;
+      height: 100vh;
+    }
+
+    .center-column {
+      // grid-area: center-column;
+      max-width: 600px;
+      height: 100vh;
+    }
+  }
 }

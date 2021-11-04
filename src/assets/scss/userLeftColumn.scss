@@ -1,68 +1,69 @@
 
 header {
-  position: relative;
-  height: 1200px;
+  height: 100vh;
   .logo-wrapper {
     width: 50px;
     height: 50px;
-    position: absolute;
-    top: 0;
-    left: 0;
+
     .logo {
       width: 30px;
       height: 30px;
-      margin: 10px;
+      margin: 10px 10px 10px 17px;
+      
     }    
   }
 
   .nav {
     position: relative;
-    width: 100%;
-    margin-top: 70px;
+    // width: 100%;
+    margin-top: 30px;
+    margin-right: 10px;
     font-size: 18px;
 
     &-link {
       font-weight: 700;
       color: $nameTitle;
-      
     }
     &-user {
       color: $nameTitle;
     }
-
     &-item {
       height: 56px;
       display: flex;
       align-items: center;
     }
+    &-post{
+      margin: 10px 20px;
+      &-btn{
+        width: 210px;
+        height: 38px;
+        background: $orange;
+        border-radius: 100px;
+        font-weight: 500;
+        font-size: 18px;
+        color: $white;
+      }
+      
 
-    &-post-btn {
-      width: 210px;
-      height: 38px;
-      background: $orange;
-      border-radius: 100px;
-      font-weight: 500;
-      font-size: 18px;
-      color: $white;
     }
-
-    
+    &-post-narrow-btn {
+      display: none;
+    }
     .icon {
       width: 24px;
       height: 24px;
       margin: 0 20px;
     }
-
     .current {
       color: $orange;
     }
   }
+
   .logout {
     position: absolute;
     bottom: 0;
     &-item {
       height: 56px;
-      
     }
     &-link {
       display: flex;
@@ -72,9 +73,42 @@ header {
       width: 24px;
       height: 24px;
       margin: 0 20px;
-      
     }
   }
 
   
+}
+
+@media screen and (max-width: 1280px) {
+  header{
+    .nav{
+      margin-top: 0;
+      &-link{
+        display: none;
+      }
+      &-post {
+        margin: 0 0 0 4px;
+        &-btn {
+        display: none;
+        
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      
+      &-post-narrow-btn{
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: $orange;
+        color: $white;
+        font-weight: 700;
+      }
+    }
+  }
 }

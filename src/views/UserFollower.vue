@@ -5,13 +5,13 @@
       <UserLeftColumn :userId="userId" :currentUserId="currentUserId" />
       <!-- center column -->
       <Spinner v-if="isLoading" class="user-spinner" />
-      <div v-else id="center-column" class="center-column">
+      <div v-else id="center-column" class="center-column scrollbar">
         <!-- header -->
         <UserHeader :user="user" />
 
         <!-- follower/following -->
         <UserFollowTab />
-        <div id="user-follower-list">
+        <div class="user-follower-list ">
           <div class="user-followers">
             <div
               class="follower"
@@ -30,7 +30,7 @@
               <div class="follower-main">
                 <div class="name">{{ follower.name }}</div>
                 <div class="tag-name">@{{ follower.account }}</div>
-                <div class="description scrollbar">
+                <div class="description">
                   {{ follower.introduction }}
                 </div>
               </div>
@@ -255,13 +255,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// 先依照設計圖，給範圍框個線
-.window {
-  width: 1440px;
-  height: 1200px;
-  // border: 1px purple solid;
-  margin: auto;
-}
 @import "@/assets/scss/user.scss";
 @import "@/assets/scss/userFollower.scss";
 </style>

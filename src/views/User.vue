@@ -6,11 +6,12 @@
         :userId="userId"
         :currentUserId="currentUserId"
         @after-tweet-post="afterTweetPost"
+        @fetchUserInfo="fetchUserInfo(this.currentUserId)"
       />
 
       <!-- center column -->
 
-      <div id="center-column" class="center-column">
+      <div id="center-column" class="center-column scrollbar">
         <Spinner v-if="isLoading" class="user-spinner" />
         <template v-else>
           <UserHeader :user="user" />
@@ -113,6 +114,7 @@ export default {
       showInfoSetModal: false,
       // showInfoSetModal: true,
       userId: Number(this.$route.params.id),
+      pastUserId: -1,
       user: {},
       currentUserId: -1,
       modalUser: {
@@ -139,8 +141,9 @@ export default {
   beforeRouteUpdate(to, from, next) {
     // 路由改變時重新抓取資料
     const { id } = to.params;
+    this.pastUserId = this.userId;
     this.userId = Number(id);
-    if (this.userId !== this.currentUserId) {
+    if (this.userId !== this.pastUserId) {
       this.fetchUserInfo(id);
     }
     next();
@@ -262,13 +265,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// 先依照設計圖，給範圍框個線
-.window {
-  width: 1440px;
-  height: 1200px;
-  // border: 1px purple solid;
-  margin: auto;
-}
 @import "@/assets/scss/user.scss";
-@import "@/assets/scss/userTab.scss";
 </style>
