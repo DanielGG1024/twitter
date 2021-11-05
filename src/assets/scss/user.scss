@@ -13,7 +13,12 @@
   }
   &-self{
     width: 100%;
+    &-switch{
+      width: 100%;
+    }
   }
+
+
   .center-column {
       grid-area: center-column;
       width: 600px;

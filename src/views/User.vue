@@ -87,7 +87,6 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
-// import UserTab from "../components/UserTab.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
 import Spinner from "../components/Spinner.vue";
 
@@ -103,7 +102,6 @@ export default {
     UserRightColumn,
     UserHeader,
     UserInfo,
-    // UserTab,
 
     UserInfoSetModal,
     Spinner,

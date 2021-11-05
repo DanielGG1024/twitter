@@ -73,7 +73,6 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
 
 import UserHeader from "../components/UserHeader.vue";
-// import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
 import Spinner from "../components/Spinner.vue";
 
@@ -90,7 +89,6 @@ export default {
     UserLeftColumn,
     UserRightColumn,
     UserHeader,
-    // Popular,
     UserFollowTab,
     Spinner,
   },

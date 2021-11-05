@@ -1,10 +1,8 @@
 #self-like-list {
-  width: 600px;
+  width: 100%;
   height: 699px;
-  overflow-y: scroll;
   .like {
-    width: 600px;
-    // height: 144px;
+    width: 100%;
     display: flex;
     border-bottom: 1px $divider solid;
     
@@ -28,15 +26,12 @@
     }
     
     &-main {
-      width: 510px;
-      // height: 134px;
+      max-width: 510px;
       margin: 10px 15px 0 0;
       font-weight: 500;
       font-size: 15px;
       line-height: 21.72px;
       color: $nameTitle;
-      // 這裡要思考怎麼處理超出範圍的內容
-      overflow-y: hidden;
     }
 
     &-user-info {
@@ -58,9 +53,9 @@
     }
 
     &-content {
+      max-width: 510px;
       line-height: 22px;
       margin-bottom: 10px;
-      overflow-y: scroll;
       color: $nameTitle;
     }
 

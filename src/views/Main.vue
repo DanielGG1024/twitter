@@ -80,7 +80,6 @@ export default {
   justify-content: center;
   margin: auto;
   font-family: "Noto Sans TC";
-  border: 3px red solid;
 }
 
 .content {
