@@ -179,6 +179,14 @@ export default {
 
         following.isFollowed = true
 
+        this.topUsers.map((topUser) => {
+        if (userId !== topUser.id) {
+          return;
+        } else if (userId === topUser.id) {
+          topUser.isFollowed = !topUser.isFollowed;
+        }
+      });
+
         this.isProcessing = false;
       } catch {
         this.isProcessing = false;
@@ -208,6 +216,14 @@ export default {
             isfollowered: false,
           };
         });
+        
+        this.topUsers.map((topUser) => {
+        if (userId !== topUser.id) {
+          return;
+        } else if (userId === topUser.id) {
+          topUser.isFollowed = !topUser.isFollowed;
+        }
+      });
       
         following.isFollowed = false
 
