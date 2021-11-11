@@ -1,6 +1,6 @@
 
 # twitter-front-end-vue
-
+![](simple-twitter.png)
 ## 概述:
 這是一個使用前後分離開發方式的一個簡易版twitter,<br>
 在前端方面主要使用的技術是vue.js<br>
