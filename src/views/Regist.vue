@@ -244,38 +244,10 @@ export default {
           this.registMessage = '註冊'
         }
       } catch (error) {
-        switch (error.response.data.message) {
-          case "email 已重覆註冊！":
-            Toast.fire({
-              icon: "warning",
-              title: "email 已重覆註冊！",
-            });
-            break;
-          case "account 已重覆註冊！":
-            Toast.fire({
-              icon: "warning",
-              title: "account 已重覆註冊！",
-            });
-            break;
-          case "email 和 account 已重覆註冊！":
-            Toast.fire({
-              icon: "warning",
-              title: "email 和 account 已重覆註冊",
-            });
-            break;
-          case "兩次密碼輸入不同！":
-            Toast.fire({
-              icon: "warning",
-              title: "兩次密碼輸入不同！",
-            });
-            break;
-          default:
-            Toast.fire({
-              icon: "error",
-              title: "無法註冊帳號,請稍後",
-            });
-            break;
-        }
+        Toast.fire({
+          icon:'warning',
+          title: error.response.data.message
+        })
         this.registMessage = '註冊'
         this.isProcessing = false;
       }

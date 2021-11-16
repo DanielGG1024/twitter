@@ -87,7 +87,6 @@ export default {
     async fetchUserInfo(userId) {
       try {
         const { data } = await usersAPI.get({ userId });
-        // console.log("123", data);
         this.user = data;
         const { id, name, avatar, introduction, cover } = data;
         this.modalUser = {
@@ -125,7 +124,6 @@ export default {
       try {
         this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
-        console.log("addFollow", response);
         if (response.data.status !== "success") {
           throw new Error(data.message);
         }
@@ -143,11 +141,9 @@ export default {
     },
 
     async removeFollow(userId) {
-      console.log(userId);
       try {
         this.isProcessing = true;
         const response = await tweetAPI.removeFollow({ userId });
-        console.log("reponse", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);

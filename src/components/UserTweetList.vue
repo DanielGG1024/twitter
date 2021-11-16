@@ -31,28 +31,36 @@
             <div class="replies-count count">{{ tweet.replyCount }}</div>
           </div>
           <div class="likes state">
-            <img
+            <button
               v-if="tweet.isLiked"
               @click.stop.prevent="removeLike(tweet)"
-              class="likes-img"
-              src="../assets/pic/icon_like_fill.png"
-              alt="heart-icon"
               :disabled="isProcessing"
-            />
-            <img
+            >
+              <img
+                class="likes-img"
+                src="../assets/pic/icon_like_fill.png"
+                alt="heart-icon"
+              />
+            </button>
+            <button
               v-else
               @click.stop.prevent="addLike(tweet)"
-              class="likes-img"
-              src="../assets/pic/heart.png"
-              alt="heart-icon"
               :disabled="isProcessing"
-            />
+            >
+              <img
+                class="likes-img"
+                src="../assets/pic/heart.png"
+                alt="heart-icon"
+              />
+            </button>
             <div class="likes-count count">{{ tweet.likeCount }}</div>
           </div>
         </div>
       </div>
     </div>
-    <div v-show=" noLength === true " class="noLength">快去發表第一則推文吧！</div>
+    <div v-show="noLength === true" class="noLength">
+      快去發表第一則推文吧！
+    </div>
 
     <ReplyModal
       :ReplyModalSwitch="ReplyModal"
@@ -117,7 +125,6 @@ export default {
     console.log("newTweet", this.initialNewTweet);
   },
   beforeRouteUpdate(to, from, next) {
-    // console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchUserTweets(id);
@@ -129,11 +136,10 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserTweets({ userId });
-        // console.log("tweetList", data);
         this.tweets = data;
         this.isLoading = false;
-        if(this.tweets.length === 0){
-          this.noLength = true
+        if (this.tweets.length === 0) {
+          this.noLength = true;
         }
       } catch (error) {
         this.isLoading = false;
@@ -160,9 +166,6 @@ export default {
         createdAt,
         User,
       };
-
-      console.log("clickBtn tweet", this.tweet);
-      console.log("clickBtn tweets", this.tweet);
     },
     afterClickClose() {
       this.ReplyModal = false;
@@ -173,12 +176,10 @@ export default {
       this.fetchUserTweets(this.userId);
     },
     async addLike(tweet) {
-      console.log("tweet", tweet);
       try {
         this.isProcessing = true;
         const tweetId = tweet.id;
         const { data } = await tweetAPI.addLike({ tweetId });
-        console.log("add data", data);
         if (data.status !== "success") {
           throw new Error(data.message);
         }
@@ -197,12 +198,10 @@ export default {
       }
     },
     async removeLike(tweet) {
-      console.log("tweet", tweet);
       try {
         this.isProcessing = true;
         const tweetId = tweet.id;
         const response = await tweetAPI.removeLike({ tweetId });
-        console.log("delete reponse", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);

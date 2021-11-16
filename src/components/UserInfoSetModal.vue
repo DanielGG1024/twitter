@@ -106,13 +106,6 @@ export default {
     },
     initialModalUser: {
       type: Object,
-      // default: () => ({
-      //   id: -1,
-      //   name: "",
-      //   avatar: "",
-      //   introduction: "",
-      //   cover: "",
-      // }),
       required: true,
     },
     isProcessing: {
@@ -134,8 +127,7 @@ export default {
     };
   },
   watch: {
-    initialModalUser(newValue, oldValue) {
-      console.log("new", newValue, "old", oldValue);
+    initialModalUser(newValue) {
       this.modalUser = {
         ...this.modalUser,
         ...newValue,
@@ -143,14 +135,10 @@ export default {
     },
   },
   created() {
-    console.log('initial', this.initialModalUser)
-    console.log('setinfo', this.modalUser)
     this.modalUser = {
       ...this.modalUser,
       ...this.initialModalUser,
     };
-    console.log("setInfoModal-initialModalUser", this.initialModalUser)
-    console.log("setInfoModal-modalUser",this.modalUser);
   },
   
   methods: {
@@ -159,7 +147,6 @@ export default {
     },
     handleAvatarChange(e) {
       const files = e.target.files;
-      // console.log("files", files);
       if (files.length === 0) {
         // 使用者沒有選擇上傳的檔案
         this.modalUser.avatar = "";
@@ -171,7 +158,6 @@ export default {
     },
     handleCoverChange(e) {
       const files = e.target.files;
-      // console.log("files", files);
       if (files.length === 0) {
         // 使用者沒有選擇上傳的檔案
         this.modalUser.cover = "";

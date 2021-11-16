@@ -62,6 +62,9 @@
         @remove-follow-click="followClicked"
       />
     </div>
+    <div v-show="noLength === true" class="noLength">
+      尚未有人追隨
+    </div>
   </div>
 </template>
 
@@ -98,6 +101,7 @@ export default {
       topUsers: [],
       followers: [],
       isProcessing: false,
+      noLength: false,
     };
   },
 
@@ -110,7 +114,6 @@ export default {
     ...mapState(["currentUser", "isAuthenticated"]),
   },
   beforeRouteUpdate(to, from, next) {
-    console.log(to, from);
     // 路由改變時重新抓取資料
     const { id } = to.params;
     this.fetchFollower(id);
@@ -123,9 +126,11 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.getUserFollowers({ userId });
-        // console.log('123', data)
         this.followers = data;
         this.isLoading = false;
+        if (this.followers.length === 0) {
+          this.noLength = true;
+        }
       } catch (error) {
         console.log(error);
         (this.isLoading = false),
@@ -139,7 +144,6 @@ export default {
       try {
         this.isLoading = true;
         const { data } = await usersAPI.get({ userId });
-        // console.log('123', data)
         this.user = data;
         this.isLoading = false;
       } catch (error) {
@@ -154,9 +158,7 @@ export default {
       try {
         const response = await tweetAPI.getTopUser();
         const { data } = response;
-        // console.log("popular data", data);
         this.topUsers = data;
-        // console.log('topusers', this.users)
       } catch {
         Toast.fire({
           icon: "warning",
@@ -175,7 +177,6 @@ export default {
         this.isProcessing = true;
         const response = await tweetAPI.addFollow({ data_JSON });
         console.log("popular response", response);
-
         follower.isFollowed = true
 
         this.topUsers.map((topUser) => {
@@ -198,11 +199,9 @@ export default {
 
     async removeFollow(follower) {
       const userId = follower.followerId
-      console.log(userId);
       try {
         this.isProcessing = true;
         const response = await tweetAPI.removeFollow({ userId });
-        console.log("reponse", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);

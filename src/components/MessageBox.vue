@@ -120,7 +120,6 @@ export default {
     async fetchHistory() {
       try {
         const { data } = await socketAPI.getHistory();
-        // console.log(data);
         this.newMessages = data;
         this.scrollToBottom();
       } catch {
@@ -136,7 +135,6 @@ export default {
   },
   sockets: {
     connect: function () {
-      // console.log("connect");
       const userId = this.currentUser.id;
       this.$socket.emit("joinPublic", userId);
     },
@@ -144,7 +142,6 @@ export default {
       console.log("announce data:", data);
     },
     newMessage: function (data) {
-      // console.log("newMessage data:", data);
       this.newMessages.push({
         User: {
           id: data.user.id,
@@ -157,7 +154,6 @@ export default {
       });
     },
     disconnect: function () {
-      // console.log("disconnect");
       const userId = this.currentUser.id;
       this.$socket.emit("leavePublic", userId);
     },
