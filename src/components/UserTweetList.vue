@@ -122,7 +122,6 @@ export default {
   created() {
     const { id: userId } = this.$route.params;
     this.fetchUserTweets(userId);
-    console.log("newTweet", this.initialNewTweet);
   },
   beforeRouteUpdate(to, from, next) {
     // 路由改變時重新抓取資料

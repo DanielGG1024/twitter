@@ -73,7 +73,7 @@
 <script>
 import { Toast } from "../utils/helpers";
 import authorizationAPI from "./../apis/authorization";
-import userAPI from "./../apis/user";
+// import userAPI from "./../apis/user";
 export default {
   data() {
     return {
@@ -127,8 +127,11 @@ export default {
           throw new Error(data.message);
         }
         localStorage.setItem("token", data.token);
-        const fetchCurrentUser = await userAPI.getCurrentUser();
-        this.$store.commit("setCurrentUser", fetchCurrentUser.data);
+        // 似乎可以改成 dispatch 
+        // this.$store.dispatch('fetchCurrentUser')
+        // const fetchCurrentUser = await userAPI.getCurrentUser();
+        // console.log(fetchCurrentUser)
+        // this.$store.commit("setCurrentUser", fetchCurrentUser.data);
         this.$router.push("/main");
       } catch (error) {
         switch (error.response.data.message) {

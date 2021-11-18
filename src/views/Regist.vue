@@ -114,7 +114,6 @@
   </div>
 </template>
 <script>
-import userAPI from "./../apis/user";
 import authorizationAPI from "./../apis/authorization";
 import { Toast } from "./../utils/helpers";
 export default {
@@ -232,17 +231,7 @@ export default {
           password: this.password,
         });
         localStorage.setItem("token", responseLogin.data.token);
-        try {
-          const fetchCurrentUser = await userAPI.getCurrentUser();
-          this.$store.commit("setCurrentUser", fetchCurrentUser.data);
-          this.$router.push("/main");
-        } catch {
-          Toast.fire({
-            icon: "error",
-            title: "無法轉入主頁",
-          });
-          this.registMessage = '註冊'
-        }
+        this.$router.push('/main')
       } catch (error) {
         Toast.fire({
           icon:'warning',

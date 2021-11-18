@@ -52,7 +52,7 @@
           </router-link>
         </li>
 
-        <li>
+        <!-- <li>
           <router-link class="nav-item" :to="{ name: 'publicMessage' }">
             <img
               class="icon icon-message"
@@ -63,7 +63,7 @@
 
             <div class="nav-link nav-user">公開聊天室</div>
           </router-link>
-        </li>
+        </li> -->
 
         
 
