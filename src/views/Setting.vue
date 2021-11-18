@@ -112,7 +112,7 @@
                 class="form-submit-btn"
                 type="submit"
               >
-                修改
+                {{btnMsg}}
               </button>
             </div>
           </form>
@@ -138,6 +138,7 @@ export default {
       password: "",
       confirPassword: "",
       nameWords: 0,
+      btnMsg: '修改',
       accountError: false,
       nameError: false,
       emailError: false,
@@ -233,7 +234,8 @@ export default {
         return;
       }
       try {
-        // this.isProcessing = true;
+        this.isProcessing = true;
+        this.btnMsg = '修改中..'
         const userId = this.currentUser.id;
         const data = `{
           "account":"${this.account}",
@@ -243,9 +245,8 @@ export default {
           "checkPassword":"${this.confirPassword}"
         }`;
         const JSON_data = JSON.parse(data);
-        // console.log("JSON_data", JSON_data);
         const response = await userAPI.putUser({ userId, JSON_data });
-        // console.log(response);
+        this.$store.dispatch('fetchCurrentUser')
         if (response.status !== 200) {
           throw new Error();
         }
@@ -253,14 +254,16 @@ export default {
           icon: "success",
           title: "成功修改資料",
         });
-        // this.isProcessing = false;
+        this.$router.push(`/user/${userId}`)
+        this.isProcessing = false;
       } catch (error) {
         console.log("setting page error", error);
         Toast.fire({
           icon: "error",
           title: "無法修改資料,請稍後",
         });
-        // this.isProcessing = false;
+        this.isProcessing = false;
+        this.btnMsg ='修改'
       }
     },
   },
