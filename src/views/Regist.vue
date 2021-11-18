@@ -114,7 +114,6 @@
   </div>
 </template>
 <script>
-import userAPI from "./../apis/user";
 import authorizationAPI from "./../apis/authorization";
 import { Toast } from "./../utils/helpers";
 export default {
@@ -232,50 +231,12 @@ export default {
           password: this.password,
         });
         localStorage.setItem("token", responseLogin.data.token);
-        try {
-          const fetchCurrentUser = await userAPI.getCurrentUser();
-          this.$store.commit("setCurrentUser", fetchCurrentUser.data);
-          this.$router.push("/main");
-        } catch {
-          Toast.fire({
-            icon: "error",
-            title: "無法轉入主頁",
-          });
-          this.registMessage = '註冊'
-        }
+        this.$router.push('/main')
       } catch (error) {
-        switch (error.response.data.message) {
-          case "email 已重覆註冊！":
-            Toast.fire({
-              icon: "warning",
-              title: "email 已重覆註冊！",
-            });
-            break;
-          case "account 已重覆註冊！":
-            Toast.fire({
-              icon: "warning",
-              title: "account 已重覆註冊！",
-            });
-            break;
-          case "email 和 account 已重覆註冊！":
-            Toast.fire({
-              icon: "warning",
-              title: "email 和 account 已重覆註冊",
-            });
-            break;
-          case "兩次密碼輸入不同！":
-            Toast.fire({
-              icon: "warning",
-              title: "兩次密碼輸入不同！",
-            });
-            break;
-          default:
-            Toast.fire({
-              icon: "error",
-              title: "無法註冊帳號,請稍後",
-            });
-            break;
-        }
+        Toast.fire({
+          icon:'warning',
+          title: error.response.data.message
+        })
         this.registMessage = '註冊'
         this.isProcessing = false;
       }

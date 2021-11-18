@@ -44,7 +44,6 @@
 
 <script>
 import UserLeftColumn from "../components/UserLeftColumn.vue";
-
 import MessageBox from "./../components/MessageBox.vue";
 import { mapState } from "vuex";
 
@@ -61,9 +60,6 @@ export default {
       onlineList: [],
     };
   },
-  created() {
-    this.currentUserId = this.currentUser.id;
-  },
   mounted() {
     const userId = this.currentUser.id;
     this.$socket.emit("leave");
@@ -74,21 +70,22 @@ export default {
       console.log("socket connected");
     },
     onlineList: function (data) {
-      console.log("public-onlineList", data);
+      // console.log("public-onlineList", data);
       this.onlineList = data;
     },
     announce: function (data) {
       console.log("announce data:", data);
     },
-    // disconnect: function () {
-    //   console.log("disconnect");
-    //   const userId = this.currentUser.id;
-    //   this.$socket.emit("leavePublic", userId);
-    // },
+    disconnect: function () {
+      // console.log("disconnect");
+      const userId = this.currentUser.id;
+      this.$socket.emit("leavePublic", userId);
+    },
   },
   beforeRouteLeave(to, from, next) {
     const userId = this.currentUser.id;
     this.$socket.emit("leavePublic", userId);
+    // console.log("router test");
     next();
   },
   computed: {

@@ -109,12 +109,12 @@ export default {
       this.$emit("after-tweetReply-post");
     },
     async addLike(tweet) {
-      console.log("tweet", tweet);
+      // console.log("tweet", tweet);
       try {
         this.isProcessing = true;
         const tweetId = tweet.TweetId;
         const { data } = await tweetAPI.addLike({ tweetId });
-        console.log("add data", data);
+        // console.log("add data", data);
         if (data.status !== "success") {
           throw new Error(data.message);
         }
@@ -124,7 +124,7 @@ export default {
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;
-        console.log(error);
+        // console.log(error);
         Toast.fire({
           icon: "error",
           title: "無法喜歡,請稍後在試",
@@ -132,12 +132,12 @@ export default {
       }
     },
     async removeLike(tweet) {
-      console.log("tweet", tweet);
+      // console.log("tweet", tweet);
       try {
         this.isProcessing = true;
         const tweetId = tweet.TweetId;
         const response = await tweetAPI.removeLike({ tweetId });
-        console.log("delete reponse", response);
+        // console.log("delete reponse", response);
         const { data } = response;
         if (data.status !== "success") {
           throw new Error(data.message);
@@ -147,7 +147,7 @@ export default {
         this.isProcessing = false;
       } catch (error) {
         this.isProcessing = false;
-        console.log(error);
+        // console.log(error);
         Toast.fire({
           icon: "error",
           title: "無法取消喜歡,請稍後在試",
