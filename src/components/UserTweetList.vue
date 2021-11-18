@@ -59,7 +59,7 @@
       </div>
     </div>
     <div v-show="noLength === true" class="noLength">
-      快去發表第一則推文吧！
+      目前尚未發表貼文
     </div>
 
     <ReplyModal
@@ -165,14 +165,17 @@ export default {
         createdAt,
         User,
       };
+
+      console.log('tweet', this.tweet)
     },
     afterClickClose() {
       this.ReplyModal = false;
     },
     afterTweetReplyPost() {
       this.ReplyModal = false;
-      this.$emit("after-tweetReply-post");
-      this.fetchUserTweets(this.userId);
+      // this.fetchUserTweets(this.userId);
+      // this.tweet.RepliesCount += 1
+      console.log(this.tweet)
     },
     async addLike(tweet) {
       try {

@@ -6,13 +6,13 @@
 
       <Spinner v-if="isLoading" class="user-spinner"/>
       <!-- center column -->
-      <div v-else id="center-column" class="center-column">
+      <div v-else id="center-column" class="center-column scrollbar">
         <!-- header -->
         <UserHeader :user="user" />
 
         <!-- follower/following -->
         <UserFollowTab />
-        <div id="user-follower-list">
+        <div class="user-follower-list">
           <div class="user-followers">
             <div
               class="follower"
@@ -73,7 +73,6 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
 
 import UserHeader from "../components/UserHeader.vue";
-// import Popular from "../components/Popular.vue";
 import UserFollowTab from "../components/UserFollowTab.vue";
 import Spinner from "../components/Spinner.vue";
 
@@ -90,7 +89,6 @@ export default {
     UserLeftColumn,
     UserRightColumn,
     UserHeader,
-    // Popular,
     UserFollowTab,
     Spinner,
   },
@@ -181,6 +179,14 @@ export default {
 
         following.isFollowed = true
 
+        this.topUsers.map((topUser) => {
+        if (userId !== topUser.id) {
+          return;
+        } else if (userId === topUser.id) {
+          topUser.isFollowed = !topUser.isFollowed;
+        }
+      });
+
         this.isProcessing = false;
       } catch {
         this.isProcessing = false;
@@ -210,6 +216,14 @@ export default {
             isfollowered: false,
           };
         });
+        
+        this.topUsers.map((topUser) => {
+        if (userId !== topUser.id) {
+          return;
+        } else if (userId === topUser.id) {
+          topUser.isFollowed = !topUser.isFollowed;
+        }
+      });
       
         following.isFollowed = false
 
@@ -237,13 +251,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// 先依照設計圖，給範圍框個線
-.window {
-  width: 1440px;
-  height: 1200px;
-  // border: 1px purple solid;
-  margin: auto;
-}
 @import "@/assets/scss/user.scss";
 @import "@/assets/scss/userFollower.scss";
 </style>

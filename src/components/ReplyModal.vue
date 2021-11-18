@@ -107,6 +107,7 @@ export default {
     },
     async handleSubmit(tweetId) {
       const tweet = this.teweetContent;
+     
       if (tweet.trim().length === 0) {
         this.contentError = true;
         this.errorContentMessage = "內容不可以空白";

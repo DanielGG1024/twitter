@@ -35,12 +35,12 @@
       </div>
       <div class="reply-amount">
         <span class=""> {{ tweet.replyCounts }} </span
-        ><span class="reply-amount-mark">回復</span>
+        ><span class="reply-amount-mark">回覆</span>
         <span class="reply-total"> {{ tweet.likeCounts }} </span
         ><span class="reply-amount-mark">喜歡</span>
       </div>
       <div class="icon-area">
-        <div @click="clickChat" class="icon-wrpper">
+        <div @click="clickChat" class="icon-wrpper icon-chat">
           <img class="icon" src="./../assets/pic/chat.png" alt="" />
         </div>
         <button

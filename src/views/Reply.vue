@@ -2,7 +2,7 @@
   <div class="main">
     <div class="main-container">
       <Menu />
-      <main class="content">
+      <main class="content scrollbar">
         <div class="content-wrapper">
           <Spinner v-if="isLoading" />
           <template v-else>
@@ -122,7 +122,7 @@ export default {
         this.isLoading = false;
         Toast.fire({
           icon: "error",
-          title: "無法取得回復,請稍後在試",
+          title: "無法取得回覆,請稍後在試",
         });
       }
     },
@@ -135,12 +135,15 @@ export default {
   min-height: 100vh;
   display: flex;
   font-family: "Noto Sans TC";
+  justify-content: center;
 }
 
 .content {
   height: 100vh;
   width: 600px;
   overflow-y: scroll;
+  border: 1px solid $tweetListBg;
+
 }
 
 .content-wrapper {
@@ -148,7 +151,7 @@ export default {
   width: 100%;
 }
 .reply-wrapper {
-  overflow-y: scroll;
+  // overflow-y: scroll;
   height: auto;
 }
 </style>

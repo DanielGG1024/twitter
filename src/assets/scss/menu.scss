@@ -1,7 +1,8 @@
 .menu {
-  width: 378px;
+  // width: 378px;
+  width: 265px;
   height: 100vh;
-  padding-left: 113px;
+  // padding-left: 113px;
 }
 
 /* alphacamp-logo */
@@ -66,3 +67,45 @@ i {
 .active > a {
   color: $orange;
 }
+.menu-nav-narrow-btn{
+  display: none;
+}
+
+
+@media screen and (max-width: 1280px) {
+  .logo-wrapper{
+    margin: 14px auto 0;
+  }
+
+  .menu{
+    width: 100px;
+    &-nav-link{
+      justify-content: center;
+    }
+  }
+
+  .menu-link-title {
+    display: none;
+  }
+
+  .menu-nav-btn {
+    display: none;
+  }
+
+  .menu-nav-narrow-btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    margin: 24px auto;
+    background-color: $orange;
+    justify-content: center;
+    align-items: center;
+    color: $white;
+    font-weight: 700;
+    border-radius: 50%;
+  }
+  .menu-nav-narrow-btn:hover{
+    cursor: pointer;
+  }
+}
+

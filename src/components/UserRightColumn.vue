@@ -1,15 +1,15 @@
 <template>
   <div class="popular">
-    <div class="popular-wrapper">
+    <div class="popular-container">
       <div class="popular-title-wrapper">
         <div class="title">Popular</div>
       </div>
       <div
         v-for="user in initialTopUsers"
         :key="user.id"
-        class="one-popular-wrapper"
+        class="popular-wrapper"
       >
-        <div class="one-popular">
+        <div class="popular-user">
           <router-link :to="{ name: 'user', params: { id: user.id } }">
             <div class="user-icon-wrapper">
               <img class="user-icon" :src="user.avatar" alt="" />
@@ -122,22 +122,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.popular {
-  height: 100vh;
-  width: 462px;
-  padding-top: 15px;
-  padding-left: 30px;
-}
-.popular-wrapper {
-  width: 75%;
-  background-color: $popularBg;
-  border-radius: 10px;
-}
-.title {
-  font-size: 18px;
-  line-height: 55px;
-  font-weight: 700;
-  padding-left: 15px;
-}
-@import "./../assets/scss/popular.scss";
+@import "./../assets/scss/userRightColumn.scss"
 </style>

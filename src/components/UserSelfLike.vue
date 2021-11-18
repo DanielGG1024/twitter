@@ -64,7 +64,7 @@
       </div>
     </div>
     <div v-show="noLength === true" class="noLength">
-      快去給喜歡的推文一個 like！
+      目前沒有喜歡的貼文
     </div>
     <ReplyModal
       :ReplyModalSwitch="ReplyModal"

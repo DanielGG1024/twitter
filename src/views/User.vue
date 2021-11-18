@@ -6,11 +6,12 @@
         :userId="userId"
         :currentUserId="currentUserId"
         @after-tweet-post="afterTweetPost"
+        @fetchUserInfo="fetchUserInfo(this.currentUserId)"
       />
 
       <!-- center column -->
 
-      <div id="center-column" class="center-column">
+      <div id="center-column" class="center-column scrollbar">
         <Spinner v-if="isLoading" class="user-spinner" />
         <template v-else>
           <UserHeader :user="user" />
@@ -24,7 +25,34 @@
               :userId="userId"
               :currentUserId="currentUserId"
             />
-            <UserTab />
+            <div id="user-tabs">
+              <router-link :to="{ name: 'tweetList' }">
+                <div
+                  class="tab user-tweets"
+                  :class="{ clicked: this.$route.name === 'tweetList' }"
+                >
+                  推文
+                </div>
+              </router-link>
+
+              <router-link :to="{ name: 'replies' }">
+                <div
+                  class="tab user-replies"
+                  :class="{ clicked: this.$route.name === 'replies' }"
+                >
+                  推文與回覆
+                </div>
+              </router-link>
+
+              <router-link :to="{ name: 'likes' }">
+                <div
+                  class="tab user-likes"
+                  :class="{ clicked: this.$route.name === 'likes' }"
+                >
+                  喜歡的內容
+                </div>
+              </router-link>
+            </div>
           </div>
         </template>
 
@@ -59,7 +87,6 @@ import UserLeftColumn from "../components/UserLeftColumn.vue";
 import UserRightColumn from "../components/UserRightColumn.vue";
 import UserHeader from "../components/UserHeader.vue";
 import UserInfo from "../components/UserInfo.vue";
-import UserTab from "../components/UserTab.vue";
 import UserInfoSetModal from "../components/UserInfoSetModal.vue";
 import Spinner from "../components/Spinner.vue";
 
@@ -75,7 +102,6 @@ export default {
     UserRightColumn,
     UserHeader,
     UserInfo,
-    UserTab,
 
     UserInfoSetModal,
     Spinner,
@@ -86,6 +112,7 @@ export default {
       showInfoSetModal: false,
       // showInfoSetModal: true,
       userId: Number(this.$route.params.id),
+      pastUserId: -1,
       user: {},
       currentUserId: -1,
       modalUser: {
@@ -107,16 +134,16 @@ export default {
   created() {
     this.currentUserId = this.currentUser.id;
     this.fetchUserInfo(this.userId);
-    
     this.fetchTopUsers();
-    this.fetchUserTweets(this.userId);
   },
   beforeRouteUpdate(to, from, next) {
     // 路由改變時重新抓取資料
     const { id } = to.params;
-    this.fetchUserInfo(id);
-    this.fetchUserTweets(id);
+    this.pastUserId = this.userId;
     this.userId = Number(id);
+    if (this.userId !== this.pastUserId) {
+      this.fetchUserInfo(id);
+    }
     next();
   },
 
@@ -236,12 +263,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// 先依照設計圖，給範圍框個線
-.window {
-  width: 1440px;
-  height: 1200px;
-  // border: 1px purple solid;
-  margin: auto;
-}
 @import "@/assets/scss/user.scss";
 </style>

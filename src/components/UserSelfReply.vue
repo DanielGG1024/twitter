@@ -26,7 +26,7 @@
         </router-link>
       </div>
     </div>
-    <div v-show=" noLength === true " class="noLength">快去回覆好友的推文吧！</div>
+    <div v-show=" noLength === true " class="noLength">目前尚未發表回覆</div>
   </div>
 </template>
 

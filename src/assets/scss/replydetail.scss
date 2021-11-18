@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   height: 55px;
-  border: 1px solid $tweetListBg;
+  border-bottom: 1px solid $tweetListBg;
 }
 .prev {
   margin-left: 19px;
@@ -19,8 +19,8 @@
   display: flex;
   flex-direction: column;
   /* height: calc(100% - 55px); */
-  border-right: 1px solid $tweetListBg;
-  border-left: 1px solid $tweetListBg;
+  // border-right: 1px solid $tweetListBg;
+  // border-left: 1px solid $tweetListBg;
   border-bottom: 1px solid $tweetListBg;
 }
 
@@ -37,8 +37,7 @@
   font-style: 15px;
   color: $nameTitle;
 }
-.user-account {
-}
+
 .user-txt {
   width: 510px;
   font-weight: 500;
@@ -86,13 +85,18 @@
   padding-top: 20px;
 }
 .icon-wrpper {
-  margin-right: 155px;
+  // margin-right: 155px;
   width: 25px;
   height: 23px;
   &:hover {
     cursor: pointer;
   }
 }
+
+.icon-chat {
+  margin-right: 155px;
+}
+
 .icon {
   width: 100%;
   height: 100%;

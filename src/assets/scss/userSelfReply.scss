@@ -1,16 +1,11 @@
 #self-reply-list {
-  width: 600px;
+  width: 100%;
   height: 699px;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  .reply {
-    width: 600px;
-    // margin-top: 10px;
 
-    // height: 130px;
+  .reply {
+    width: 100%;
     display: flex;
     border-bottom: 1px $divider solid;
-    // border: 2px red solid;
 
     .avatar {
       width: 75px;
@@ -18,21 +13,19 @@
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        // background-color: $emptyBg;
         margin: 13px 10px 0 15px;
+        object-fit: cover;
+        object-position: center;
       }
     }
 
     &-main {
-      // border: 1px red solid;
-      width: 510px;
-      // height: 110px;
+      max-width: 510px;
       margin: 10px 15px 10PX 0;
       font-weight: 500;
       font-size: 15px;
       line-height: 21.72px;
       color: $nameTitle;
-      // 這裡要思考怎麼處理超出範圍的內容
       overflow-y: hidden;
     }
 

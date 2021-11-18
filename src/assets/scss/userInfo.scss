@@ -1,5 +1,5 @@
 #user-info {
-  width: 598px;
+  width: 100%;
   // height: 375px;
   position: relative;
   .cover-container {
@@ -19,6 +19,8 @@
     height: 140px;
     border: 4px solid $white;
     border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
 
   }
   .btn-follow {
@@ -42,7 +44,7 @@
     color: $white;
   }
   .user-description {
-    width: 570px;
+    max-width: 570px;
     // height: 106px;
     margin: 69px auto 0;
     .user-name {
@@ -58,8 +60,6 @@
       color: $tag;
     }
     .user-introduce {
-      // max-height
-      // overflow
       font-weight: 400;
       font-size: 14px;
       line-height: 20.27px;
