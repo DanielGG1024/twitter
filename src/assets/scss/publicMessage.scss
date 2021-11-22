@@ -6,8 +6,6 @@
   justify-content: center;
   margin: auto;
 
-  border: 2px blue solid;
-
   .menu-container {
     max-width: 378px;
     height: 100vh;
@@ -81,7 +79,6 @@
     width: 672px;
     height: 100vh;
     border-left: 1px solid $tweetListBg;
-    border: 5px green solid;
   }
 }
 .online {

@@ -8,7 +8,7 @@
         <div class="notify-mgs">{{ user.name }}上線</div>
       </div>
       <template v-if="newMessages.length !== 'undefined'">
-        <div v-for="newMessage in newMessages" :key="newMessage.ChatId">
+        <div v-for="(newMessage ,index) in newMessages" :key="index">
           <div
             v-if="Number(newMessage.User.id) !== Number(userId)"
             class="user-remote"
@@ -121,6 +121,7 @@ export default {
       try {
         const { data } = await socketAPI.getHistory();
         this.newMessages = data;
+        console.log('data', data)
         this.scrollToBottom();
       } catch {
         Toast.fire({
