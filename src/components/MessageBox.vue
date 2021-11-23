@@ -4,11 +4,11 @@
       <div class="title">公開聊天室</div>
     </div>
     <div class="messageBox-wrapper" ref="messageBox">
-      <div v-for="user in onlineList" :key="user.id" class="notify">
+      <div v-for="(user, index) in onlineList" :key="index" class="notify">
         <div class="notify-mgs">{{ user.name }}上線</div>
       </div>
       <template v-if="newMessages.length !== 'undefined'">
-        <div v-for="(newMessage ,index) in newMessages" :key="index">
+        <div v-for="newMessage in newMessages" :key="newMessage.ChatId">
           <div
             v-if="Number(newMessage.User.id) !== Number(userId)"
             class="user-remote"
@@ -82,6 +82,7 @@ export default {
       newMessages: [],
       announceData: "",
       isProcessing: false,
+      roomId: 0
     };
   },
   created() {
@@ -108,11 +109,12 @@ export default {
       this.isProcessing = true;
       const userId = this.currentUser.id;
       const text = this.text.trim();
-      // console.log(text);
+      console.log(text);
       if (text.length === 0) return;
       this.$socket.emit("chatmessage", {
+        roomId: this.roomId,
+        userId,
         msg: text,
-        UserId: userId,
       });
       this.text = "";
       this.isProcessing = false;
@@ -140,9 +142,12 @@ export default {
       this.$socket.emit("joinPublic", userId);
     },
     announce: function (data) {
-      console.log("announce data:", data);
+      console.log("Message announce data:", data);
+      this.roomId = data.roomId
     },
     newMessage: function (data) {
+      console.log('newmessage', data)
+      
       this.newMessages.push({
         User: {
           id: data.user.id,

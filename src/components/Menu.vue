@@ -22,7 +22,7 @@
             <span class="menu-link-title"> 個人資料 </span>
           </router-link>
         </li>
-        <!-- <li class="menu-nav-link">
+        <li class="menu-nav-link">
           <router-link to="/publicmessage" class="menu-link">
             <svg class="svg-icon" viewBox="0 0 20 20">
               <path
@@ -31,7 +31,7 @@
             </svg>
             <span class="menu-link-title"> 公開聊天室 </span>
           </router-link>
-        </li> -->
+        </li>
         <li class="menu-nav-link">
           <router-link to="/setting" class="menu-link">
             <i class="bx bx-cog"></i>

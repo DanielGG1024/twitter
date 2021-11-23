@@ -37,7 +37,8 @@
       </div>
       <!-- messageBox -->
       <div class="message-box">
-        <MessageBox :onlineList="onlineList" />
+        <MessageBox 
+          :onlineList="onlineList" />
       </div>
     </div>
 </template>
@@ -58,6 +59,7 @@ export default {
       userId: Number(this.$route.params.id),
       currentUserId: -1,
       onlineList: [],
+      roomId: 0
     };
   },
   mounted() {
@@ -75,6 +77,7 @@ export default {
     },
     announce: function (data) {
       console.log("announce data:", data);
+      this.roomId = data.roomId
     },
     disconnect: function () {
       // console.log("disconnect");
