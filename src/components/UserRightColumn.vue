@@ -7,7 +7,7 @@
       <div
         v-for="user in initialTopUsers"
         :key="user.id"
-        class="popular-wrapper"
+        class="popular-wrapper "
       >
         <div class="popular-user">
           <router-link :to="{ name: 'user', params: { id: user.id } }">
