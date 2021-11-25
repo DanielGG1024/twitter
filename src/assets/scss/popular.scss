@@ -15,7 +15,7 @@
 }
 .one-popular {
   display: flex;
-  padding: 8px 15px;
+  padding: 10px 15px;
 }
 .popular-txt {
   margin-left: 10px;
@@ -68,8 +68,8 @@
 .user-icon-wrapper {
   border-radius: 50%;
   overflow: hidden;
-  width: 42px;
-  height: 42px;
+  width: 50px;
+  height: 50px;
 }
 .user-icon {
   width: 100%;
@@ -77,6 +77,21 @@
   object-fit: cover;
   object-position: center;
 }
+
+@media screen and (max-height: 700px) {
+  .one-popular {
+    padding: 8px 15px;
+  }
+  .user-icon-wrapper {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+
+
 
 @media screen and (max-width: 1010px) {
   .popular {
